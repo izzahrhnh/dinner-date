@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#7c4b26" />
-    <title>A little day together — 25 October</title>
+    <title>A little day together — 24 October</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500;1,600&family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -54,6 +54,20 @@
       .moment h3 { margin:60px 0 10px; color:#432f1e; font:500 30px/.95 "Cormorant Garamond",serif; letter-spacing:-.03em; }
       .moment p { margin-bottom:0; color:#583921; font-size:13px; line-height:1.7; }
       .moment::after { content:"✦"; position:absolute; right:24px; top:27px; color:#d48649; font-size:14px; }
+      .film { padding:6px 0 80px; }
+      .film-head { display:grid; grid-template-columns:1fr minmax(250px,.7fr); gap:50px; align-items:end; padding:0 clamp(0px,2vw,24px) 34px; }
+      .film-head p { margin:0; color:#583921; font-size:14px; line-height:1.75; }
+      .film-frame { position:relative; aspect-ratio:16/9; padding:10px; overflow:hidden; background:#432f1e; border:1px solid #97582a; box-shadow:0 20px 45px #432f1e3d; }
+      .film-frame::before,.film-frame::after { content:"✦"; position:absolute; z-index:2; color:#eeb187; font-size:13px; }
+      .film-frame::before { top:21px; left:23px; }
+      .film-frame::after { right:23px; bottom:21px; }
+      .film-inner { width:100%; height:100%; display:grid; place-items:center; position:relative; overflow:hidden; border:1px solid #d48649; background:radial-gradient(circle at 25% 20%,#d4864966,transparent 32%),linear-gradient(145deg,#7c4b26,#28231b); }
+      .film-placeholder { max-width:390px; padding:34px; color:#f2f0eb; text-align:center; }
+      .film-icon { width:58px; height:58px; display:grid; place-items:center; margin:0 auto 24px; padding-left:4px; border:1px solid #eeb187; border-radius:50%; color:#f4c6a6; font-size:19px; }
+      .film-placeholder h3 { margin:0 0 10px; color:#f2f0eb; font:500 clamp(32px,4vw,54px)/.95 "Cormorant Garamond",serif; }
+      .film-placeholder p { margin:0; color:#f4c6a6; font:italic 18px/1.4 "Cormorant Garamond",serif; }
+      .film-frame video { width:100%; height:100%; object-fit:cover; background:#28231b; }
+      .film-frame.has-video .film-placeholder { display:none; }
       .note { display:grid; grid-template-columns:.65fr 1.35fr; gap:42px; align-items:center; margin-top:82px; padding:62px clamp(26px,7vw,100px); background:linear-gradient(130deg,#97582a,#583921); color:#f2f0eb; position:relative; overflow:hidden; }
       .note::before { content:""; position:absolute; left:-100px; bottom:-140px; width:360px; height:360px; border:1px solid #fff7e850; border-radius:50%; box-shadow:0 0 0 28px #fff7e813,0 0 0 55px #fff7e80b; }
       .note h2 { color:#fff9f3; font-size:clamp(40px,5vw,64px); }
@@ -73,7 +87,7 @@
       .modal p { max-width:310px; margin:0 0 24px; color:#583921; font-size:14px; line-height:1.7; }
       .open { border:1px solid #b67d4e; border-radius:0; padding:13px 21px; background:#97582a; color:#f2f0eb; font:500 9px "DM Mono",monospace; letter-spacing:.15em; text-transform:uppercase; cursor:pointer; transition:background .2s,transform .2s; }
       .open:hover { background:#583921; transform:translateY(-2px); }
-      @media(max-width:760px) { .page{width:100%;margin:0;padding:16px 25px 30px;box-shadow:none}.top-rule{margin:-16px -25px 18px}.floral{width:500px}.floral--left{bottom:-170px;left:-190px}.floral--right{top:-220px;right:-310px}.hero{grid-template-columns:1fr;gap:38px;padding:57px 0 56px}.hero-copy{max-width:560px}h1{font-size:clamp(57px,17vw,82px);margin-top:16px}.intro{font-size:14px;line-height:1.75}.date-card{width:min(100%,390px);min-height:285px;justify-self:center;padding:22px}.day{font-size:94px;margin-top:25px}.month{margin:20px 0 30px}.outline{padding:56px 0}.outline-head{grid-template-columns:1fr;gap:20px;padding:0 0 28px}.moments{grid-template-columns:1fr}.moment{min-height:0;padding:26px 26px 28px;border-right:0;border-bottom:1px solid var(--line)}.moment:last-child{border-bottom:0}.moment h3{margin:26px 0 8px;font-size:30px}.note{grid-template-columns:1fr;gap:24px;margin-top:56px;padding:48px 28px}.note .ornament{justify-content:center}.note h2{text-align:center}.note p{text-align:center;margin:15px auto 0}footer{padding-top:58px} }
+      @media(max-width:760px) { .page{width:100%;margin:0;padding:16px 25px 30px;box-shadow:none}.top-rule{margin:-16px -25px 18px}.floral{width:500px}.floral--left{bottom:-170px;left:-190px}.floral--right{top:-220px;right:-310px}.hero{grid-template-columns:1fr;gap:38px;padding:57px 0 56px}.hero-copy{max-width:560px}h1{font-size:clamp(57px,17vw,82px);margin-top:16px}.intro{font-size:14px;line-height:1.75}.date-card{width:min(100%,390px);min-height:285px;justify-self:center;padding:22px}.day{font-size:94px;margin-top:25px}.month{margin:20px 0 30px}.outline{padding:56px 0}.outline-head,.film-head{grid-template-columns:1fr;gap:20px;padding:0 0 28px}.moments{grid-template-columns:1fr}.moment{min-height:0;padding:26px 26px 28px;border-right:0;border-bottom:1px solid var(--line)}.moment:last-child{border-bottom:0}.moment h3{margin:26px 0 8px;font-size:30px}.film{padding:0 0 56px}.film-frame{aspect-ratio:4/5;padding:7px}.film-placeholder{padding:24px}.note{grid-template-columns:1fr;gap:24px;margin-top:56px;padding:48px 28px}.note .ornament{justify-content:center}.note h2{text-align:center}.note p{text-align:center;margin:15px auto 0}footer{padding-top:58px} }
     </style>
   </head>
   <body>
@@ -81,20 +95,29 @@
     <img class="floral floral--right" src="./assets/floral-corner.png" alt="" />
     <main class="page">
       <div class="top-rule"></div>
-      <nav><span class="brand"><i></i>a little invitation</span><span>25 October</span></nav>
+      <nav><span class="brand"><i></i>a little invitation</span><span>24 October</span></nav>
       <section class="hero">
-        <div class="hero-copy"><div class="eyebrow">For my favourite people</div><h1>Keep this day <em>open for us.</em></h1><p class="intro">A lovely little outing is being planned, and I would truly love for you to be there. No plans to make and no details to remember — simply save the day and come curious.</p><div class="date-line">25 October · Save the day</div></div>
-        <aside class="date-card" aria-label="Save the date: 25 October"><span class="card-label">Save the date</span><span class="day">25</span><span class="month">October</span><p class="card-note">the plan is a little surprise</p></aside>
+        <div class="hero-copy"><div class="eyebrow">For my favourite people</div><h1>Keep this day <em>open for us.</em></h1><p class="intro">A lovely little outing is being planned, and I would truly love for you to be there. No plans to make and no details to remember — simply save the day and come curious.</p><div class="date-line">24 October · Save the day</div></div>
+        <aside class="date-card" aria-label="Save the date: 24 October"><span class="card-label">Save the date</span><span class="day">24</span><span class="month">October</span><p class="card-note">the plan is a little surprise</p></aside>
       </section>
       <div class="ornament">✦</div>
       <section class="outline">
         <div class="outline-head"><div><div class="kicker">A gentle outline</div><h2>Let the day unfold.</h2></div><p>The plan is intentionally being kept quiet for now. All you need is a free day, an easy spirit, and a little room for surprise.</p></div>
         <div class="moments"><article class="moment"><span class="number">01</span><h3>An easy beginning</h3><p>We will start somewhere lovely. The time and meeting point will find you soon.</p></article><article class="moment"><span class="number">02</span><h3>A little wandering</h3><p>Expect a few thoughtful stops, good conversation, and a day with nowhere to rush to.</p></article><article class="moment"><span class="number">03</span><h3>Time well spent</h3><p>Come for the company, stay for the moments we will remember afterwards.</p></article></div>
       </section>
+      <section class="film">
+        <div class="film-head"><div><div class="kicker">A little memory</div><h2>A film for us.</h2></div><p>A special corner for the moments that deserve to be replayed, remembered, and kept close.</p></div>
+        <div class="film-frame" id="film-frame">
+          <div class="film-inner">
+            <div class="film-placeholder" id="film-placeholder"><div class="film-icon">▶</div><h3>Our video will live here.</h3><p>A little memory is coming soon.</p></div>
+            <video id="invitation-video" controls playsinline preload="metadata" hidden aria-label="Invitation memory video"><source src="./assets/invitation-video.mp4" type="video/mp4" /></video>
+          </div>
+        </div>
+      </section>
       <section class="note"><div class="ornament">✦</div><div><div class="kicker" style="color:#e8d9cf">One small request</div><h2>Keep the whole day free.</h2><p>Bring yourself, a little curiosity, and your best relaxed energy. The rest is already being taken care of.</p></div></section>
-      <footer><div class="signoff">I hope you can make it.</div><div class="fine">25 October · a day to keep close</div></footer>
+      <footer><div class="signoff">I hope you can make it.</div><div class="fine">24 October · a day to keep close</div></footer>
     </main>
-    <div class="modal" id="invite" role="dialog" aria-modal="true" aria-labelledby="invite-title"><div class="modal-card"><div class="modal-inner"><button class="close" type="button" aria-label="Close invitation">×</button><div class="kicker">A little note for you</div><h2 id="invite-title">You’re invited.</h2><p>Set aside 25 October for a lovely day with a few favourite people. The details will arrive soon — for now, just keep the day free.</p><button class="open" type="button">Open invitation</button></div></div></div>
+    <div class="modal" id="invite" role="dialog" aria-modal="true" aria-labelledby="invite-title"><div class="modal-card"><div class="modal-inner"><button class="close" type="button" aria-label="Close invitation">×</button><div class="kicker">A little note for you</div><h2 id="invite-title">You’re invited.</h2><p>Set aside 24 October for a lovely day with a few favourite people. The details will arrive soon — for now, just keep the day free.</p><button class="open" type="button">Open invitation</button></div></div></div>
     <script>
       const invite = document.getElementById('invite');
       const dismiss = () => { invite.classList.add('hidden'); document.body.style.overflow = ''; };
@@ -102,6 +125,11 @@
       document.querySelector('.open').addEventListener('click', dismiss);
       document.querySelector('.close').addEventListener('click', dismiss);
       document.addEventListener('keydown', event => { if (event.key === 'Escape') dismiss(); });
+      const video = document.getElementById('invitation-video');
+      video.addEventListener('loadedmetadata', () => {
+        video.hidden = false;
+        document.getElementById('film-frame').classList.add('has-video');
+      });
     </script>
   </body>
 </html>
