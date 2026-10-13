@@ -1,4 +1,4 @@
-:root { --paper:#f2eddf; --white:#fffaf0; --ink:#3e352b; --olive:#61664b; --amber:#a46731; --muted:#736955; --line:#d1c7b1; --x:50%; --y:50%; }
+:root { --paper:#d9c9aa; --white:#e9dcc2; --ink:#302823; --olive:#775237; --amber:#98562e; --muted:#66503f; --line:#b7a081; --x:50%; --y:50%; }
 * { box-sizing:border-box; }
 html { scroll-behavior:smooth; scroll-padding-top:20px; }
 body { margin:0; color:var(--ink); background:var(--paper); font:15px/1.75 Arial,sans-serif; }
@@ -36,14 +36,16 @@ h1 { font-size:clamp(55px,6.9vw,108px); line-height:1.05; letter-spacing:-.065em
 .date-stamp strong { font:52px/1 Georgia,serif; }
 .date-stamp div>span { display:block; font:23px Georgia,serif; }
 .date-stamp small { font:10px 'Courier New',monospace; text-transform:uppercase; }
-.stamp-star { font-size:40px; color:var(--olive); margin-left:16px; }
+.stamp-star { font-size:0; color:var(--olive); margin-left:16px; }
+.stamp-star::before { content:'✶'; font:40px Georgia,serif; }
 .hero-collage { position:relative; min-height:520px; z-index:1; }
-.print { background:var(--white); padding:12px 12px 19px; box-shadow:0 12px 30px #3e352b25; border:1px solid #e7dfcc; position:relative; transition:transform .4s,box-shadow .4s; }
+.print { background:linear-gradient(120deg,#eadfc9,#d6bf96); padding:12px 12px 19px; box-shadow:0 12px 30px #30201635; border:1px solid #bfa682; position:relative; transition:transform .4s,box-shadow .4s; }
 .photo-window { position:relative; overflow:hidden; aspect-ratio:1.14; }
-.photo-window img { width:100%; height:100%; object-fit:cover; display:block; filter:sepia(.35) saturate(.65); transition:filter .6s,transform .6s; }
-.print:hover img,.print:focus img { filter:sepia(0) saturate(1.05); transform:scale(1.035); }
+.photo-window img { width:100%; height:100%; object-fit:cover; display:block; filter:grayscale(.65) sepia(.75) saturate(.65) contrast(.9) brightness(.91); transition:filter .6s,transform .6s; }
+.photo-window::after { content:''; position:absolute; inset:0; pointer-events:none; box-shadow:inset 0 0 45px #2b1c164d; background:repeating-linear-gradient(91deg,transparent 0 91px,#f7e5bd12 92px,transparent 93px 189px); }
+.print:hover img,.print:focus img { filter:grayscale(.15) sepia(.5) saturate(.8) contrast(.94); transform:scale(1.035); }
 .print:hover,.print:focus { box-shadow:0 16px 35px #3e352b38; }
-.print::before { content:''; position:absolute; width:85px; height:28px; top:-15px; left:calc(50% - 42px); background:#b2ae8790; transform:rotate(-5deg); z-index:2; }
+.print::before { content:''; position:absolute; width:85px; height:28px; top:-15px; left:calc(50% - 42px); background:#ae895b90; transform:rotate(-5deg); z-index:2; }
 figcaption { text-align:center; margin-top:15px; font-size:19px; }
 .print-main { width:87%; transform:rotate(-6deg); top:24px; left:0; }
 .print-small { position:absolute; width:49%; right:-10px; bottom:24px; transform:rotate(9deg); }
@@ -75,40 +77,40 @@ h2 { font-size:clamp(38px,4.8vw,68px); line-height:1.12; letter-spacing:-.05em; 
 .story-copy p:not(.signoff) { margin:16px 0; color:var(--muted); max-width:540px; font-size:14px; }
 .story-copy strong { color:var(--ink); }
 .signoff { color:var(--olive); margin-top:30px; font-size:21px; }
-.itinerary { background:#dfe0ce; border-block:1px solid #c7c9b2; }
+.itinerary { background:#b8a080; border-block:1px solid #a78c6b; }
 .section-heading { display:flex; justify-content:space-between; align-items:center; gap:35px; margin-bottom:36px; }
-.section-heading h2 { margin-bottom:0; }.section-heading p { color:#60634d; font-size:14px; }
+.section-heading h2 { margin-bottom:0; }.section-heading p { color:#4e3c30; font-size:14px; }
 .filmstrip { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; background:var(--ink); padding:35px 14px; }
-.moment { background:#e9e0ca; border:1px solid #d7c5a0; padding:23px; transition:background .3s,transform .3s; }
-.moment:nth-child(2) { background:#c7c9ad; }.moment:nth-child(3) { background:#d8be95; }
+.moment { background:#d3b990; border:1px solid #ac8f68; padding:23px; transition:background .3s,transform .3s; }
+.moment:nth-child(2) { background:#c6aa84; }.moment:nth-child(3) { background:#bca07e; }
 .moment:hover { transform:translateY(-3px); background:var(--white); }
 .frame-number { display:flex; justify-content:space-between; font-size:11px; }
-.frame-drawing { display:block; height:80px; text-align:center; font:65px/80px Georgia,serif; color:#7d7756; margin:20px 0; }
+.frame-drawing { display:block; height:80px; text-align:center; font:65px/80px Georgia,serif; color:#715033; margin:20px 0; filter:grayscale(1) sepia(1); }
 .moment h3 { font-size:27px; line-height:1.15; margin:0 0 14px; }.moment p { font-size:12px; min-height:65px; }
 .frame-footer { display:block; margin-top:24px; padding-top:12px; border-top:1px solid #3e352b30; font-size:8px; }
 .strip-caption { text-align:right; margin-top:25px; color:var(--olive); }
 .film-section { display:grid; grid-template-columns:.8fr 1.2fr; align-items:center; gap:7%; }
 .film-copy p { color:var(--muted); font-size:14px; margin-bottom:28px; }.film-copy .handwritten { color:var(--olive); }
-.projector { position:relative; padding:13px; background:#3b362c; color:var(--paper); border:1px solid #746950; box-shadow:10px 12px 0 #ddd3bc; transform:rotate(2deg); }
+.projector { position:relative; padding:13px; background:#302a25; color:var(--paper); border:1px solid #74604b; box-shadow:10px 12px 0 #b9a182; transform:rotate(2deg); }
 .projector-bar,.projector-bottom { display:flex; justify-content:space-between; gap:10px; font-size:8px; padding:9px 3px 15px; color:#d3c3a2; }
 .projector-bottom { padding:16px 3px 3px; }.status-dot { width:6px; height:6px; display:inline-block; border-radius:50%; background:#b8884c; margin-right:6px; }
-.video-inner { display:grid; place-items:center; aspect-ratio:4/3; background:#262820; position:relative; border:1px solid #70664e; }
-.video-placeholder { text-align:center; padding:22px; }.countdown { display:grid; place-items:center; width:85px; height:85px; border:1px solid #7b7960; outline:1px solid #7b7960; outline-offset:6px; border-radius:50%; margin:0 auto 24px; font:48px Georgia,serif; color:#c5c3a8; }
+.video-inner { display:grid; place-items:center; aspect-ratio:4/3; background:radial-gradient(ellipse,#42372d,#211e1b); position:relative; border:1px solid #70604e; }
+.video-placeholder { text-align:center; padding:22px; }.countdown { display:grid; place-items:center; width:85px; height:85px; border:1px solid #8c7458; outline:1px solid #8c7458; outline-offset:6px; border-radius:50%; margin:0 auto 24px; font:48px Georgia,serif; color:#d4ba91; }
 .video-placeholder h3 { font:italic 23px Georgia,serif; margin-bottom:10px; }.video-placeholder p { color:#c5bea9; font-size:11px; }
-video { width:100%; height:100%; object-fit:contain; background:#24251e; }.projector.has-video .video-placeholder { display:none; }
+video { width:100%; height:100%; object-fit:contain; background:#211e1b; }.projector.has-video .video-placeholder { display:none; }
 [hidden] { display:none !important; }
 .closing { text-align:center; position:relative; padding:85px 24px 95px; border-top:1px dashed var(--line); }
 .closing h2 { font-size:clamp(36px,4.6vw,66px); }.closing-date { display:flex; gap:14px; align-items:center; justify-content:center; color:var(--olive); font:52px Georgia,serif; margin:28px 0; }.closing-date span { font:13px 'Courier New',monospace; letter-spacing:.15em; }.closing-date span:last-child { font-size:35px; }
 .closing p { font-size:13px; color:var(--muted); }.closing .text-link { margin-top:20px; }
 footer { padding:26px 6%; display:flex; align-items:center; justify-content:space-between; gap:20px; border-top:1px solid var(--line); }footer>span:not(.handwritten) { font-size:9px; }footer .handwritten { font-size:17px; color:var(--olive); }
 dialog { overflow:visible; border:0; padding:0; width:min(520px,calc(100% - 40px)); max-height:calc(100svh - 100px); color:var(--ink); background:transparent; }
-dialog::backdrop { background:#50493680; backdrop-filter:blur(9px); }
-.envelope { position:relative; background:#d8c9aa; box-shadow:0 30px 80px #352b2a45; perspective:1200px; padding:28px 22px 112px; }
+dialog::backdrop { background:#392c2299; backdrop-filter:blur(9px); }
+.envelope { position:relative; background:#b89a73; box-shadow:0 30px 80px #352b2a45; perspective:1200px; padding:28px 22px 112px; }
 .envelope-letter { position:relative; z-index:2; text-align:center; background:var(--white); padding:42px 24px 45px; border:1px solid #d9cdb3; transition:transform .55s,opacity .55s; }
 .envelope-letter h2 { font-size:42px; margin:18px 0; }.envelope-letter p { font-size:13px; color:var(--muted); }
-.envelope-flap { position:absolute; inset:0 0 auto; height:45px; max-height:45px; clip-path:polygon(0 0,100% 0,50% 100%); background:#c6b58d; transform-origin:top; transition:transform .55s; z-index:3; pointer-events:none; }
-.envelope-pocket { position:absolute; inset:auto 0 0; height:130px; z-index:3; background:linear-gradient(26deg,#d4c3a0 49%,#c9b993 50%,#d9caaa 51%); border-top:1px solid #c7b58f; }
-.seal { display:grid; place-content:center; position:absolute; top:-27px; left:calc(50% - 28px); width:56px; height:56px; border-radius:50%; background:var(--olive); color:var(--paper); font:24px/1 Georgia,serif; text-align:center; box-shadow:0 0 0 4px #70765a,0 3px 5px #3e352b30; }.seal small { font:8px 'Courier New',monospace; margin-top:3px; }
+.envelope-flap { position:absolute; inset:0 0 auto; height:45px; max-height:45px; clip-path:polygon(0 0,100% 0,50% 100%); background:#a88860; transform-origin:top; transition:transform .55s; z-index:3; pointer-events:none; }
+.envelope-pocket { position:absolute; inset:auto 0 0; height:130px; z-index:3; background:linear-gradient(26deg,#bea078 49%,#a58963 50%,#c5aa85 51%); border-top:1px solid #a98a62; }
+.seal { display:grid; place-content:center; position:absolute; top:-27px; left:calc(50% - 28px); width:56px; height:56px; border-radius:50%; background:var(--olive); color:var(--white); font:24px/1 Georgia,serif; text-align:center; box-shadow:0 0 0 4px #916a48,0 3px 5px #3e352b30; }.seal small { font:8px 'Courier New',monospace; margin-top:3px; }
 .postmark { position:absolute; bottom:22px; right:24px; border:1px dashed #7c795e; border-radius:50%; padding:12px; font:9px 'Courier New',monospace; transform:rotate(-14deg); text-align:center; color:var(--olive); }
 .open-envelope { margin-top:26px; padding:12px 22px; background:var(--olive); color:var(--white); border:0; font-size:12px; }.open-envelope span { margin-left:12px; }
 .envelope-hint { text-align:center; position:absolute; width:100%; bottom:-42px; font:italic 16px Georgia,serif; color:var(--white); }
