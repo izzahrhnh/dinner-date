@@ -3,38 +3,38 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#8e7898" />
+    <meta name="theme-color" content="#7c4b26" />
     <title>A little day together — 25 October</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500;1,600&family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet" />
     <style>
-      :root { --plum:#66536b; --lilac:#a99ab4; --lilac-deep:#8c7998; --blush:#cdb7b1; --cream:#f8f1e9; --paper:#fffaf5; --gold:#ab906d; --ink:#443943; --line:#c5b4bd; }
+      :root { --plum:#583921; --lilac:#b67d4e; --lilac-deep:#7c4b26; --blush:#eeb187; --cream:#f2f0eb; --paper:#f2f0eb; --gold:#d48649; --ink:#28231b; --line:#c99a74; }
       * { box-sizing:border-box; }
       html { scroll-behavior:smooth; }
-      body { min-width:320px; margin:0; color:var(--ink); background:#d6c9cc; font-family:Manrope, sans-serif; overflow-x:hidden; }
-      body::before { content:""; position:fixed; inset:0; z-index:-3; background:linear-gradient(125deg,#c8b6b6 0%,#b6adbd 47%,#d8c5bb 100%); }
+      body { min-width:320px; margin:0; color:var(--ink); background:#b67d4e; font-family:Manrope, sans-serif; overflow-x:hidden; }
+      body::before { content:""; position:fixed; inset:0; z-index:-3; background:linear-gradient(125deg,#af6732 0%,#7c4b26 47%,#d48649 100%); }
       body::after { content:""; position:fixed; inset:0; z-index:-2; opacity:.38; background-image:radial-gradient(#fff 0.55px,transparent .75px); background-size:5px 5px; mix-blend-mode:soft-light; }
-      .floral { position:fixed; z-index:-1; width:min(48vw,620px); pointer-events:none; opacity:.66; filter:drop-shadow(0 12px 18px #4c36473b); }
+      .floral { position:fixed; z-index:-1; width:min(48vw,620px); pointer-events:none; opacity:.66; filter:sepia(.8) saturate(1.35) hue-rotate(338deg) drop-shadow(0 12px 18px #432f1e59); }
       .floral--left { bottom:-85px; left:-90px; }
       .floral--right { top:-160px; right:-170px; transform:rotate(180deg); opacity:.48; }
-      .page { width:min(1180px,calc(100% - 32px)); min-height:100vh; margin:16px auto; padding:18px clamp(18px,4vw,54px) 38px; background:linear-gradient(130deg,#fffdf9 0%,#f9f0e9 62%,#f5e9e6 100%); border:1px solid #fffdfbbd; box-shadow:0 24px 80px #55404a2b; position:relative; overflow:hidden; }
-      .page::before,.page::after { content:""; position:absolute; width:150px; height:150px; border:1px solid #b19aae76; border-radius:50%; pointer-events:none; }
-      .page::before { top:-100px; left:-85px; box-shadow:0 0 0 17px #b19aae12,0 0 0 35px #b19aae0b; }
-      .page::after { bottom:-95px; right:-78px; box-shadow:0 0 0 17px #b19aae12,0 0 0 35px #b19aae0b; }
-      .top-rule { height:7px; margin:-18px clamp(-18px,-4vw,-54px) 22px; background:linear-gradient(90deg,var(--blush) 0 25%,#c1b3ca 25% 50%,#b9987a 50% 75%,#dbcbc4 75%); }
-      nav { display:flex; align-items:center; justify-content:space-between; padding-bottom:18px; border-bottom:1px solid var(--line); color:#635565; font:500 10px/1 "DM Mono",monospace; letter-spacing:.18em; text-transform:uppercase; }
+      .page { width:min(1180px,calc(100% - 32px)); min-height:100vh; margin:16px auto; padding:18px clamp(18px,4vw,54px) 38px; background:linear-gradient(130deg,#f2f0eb 0%,#f4c6a6 62%,#eeb187 100%); border:1px solid #f2f0ebcc; box-shadow:0 24px 80px #432f1e40; position:relative; overflow:hidden; }
+      .page::before,.page::after { content:""; position:absolute; width:150px; height:150px; border:1px solid #b67d4e80; border-radius:50%; pointer-events:none; }
+      .page::before { top:-100px; left:-85px; box-shadow:0 0 0 17px #d4864920,0 0 0 35px #d4864912; }
+      .page::after { bottom:-95px; right:-78px; box-shadow:0 0 0 17px #d4864920,0 0 0 35px #d4864912; }
+      .top-rule { height:7px; margin:-18px clamp(-18px,-4vw,-54px) 22px; background:linear-gradient(90deg,#af6732 0 25%,#e29b69 25% 50%,#7c4b26 50% 75%,#f4c6a6 75%); }
+      nav { display:flex; align-items:center; justify-content:space-between; padding-bottom:18px; border-bottom:1px solid var(--line); color:#583921; font:500 10px/1 "DM Mono",monospace; letter-spacing:.18em; text-transform:uppercase; }
       .brand { display:flex; align-items:center; gap:10px; }
-      .brand i { display:block; width:9px; height:9px; border-radius:50%; background:var(--blush); box-shadow:15px 0 #bdaecc,30px 0 #bc997a; margin-right:30px; }
+      .brand i { display:block; width:9px; height:9px; border-radius:50%; background:var(--blush); box-shadow:15px 0 #d48649,30px 0 #7c4b26; margin-right:30px; }
       .hero { display:grid; grid-template-columns:minmax(0,1.3fr) minmax(245px,.7fr); gap:clamp(30px,7vw,90px); align-items:center; padding:clamp(56px,9vw,105px) clamp(0px,2vw,24px) 78px; }
-      .eyebrow,.kicker { color:#78677e; font:500 10px/1.4 "DM Mono",monospace; letter-spacing:.2em; text-transform:uppercase; }
+      .eyebrow,.kicker { color:#7c4b26; font:500 10px/1.4 "DM Mono",monospace; letter-spacing:.2em; text-transform:uppercase; }
       h1,h2,h3,p { margin-top:0; }
-      h1 { max-width:710px; margin:18px 0 24px; color:#3d303a; font:500 clamp(58px,8.5vw,108px)/.82 "Cormorant Garamond",serif; letter-spacing:-.065em; }
-      h1 em { display:block; color:#9b7d88; font-weight:500; }
-      .intro { max-width:560px; color:#675860; font-size:15px; line-height:1.8; }
-      .date-line { display:flex; align-items:center; gap:14px; margin-top:30px; color:#69546a; font:500 10px/1.4 "DM Mono",monospace; letter-spacing:.14em; text-transform:uppercase; }
-      .date-line::before { content:""; width:42px; height:1px; background:#a88d99; }
-      .date-card { min-height:382px; display:flex; flex-direction:column; align-items:center; justify-content:center; position:relative; isolation:isolate; overflow:hidden; padding:30px; color:#fffaf7; text-align:center; background:linear-gradient(160deg,#a797ae,#7d6789); border:7px solid #f8eee8; outline:1px solid #c4aeb7; box-shadow:0 18px 28px #72556835; }
+      h1 { max-width:710px; margin:18px 0 24px; color:#28231b; font:500 clamp(58px,8.5vw,108px)/.82 "Cormorant Garamond",serif; letter-spacing:-.065em; }
+      h1 em { display:block; color:#97582a; font-weight:500; }
+      .intro { max-width:560px; color:#583921; font-size:15px; line-height:1.8; }
+      .date-line { display:flex; align-items:center; gap:14px; margin-top:30px; color:#7c4b26; font:500 10px/1.4 "DM Mono",monospace; letter-spacing:.14em; text-transform:uppercase; }
+      .date-line::before { content:""; width:42px; height:1px; background:#af6732; }
+      .date-card { min-height:382px; display:flex; flex-direction:column; align-items:center; justify-content:center; position:relative; isolation:isolate; overflow:hidden; padding:30px; color:#f2f0eb; text-align:center; background:linear-gradient(160deg,#d48649,#7c4b26); border:7px solid #f4c6a6; outline:1px solid #af6732; box-shadow:0 18px 28px #432f1e45; }
       .date-card::before { content:""; position:absolute; z-index:-1; width:330px; height:330px; bottom:-200px; left:-160px; border:1px solid #fbeee96b; border-radius:50%; box-shadow:0 0 0 25px #fbeee910,0 0 0 50px #fbeee90b; }
       .date-card::after { content:"✦"; position:absolute; top:22px; right:28px; color:#fff6ec99; font-size:16px; }
       .card-label { font:500 9px/1.3 "DM Mono",monospace; letter-spacing:.24em; text-transform:uppercase; }
@@ -45,34 +45,34 @@
       .ornament::before,.ornament::after { content:""; width:47px; height:1px; background:currentColor; opacity:.7; }
       .outline { padding:70px 0 80px; border-top:1px solid var(--line); }
       .outline-head { display:grid; grid-template-columns:1fr minmax(250px,.7fr); gap:50px; align-items:end; padding:0 clamp(0px,2vw,24px) 34px; }
-      h2 { margin:12px 0 0; color:#4b3a4a; font:500 clamp(42px,5vw,67px)/.9 "Cormorant Garamond",serif; letter-spacing:-.055em; }
-      .outline-head p { margin:0; color:#6b5a62; font-size:14px; line-height:1.75; }
+      h2 { margin:12px 0 0; color:#432f1e; font:500 clamp(42px,5vw,67px)/.9 "Cormorant Garamond",serif; letter-spacing:-.055em; }
+      .outline-head p { margin:0; color:#583921; font-size:14px; line-height:1.75; }
       .moments { display:grid; grid-template-columns:repeat(3,1fr); border:1px solid var(--line); background:#fffbf7aa; }
       .moment { min-height:230px; position:relative; padding:30px 28px; border-right:1px solid var(--line); }
       .moment:last-child { border-right:0; }
-      .number { color:#927b8c; font:10px "DM Mono",monospace; letter-spacing:.12em; }
-      .moment h3 { margin:60px 0 10px; color:#564251; font:500 30px/.95 "Cormorant Garamond",serif; letter-spacing:-.03em; }
-      .moment p { margin-bottom:0; color:#75636b; font-size:13px; line-height:1.7; }
-      .moment::after { content:"✦"; position:absolute; right:24px; top:27px; color:#b4977d; font-size:14px; }
-      .note { display:grid; grid-template-columns:.65fr 1.35fr; gap:42px; align-items:center; margin-top:82px; padding:62px clamp(26px,7vw,100px); background:linear-gradient(130deg,#8e7898,#716075); color:#fff9f3; position:relative; overflow:hidden; }
+      .number { color:#97582a; font:10px "DM Mono",monospace; letter-spacing:.12em; }
+      .moment h3 { margin:60px 0 10px; color:#432f1e; font:500 30px/.95 "Cormorant Garamond",serif; letter-spacing:-.03em; }
+      .moment p { margin-bottom:0; color:#583921; font-size:13px; line-height:1.7; }
+      .moment::after { content:"✦"; position:absolute; right:24px; top:27px; color:#d48649; font-size:14px; }
+      .note { display:grid; grid-template-columns:.65fr 1.35fr; gap:42px; align-items:center; margin-top:82px; padding:62px clamp(26px,7vw,100px); background:linear-gradient(130deg,#97582a,#583921); color:#f2f0eb; position:relative; overflow:hidden; }
       .note::before { content:""; position:absolute; left:-100px; bottom:-140px; width:360px; height:360px; border:1px solid #fff7e850; border-radius:50%; box-shadow:0 0 0 28px #fff7e813,0 0 0 55px #fff7e80b; }
       .note h2 { color:#fff9f3; font-size:clamp(40px,5vw,64px); }
       .note p { max-width:425px; margin:15px 0 0; color:#fff8f1db; font-size:14px; line-height:1.75; }
       .note .ornament { justify-content:flex-start; color:#eadcc9; }
       footer { padding:72px 0 16px; text-align:center; }
-      .signoff { color:#5a4554; font:italic 30px "Cormorant Garamond",serif; }
-      .fine { margin:13px 0 0; color:#7c6878; font:500 9px "DM Mono",monospace; letter-spacing:.16em; text-transform:uppercase; }
-      .modal { position:fixed; inset:0; z-index:5; display:grid; place-items:center; padding:20px; background:#40304063; backdrop-filter:blur(7px); transition:opacity .35s,visibility .35s; }
+      .signoff { color:#583921; font:italic 30px "Cormorant Garamond",serif; }
+      .fine { margin:13px 0 0; color:#7c4b26; font:500 9px "DM Mono",monospace; letter-spacing:.16em; text-transform:uppercase; }
+      .modal { position:fixed; inset:0; z-index:5; display:grid; place-items:center; padding:20px; background:#28231b80; backdrop-filter:blur(7px); transition:opacity .35s,visibility .35s; }
       .modal.hidden { visibility:hidden; opacity:0; }
-      .modal-card { width:min(470px,100%); padding:11px; position:relative; background:var(--paper); border:1px solid #d5c1c3; box-shadow:0 25px 60px #38242d4d; transition:transform .35s; }
+      .modal-card { width:min(470px,100%); padding:11px; position:relative; background:var(--paper); border:1px solid #e29b69; box-shadow:0 25px 60px #28231b59; transition:transform .35s; }
       .hidden .modal-card { transform:translateY(22px); }
-      .modal-inner { min-height:330px; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:50px 36px 34px; text-align:center; border:1px solid #c2aeba; position:relative; }
+      .modal-inner { min-height:330px; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:50px 36px 34px; text-align:center; border:1px solid #b67d4e; position:relative; }
       .modal-inner::before { content:""; position:absolute; width:130px; height:130px; left:-1px; bottom:-1px; background:url('./assets/floral-corner.png') bottom left/170px auto no-repeat; opacity:.78; pointer-events:none; }
-      .close { position:absolute; z-index:1; top:12px; right:13px; border:0; color:#6d5864; background:transparent; font:20px/1 serif; cursor:pointer; }
+      .close { position:absolute; z-index:1; top:12px; right:13px; border:0; color:#583921; background:transparent; font:20px/1 serif; cursor:pointer; }
       .modal h2 { margin:15px 0 10px; font-size:58px; }
-      .modal p { max-width:310px; margin:0 0 24px; color:#735f68; font-size:14px; line-height:1.7; }
-      .open { border:1px solid #b79ea9; border-radius:0; padding:13px 21px; background:#8f788e; color:#fffaf7; font:500 9px "DM Mono",monospace; letter-spacing:.15em; text-transform:uppercase; cursor:pointer; transition:background .2s,transform .2s; }
-      .open:hover { background:#705b70; transform:translateY(-2px); }
+      .modal p { max-width:310px; margin:0 0 24px; color:#583921; font-size:14px; line-height:1.7; }
+      .open { border:1px solid #b67d4e; border-radius:0; padding:13px 21px; background:#97582a; color:#f2f0eb; font:500 9px "DM Mono",monospace; letter-spacing:.15em; text-transform:uppercase; cursor:pointer; transition:background .2s,transform .2s; }
+      .open:hover { background:#583921; transform:translateY(-2px); }
       @media(max-width:760px) { .page{width:100%;margin:0;padding:16px 25px 30px;box-shadow:none}.top-rule{margin:-16px -25px 18px}.floral{width:500px}.floral--left{bottom:-170px;left:-190px}.floral--right{top:-220px;right:-310px}.hero{grid-template-columns:1fr;gap:38px;padding:57px 0 56px}.hero-copy{max-width:560px}h1{font-size:clamp(57px,17vw,82px);margin-top:16px}.intro{font-size:14px;line-height:1.75}.date-card{width:min(100%,390px);min-height:285px;justify-self:center;padding:22px}.day{font-size:94px;margin-top:25px}.month{margin:20px 0 30px}.outline{padding:56px 0}.outline-head{grid-template-columns:1fr;gap:20px;padding:0 0 28px}.moments{grid-template-columns:1fr}.moment{min-height:0;padding:26px 26px 28px;border-right:0;border-bottom:1px solid var(--line)}.moment:last-child{border-bottom:0}.moment h3{margin:26px 0 8px;font-size:30px}.note{grid-template-columns:1fr;gap:24px;margin-top:56px;padding:48px 28px}.note .ornament{justify-content:center}.note h2{text-align:center}.note p{text-align:center;margin:15px auto 0}footer{padding-top:58px} }
     </style>
   </head>
