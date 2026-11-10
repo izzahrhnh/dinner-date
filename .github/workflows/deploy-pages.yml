@@ -1,4 +1,4 @@
-name: Deploy dinner date to GitHub Pages
+name: Deploy birthday roll to GitHub Pages
 
 on:
   push:
