@@ -44,7 +44,7 @@ window.SCRAPBOOK = {
       "assets/photos/camera-flash.jpg",
       "assets/photos/hand-signs.jpg",
     ],
-    note: "for you, from the four of us",      // ✏️ small handwritten note
+    note: "for you, from us",      // ✏️ small handwritten note
     stampDate: "25 NOV 2026",                  // date on the postage stamp
     button: "Open your little world",
   },
@@ -59,7 +59,7 @@ window.SCRAPBOOK = {
       "We realised photographs alone weren't enough to hold all the little things we wanted to remember.",
       "So we made you something.",
     ],
-    signature: "with love, the four of us",
+    signature: "with love, from us",
   },
 
   /* ----------------------------------------------------------------
@@ -162,8 +162,8 @@ window.SCRAPBOOK = {
       "[Contributor 03's closing line]",
       "[Contributor 04's closing line]",
     ],
-    collective: "[A message from the four of us together. Keep it simple and true.]",
-    signature: "the four of us",
+    collective: "[A message from all of us together. Keep it simple and true.]",
+    signature: "from us",
     date: "25 · 11 · 2026",
   },
 
