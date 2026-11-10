@@ -2,82 +2,67 @@
    THIS IS THE ONLY FILE YOU NEED TO EDIT.
    - Put photos in  assets/photos/   and videos in  assets/videos/
    - Then add them below. Keep the quotes "" and the commas.
-   - Everything still marked "sample" is a placeholder: replace or delete it.
+   - Everything marked "sample" is a placeholder: replace or delete it.
    ========================================================== */
 
 window.BIRTHDAY = {
 
-  // Her name (or nickname) — shown in the title, letters and closing.
-  name: "[her name]",
+  // Shown big on the cover.
+  firstName: "Nurin",
+  lastName: "Mastura",
+  date: "25.11.2026",
 
-  // Your name, for the signature on your note.
-  from: "Izzah",
-
-  // When the letters and the film unlock (Malaysia time).
-  // Before this, they show as "sealed". Add ?preview to the link to see everything early.
-  unlockAt: "2026-11-25T00:00:00+08:00",
-
-  // One line under the big "Happy birthday" title.
+  // One line under her name.
   heroLine: "A whole roll of us, developed just for you.",
 
-  // ---------- YOUR OWN NOTE (lined letter) ----------
-  myNote: [
-    "Write your own birthday message to her here.",
+  // ---------- COVER COLLAGE ----------
+  // 4 photos for the collage at the top, plus a short handwritten note for each.
+  cover: [
+    { photo: "assets/photos/sample-station.jpg", note: "the crew" },
+    { photo: "assets/photos/sample-coffee.jpg",  note: "coffee & gossip" },
+    { photo: "assets/photos/sample-trees.jpg",   note: "Melaka '26" },
+    { photo: "assets/photos/sample-rose.jpg",    note: "our girl" }
+  ],
+
+  // ---------- A NOTE FROM ALL OF US (everyone can read this) ----------
+  groupNote: [
+    "Write a short birthday note from the whole group here.",
     "Each line in quotes becomes its own paragraph."
   ],
+  groupSign: "love, the crew",
 
-  // ---------- PHOTO STACK (top of the page) ----------
-  // The pile of polaroids she taps through. 6–12 photos look best; square-ish photos crop best.
-  contactSheet: [
-    "assets/photos/sample-station.jpg",
-    "assets/photos/sample-candles.jpg",
-    "assets/photos/sample-rose.jpg",
-    "assets/photos/sample-train.jpg",
-    "assets/photos/sample-trees.jpg",
-    "assets/photos/sample-coffee.jpg",
-    "assets/photos/sample-candles.jpg",
-    "assets/photos/sample-station.jpg",
-    "assets/photos/sample-rose.jpg",
-    "assets/photos/sample-train.jpg"
-  ],
-
-  // ---------- LETTERS FROM THE CREW (envelopes) ----------
-  // One block per friend. photo and video are optional — delete the line if they didn't send one.
+  // ---------- PRIVATE LETTERS ----------
+  // Each friend writes and locks their own letter on the write page:
+  //   https://izzahrhnh.github.io/dinner-date/write.html
+  // They send you back the code (it starts with NM1.) and their question.
+  // Paste them below. Only someone who knows the answer can read it — not even you.
+  // Leave code as "" until they send it; the envelope will say it's still being written.
   letters: [
     {
-      from: "Friend one (sample)",
-      photo: "assets/photos/sample-coffee.jpg",
-      message: [
-        "Paste their birthday message here.",
-        "A new line in quotes = a new paragraph."
-      ]
+      from: "Sample",
+      question: "Which city did we never finish making a website for?",
+      code: "NM1.n9ScFK1l2A48NeVuFKiQFx06plUfPXTOlEngFHsqDL3ic36xLPqHuW1kLqXhSMmmO04TvgfyhbMtbUeDE92vAbrTSe47+fGYZm7G/lHcVg4v9uwAP2zRrVi6WftjiwCmEhJTHdrXrDsMArD3j1WnQzgVWm+r7h7ehfWT5btY0eUikiHwbPmwg6IcMMZmOX1eL54QU4FHb5vQxKOKV1ddvhgtYE2VDpCnX57xxeDI5Fyt9eDBTyNVKooWTc+0jQO4Mh5JFZAxbg=="
     },
-    {
-      from: "Friend two (sample)",
-      photo: "assets/photos/sample-trees.jpg",
-      message: ["Their message goes here."]
-    },
-    {
-      from: "Friend three (sample)",
-      photo: "assets/photos/sample-rose.jpg",
-      message: ["Their message goes here."]
-    }
+    { from: "Izzah",      question: "", code: "" },
+    { from: "Friend two", question: "", code: "" },
+    { from: "Friend three", question: "", code: "" },
+    { from: "Friend four", question: "", code: "" }
   ],
 
-  // ---------- THE ROLL SO FAR (clothesline) ----------
+  // ---------- THE ROLL SO FAR (film strip) ----------
   // Your memories together, in order. Swipe sideways on the page.
-  // date is optional — it shows as an orange disposable-camera stamp on the photo (format YYYY-MM-DD).
+  // date is optional (YYYY-MM-DD): it shows as an orange camera stamp.
   memories: [
-    { photo: "assets/photos/sample-train.jpg",  date: "2024-03-02", title: "Where it started", caption: "A short caption about this memory." },
-    { photo: "assets/photos/sample-afternoon-film.jpg", date: "2026-10-24", title: "Melaka, together", caption: "The trip we never finished the site for." },
-    { photo: "assets/photos/sample-candles.jpg", title: "A night to keep", caption: "A short caption about this memory." },
-    { photo: "assets/photos/sample-cinematic-landscape.jpg", title: "The long way home", caption: "A short caption about this memory." }
+    { photo: "assets/photos/sample-train.jpg", date: "2024-03-02", title: "where it started" },
+    { photo: "assets/photos/sample-afternoon-film.jpg", date: "2026-10-24", title: "melaka, together" },
+    { photo: "assets/photos/sample-candles.jpg", title: "a night to keep" },
+    { photo: "assets/photos/sample-cinematic-landscape.jpg", title: "the long way home" }
   ],
 
-  // ---------- OUR FILM ----------
-  // Friends' video messages. They play one after another like a reel.
-  // Use .mp4 files. Keep each under ~25 MB (send them to Claude to shrink if bigger).
+  // ---------- OUR LITTLE FILMS ----------
+  // Video messages everyone can watch. They play one after another.
+  // Use .mp4 files. Keep each under ~25 MB.
   videos: [
-    // { from: "Friend one", src: "assets/videos/friend-one.mp4" },
+    // { from: "Izzah", src: "assets/videos/izzah.mp4" },
   ]
 };

@@ -1,35 +1,31 @@
-# Birthday scrapbook
+# Nurin's birthday scrapbook
 
-A light, film-and-scrapbook birthday page: a stack of polaroids she taps through, your letter on lined paper, friends' letters as sealed envelopes, memories hanging on a clothesline, and a reel of video messages. Letters and videos stay **sealed until 25 November, 12:00am (Malaysia time)**.
+A film-and-scrapbook birthday page: a photo collage cover, a note from the group, **secret letters** only Nurin can open, a film strip of memories, a reel of video messages, and a candle to blow out.
 
-## Add what friends send you
+Live at `https://izzahrhnh.github.io/dinner-date/`
 
-All content lives in **`memories.js`**. You never need to touch the other files.
+## Secret letters (how they stay private)
 
-1. **Photos** → upload into `assets/photos/` (JPG works best; phone photos are fine).
-2. **Videos** → upload into `assets/videos/` as `.mp4`. Keep each one **under about 25 MB** so it loads on phones. GitHub refuses files over 100 MB.
-3. Open `memories.js` and add or replace entries. Copy an existing block, keep the quotes `" "` and the commas `,` between blocks.
-   - A friend's letter: `{ from: "Aina", photo: "assets/photos/aina.jpg", message: ["Line one", "Line two"] },`
-   - A letter with its own video instead of a photo: add `video: "assets/videos/aina.mp4"`
-   - A video for the reel: `{ from: "Aina", src: "assets/videos/aina.mp4" },`
-   - A memory on the clothesline: `{ photo: "assets/photos/melaka.jpg", date: "2026-10-24", title: "Melaka", caption: "A short line" },` (the date shows as an orange camera stamp; leave it out if you don't know it)
-4. Delete every entry still marked **(sample)**, and the `sample-*.jpg` photos once you've replaced them.
-5. Set `name:` at the top to her name.
+1. Send each friend this link: `https://izzahrhnh.github.io/dinner-date/write.html`
+2. They write their letter (and can add one photo), then set **a question only Nurin can answer** plus the answer.
+3. They tap **Seal my letter** and send you the text it gives them (one line starting with `{ from: ...`). If it's too long for chat, they tap **Save as a file** and send the file.
+4. Paste that line into the `letters:` list in `memories.js`, replacing their placeholder.
 
-**Tip:** use simple file names with no spaces (`aina-video.mp4`, not `IMG 2041 (1).MOV`).
+The letter is locked with the answer, so nobody can read it without knowing it, not even you. Capitals, spaces and punctuation in the answer don't matter. Delete the `Sample` letter before the party (its answer is "melaka").
+
+## Everything else
+
+All content lives in **`memories.js`**.
+
+- **Cover:** 4 photos plus a short handwritten note for each.
+- **Group note:** `groupNote` lines, everyone can read this.
+- **Film strip:** `memories`, oldest first. `date: "2026-10-24"` adds an orange camera stamp.
+- **Videos:** `{ from: "Aina", src: "assets/videos/aina.mp4" },` Keep each under about 25 MB.
+
+Photos go in `assets/photos/`, videos in `assets/videos/`. Use simple file names with no spaces.
 
 ## Upload on GitHub (no coding)
 
-1. Open the repo on github.com → **Add file → Upload files**.
-2. Drag the files in. To put them in a folder, open the folder first (e.g. `assets/photos`) and then upload there.
-3. Scroll down and click **Commit changes**.
-4. Wait 1–2 minutes. The site updates by itself at `https://izzahrhnh.github.io/dinner-date/`.
-
-To edit `memories.js` on GitHub: click the file → pencil icon ✏️ → edit → **Commit changes**.
-
-## Check it before her birthday
-
-Add `?preview` to the end of the link to see the letters and videos early:
-`https://izzahrhnh.github.io/dinner-date/?preview`
-
-Send her the normal link (without `?preview`).
+1. On github.com open the folder (e.g. `assets/photos`) → **Add file → Upload files** → **Commit changes**.
+2. To edit `memories.js`: click it → pencil icon → edit → **Commit changes**.
+3. The site updates by itself in 1–2 minutes.

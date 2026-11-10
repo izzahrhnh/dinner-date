@@ -3,106 +3,124 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#e8ece0">
-  <meta name="description" content="A birthday scrapbook — letters, photos and little films from the crew.">
-  <title>Happy birthday</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect x='6' y='4' width='28' height='32' rx='1' fill='%23fffdf7' stroke='%232b2a3a' stroke-width='2'/%3E%3Crect x='10' y='8' width='20' height='18' fill='%23c9d4bd'/%3E%3C/svg%3E">
+  <meta name="theme-color" content="#dad8d3">
+  <meta name="description" content="A birthday scrapbook for Nurin — photos, little films and private letters from the crew.">
+  <title>Happy birthday, Nurin</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect x='4' y='8' width='32' height='24' fill='%231c1b1f'/%3E%3Crect x='11' y='13' width='18' height='14' fill='%23f0e7d6'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Nanum+Pen+Script&family=Courier+Prime:wght@400;700&family=Abril+Fatface&family=Archivo+Black&family=Rubik+Mono+One&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Special+Elite&family=Mrs+Saint+Delafield&family=Gochi+Hand&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <script src="memories.js" defer></script>
+  <script src="seal.js" defer></script>
   <script src="app.js" defer></script>
 </head>
 <body>
-  <svg class="grain" aria-hidden="true"><filter id="grain-f"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(#grain-f)"/></svg>
+  <svg class="grain" aria-hidden="true"><filter id="grain-f"><feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(#grain-f)"/></svg>
 
-  <main>
+  <div class="journal">
+    <div class="spiral" aria-hidden="true"></div>
+
     <!-- Cover -->
-    <header class="cover" id="top">
-      <h1 class="ransom" data-ransom aria-label="Happy birthday"></h1>
-      <p class="her-name"><span data-name>you</span></p>
-
-      <div class="stack" data-stack>
-        <button class="stack-hit" type="button" aria-label="Show the next photo"></button>
+    <header class="cover">
+      <div class="collage" data-collage>
+        <div class="scrap grid-paper" aria-hidden="true"></div>
+        <div class="scrap lined-scrap" aria-hidden="true"></div>
+        <p class="strip strip-cover">collect beautiful moments</p>
+        <span class="sparkles" aria-hidden="true">✦ ✧ ✦</span>
       </div>
-      <p class="pen-note stack-hint">tap the photos</p>
 
+      <h1 class="title">
+        <span class="first" data-first>Nurin</span>
+        <span class="last" data-last>Mastura</span>
+        <span class="bar">Happy birthday · <span data-date>25.11.2026</span></span>
+      </h1>
       <p class="hero-line" data-hero-line></p>
-
-      <div class="sticky-note" data-countdown-wrap>
-        <p data-countdown></p>
-      </div>
     </header>
 
-    <!-- Your note -->
-    <section class="page" id="note" aria-labelledby="note-title">
-      <h2 class="page-title" id="note-title">A note from me</h2>
-      <article class="lined-letter">
-        <span class="tape tape-tl" aria-hidden="true"></span>
-        <figure class="clip-photo" data-note-photo><span class="paperclip" aria-hidden="true"></span></figure>
-        <div class="letter-text" data-my-note></div>
-        <p class="signature" data-signature></p>
+    <!-- Group note -->
+    <section class="spread" aria-labelledby="note-h">
+      <h2 class="strip" id="note-h">a note from all of us</h2>
+      <article class="torn-page">
+        <span class="tape tape-a" aria-hidden="true"></span>
+        <div class="handwriting" data-group-note></div>
+        <p class="sign" data-group-sign></p>
       </article>
+      <img class="sticker sticker-blossom" src="assets/stickers/blossom.png" alt="" width="160" height="147" loading="lazy">
     </section>
 
-    <!-- Letters -->
-    <section class="page" id="letters" aria-labelledby="letters-title">
-      <h2 class="page-title" id="letters-title">Letters from the crew</h2>
-      <p class="page-sub" data-letters-hint>Tap an envelope to open it.</p>
+    <!-- Private letters -->
+    <section class="spread" aria-labelledby="letters-h">
+      <h2 class="strip" id="letters-h">for your eyes only</h2>
+      <p class="scribble">Each of us wrote you a secret letter. Answer our question to open it.</p>
       <div class="envelopes" id="envelopes"></div>
     </section>
 
-    <!-- The roll -->
-    <section class="page page-wide" id="roll" aria-labelledby="roll-title">
-      <h2 class="page-title" id="roll-title">The roll so far</h2>
-      <p class="page-sub">Hung up to dry, oldest first. Swipe along.</p>
-      <div class="line-wrap">
-        <div class="clothesline" id="clothesline" tabindex="0" aria-label="Our memories, in order"></div>
+    <!-- Roll -->
+    <section class="spread spread-roll" aria-labelledby="roll-h">
+      <h2 class="strip" id="roll-h">the roll so far</h2>
+      <div class="film-wrap">
+        <div class="film" id="film" tabindex="0" aria-label="Our memories, oldest first. Scroll sideways."></div>
       </div>
+      <p class="scribble scribble-right">swipe along →</p>
+      <img class="sticker sticker-peony" src="assets/stickers/peony.png" alt="" width="360" height="309" loading="lazy">
     </section>
 
-    <!-- Our film -->
-    <section class="page" id="film" aria-labelledby="film-title">
-      <h2 class="page-title" id="film-title">Our film</h2>
-      <p class="page-sub" data-film-sub>Little videos from everyone, played one after another.</p>
-      <div class="screen">
-        <span class="tape tape-tl" aria-hidden="true"></span>
-        <span class="tape tape-br" aria-hidden="true"></span>
-        <div class="screen-inner" id="screen">
-          <video id="reel-video" playsinline controls preload="metadata" hidden></video>
-          <p class="screen-empty" data-screen-empty>The films are still developing.</p>
+    <!-- Videos -->
+    <section class="spread" aria-labelledby="films-h">
+      <h2 class="strip" id="films-h">our little films</h2>
+      <div class="portra">
+        <div class="portra-edge" aria-hidden="true"><span>NURIN 400</span><span class="edge-no">25</span></div>
+        <div class="portra-window">
+          <video id="reel" playsinline controls preload="metadata" hidden></video>
+          <p class="portra-empty" data-reel-empty>The films are still developing. Check back soon.</p>
         </div>
-        <div class="reel-controls">
-          <button type="button" class="pill" data-reel="prev" hidden>Previous</button>
-          <p class="reel-label" data-reel-label></p>
-          <button type="button" class="pill" data-reel="next" hidden>Next</button>
-        </div>
+        <div class="portra-holes" aria-hidden="true"></div>
+      </div>
+      <div class="reel-nav">
+        <button type="button" class="tag-btn" data-reel="prev" hidden>previous</button>
+        <p class="reel-label" data-reel-label></p>
+        <button type="button" class="tag-btn" data-reel="next" hidden>next</button>
       </div>
     </section>
 
     <!-- Wish -->
-    <section class="page wish-page" aria-labelledby="wish-title">
-      <h2 class="page-title" id="wish-title">Make a wish</h2>
+    <section class="spread wish" aria-labelledby="wish-h">
+      <h2 class="strip" id="wish-h">make a wish</h2>
       <button class="cake" type="button" aria-pressed="false" aria-label="Blow out the candle">
         <span class="flame" aria-hidden="true"></span>
         <span class="smoke" aria-hidden="true"></span>
         <span class="candle" aria-hidden="true"></span>
-        <span class="cake-top" aria-hidden="true"></span>
         <span class="cake-body" aria-hidden="true"></span>
       </button>
-      <p class="pen-note" data-wish-hint>tap the candle to blow it out</p>
-      <p class="colophon" data-colophon></p>
+      <p class="scribble" data-wish-hint>tap the candle to blow it out</p>
+      <p class="strip strip-end">hold on tight to your dreams</p>
     </section>
-  </main>
+  </div>
 
-  <dialog class="postcard" id="letter" aria-labelledby="letter-title">
-    <button class="close" type="button" data-close aria-label="Close letter">×</button>
-    <div class="postcard-media" data-letter-media></div>
-    <div class="postcard-body">
-      <h3 id="letter-title"></h3>
-      <div data-letter-body></div>
-      <p class="signature" data-letter-sign></p>
+  <!-- Letter dialog -->
+  <dialog class="letter" id="letter" aria-labelledby="letter-h">
+    <button class="close" type="button" data-close aria-label="Close">×</button>
+
+    <form class="lock" data-lock>
+      <p class="strip strip-small" id="letter-h" data-letter-from>from a friend</p>
+      <p class="lock-label">A question only you can answer:</p>
+      <p class="question" data-question></p>
+      <label class="answer">
+        <span class="visually-hidden">Your answer</span>
+        <input type="text" name="answer" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="your answer" required>
+      </label>
+      <button class="unlock-btn" type="submit">Open the letter</button>
+      <p class="lock-msg" data-lock-msg role="status" aria-live="polite"></p>
+    </form>
+
+    <div class="opened" data-opened hidden>
+      <figure class="opened-photo" data-opened-photo hidden><img alt=""></figure>
+      <div class="opened-text">
+        <p class="dear" data-dear>Dear Nurin,</p>
+        <div class="handwriting" data-opened-body></div>
+        <p class="sign" data-opened-sign></p>
+      </div>
     </div>
   </dialog>
 </body>
