@@ -25,10 +25,10 @@ window.SCRAPBOOK = {
 
   /* ✏️ The four of you. These names appear on page 04, page 06 and page 07. */
   contributors: [
-    { name: "[Contributor 01]", photo: "assets/photos/photobooth-lune-2.jpg" },
-    { name: "[Contributor 02]", photo: "assets/photos/photobooth-lune-3.jpg" },
-    { name: "[Contributor 03]", photo: "assets/photos/photobooth-lune-4.jpg" },
-    { name: "[Contributor 04]", photo: "assets/photos/photobooth-lune-5.jpg" },
+    { name: "Izzah", photo: "assets/photos/photobooth-lune-2.jpg" },
+    { name: "Afikah", photo: "assets/photos/photobooth-lune-3.jpg" },
+    { name: "Hazi", photo: "assets/photos/photobooth-lune-4.jpg" },
+    { name: "Wahieda", photo: "assets/photos/photobooth-lune-5.jpg" },
   ],
 
   /* ----------------------------------------------------------------
@@ -114,10 +114,10 @@ window.SCRAPBOOK = {
     recipientPhoto: "assets/photos/photobooth-lune-6.jpg",     // the polaroid labelled with her name
     // ✏️ One short message from each of you, in the same order as contributors above.
     messages: [
-      "[Contributor 01 — a few sentences to Nurin, in your own words.]",
-      "[Contributor 02 — a few sentences to Nurin, in your own words.]",
-      "[Contributor 03 — a few sentences to Nurin, in your own words.]",
-      "[Contributor 04 — a few sentences to Nurin, in your own words.]",
+      "[Izzah — a few sentences to Nurin, in your own words.]",
+      "[Afikah — a few sentences to Nurin, in your own words.]",
+      "[Hazi — a few sentences to Nurin, in your own words.]",
+      "[Wahieda — a few sentences to Nurin, in your own words.]",
     ],
     // ✏️ Little friendship details: inside jokes, nicknames, group-chat lore.
     details: [
@@ -171,10 +171,10 @@ window.SCRAPBOOK = {
     groupPhoto: "assets/photos/mirror-makcik-bawang.jpg",   // one final group photo
     // ✏️ One closing line from each of you (same order as contributors).
     messages: [
-      "[Contributor 01's closing line]",
-      "[Contributor 02's closing line]",
-      "[Contributor 03's closing line]",
-      "[Contributor 04's closing line]",
+      "[Izzah's closing line]",
+      "[Afikah's closing line]",
+      "[Hazi's closing line]",
+      "[Wahieda's closing line]",
     ],
     collective: "[A message from all of us together. Keep it simple and true.]",
     signature: "from us",
