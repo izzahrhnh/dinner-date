@@ -25,10 +25,10 @@ window.SCRAPBOOK = {
 
   /* ✏️ The four of you. These names appear on page 04, page 06 and page 07. */
   contributors: [
-    { name: "[Contributor 01]", photo: "assets/photos/photobooth-pink-2.jpg" },
-    { name: "[Contributor 02]", photo: "assets/photos/photobooth-pink-3.jpg" },
-    { name: "[Contributor 03]", photo: "assets/photos/photobooth-pink-4.jpg" },
-    { name: "[Contributor 04]", photo: "assets/photos/photobooth-pink-5.jpg" },
+    { name: "[Contributor 01]", photo: "assets/photos/photobooth-lune-2.jpg" },
+    { name: "[Contributor 02]", photo: "assets/photos/photobooth-lune-3.jpg" },
+    { name: "[Contributor 03]", photo: "assets/photos/photobooth-lune-4.jpg" },
+    { name: "[Contributor 04]", photo: "assets/photos/photobooth-lune-5.jpg" },
   ],
 
   /* ----------------------------------------------------------------
@@ -78,9 +78,12 @@ window.SCRAPBOOK = {
     { type: "photo", size: "tall", src: "assets/photos/shop-photostrip.jpg", caption: "[caption]" },
     { type: "photo", size: "wide", src: "assets/photos/restaurant-two.jpg", caption: "[caption]" },
     { type: "strip", photos: [
-        "assets/photos/photobooth-train-1.jpg",
-        "assets/photos/photobooth-train-2.jpg",
-        "assets/photos/photobooth-train-3.jpg",
+        "assets/photos/photobooth-pink-1.jpg",
+        "assets/photos/photobooth-pink-2.jpg",
+        "assets/photos/photobooth-pink-3.jpg",
+        "assets/photos/photobooth-pink-4.jpg",
+        "assets/photos/photobooth-pink-5.jpg",
+        "assets/photos/photobooth-pink-6.jpg",
       ], caption: "[caption for the photobooth]" },
     { type: "photo", size: "polaroid", src: "assets/photos/car-nap.jpg", caption: "[caption]" },
     { type: "video", size: "wide", src: "assets/videos/sample-clip-1.mp4", poster: "assets/videos/sample-clip-1.jpg", caption: "[video caption]" },
@@ -97,17 +100,9 @@ window.SCRAPBOOK = {
     { type: "photo", size: "small", src: "assets/photos/pillar-smile.jpg", caption: "[caption]" },
     { type: "photo", size: "polaroid", src: "assets/photos/market-stamp.jpg", caption: "[caption]" },
     { type: "note", text: "[a little note]" },
-    { type: "strip", photos: [
-        "assets/photos/photobooth-lune-2.jpg",
-        "assets/photos/photobooth-lune-3.jpg",
-        "assets/photos/photobooth-lune-4.jpg",
-        "assets/photos/photobooth-lune-5.jpg",
-        "assets/photos/photobooth-lune-6.jpg",
-      ], caption: "[caption for the photobooth]" },
     { type: "photo", size: "wide", src: "assets/photos/beach-two.jpg", caption: "[caption]" },
     { type: "photo", size: "tall", src: "assets/photos/mirror-roses.jpg", caption: "[caption]" },
     { type: "photo", size: "small", src: "assets/photos/holding-photostrip.jpg", caption: "[caption]" },
-    { type: "photo", size: "polaroid", src: "assets/photos/photobooth-pink-6.jpg", caption: "[caption]" },
     { type: "photo", size: "small", src: "assets/photos/stage-together.jpg", caption: "[caption]", date: "12 Oct 2025" },
   ],
 
@@ -116,7 +111,7 @@ window.SCRAPBOOK = {
      ---------------------------------------------------------------- */
   fiveOfUs: {
     groupPhoto: "assets/photos/red-curtain-five.jpg",   // a photo of all five of you
-    recipientPhoto: "assets/photos/photobooth-pink-1.jpg",     // the polaroid labelled with her name
+    recipientPhoto: "assets/photos/photobooth-lune-6.jpg",     // the polaroid labelled with her name
     // ✏️ One short message from each of you, in the same order as contributors above.
     messages: [
       "[Contributor 01 — a few sentences to Nurin, in your own words.]",
