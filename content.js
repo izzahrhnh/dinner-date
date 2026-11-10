@@ -40,7 +40,7 @@ window.SCRAPBOOK = {
     subtitle: "A collection of little things, beautiful memories and moments we never want to forget.",
     // ✏️ 3 photos for the opening collage. The first one is the biggest.
     photos: [
-      "assets/photos/photobooth-train-2.jpg",
+      "assets/photos/garden-selfie.jpg",
       "assets/photos/camera-flash.jpg",
       "assets/photos/hand-signs.jpg",
     ],
@@ -72,7 +72,7 @@ window.SCRAPBOOK = {
      For videos: src = the .mp4, poster = a still image for the thumbnail.
      ---------------------------------------------------------------- */
   archive: [
-    { type: "photo", size: "feature", src: "assets/photos/board-game-room.jpg", caption: "[caption]" },
+    { type: "photo", size: "feature", src: "assets/photos/beach-selfie.jpg", caption: "[caption]" },
     { type: "photo", size: "polaroid", src: "assets/photos/beach-camera.jpg", caption: "[caption]" },
     { type: "note", text: "[a little note]" },
     { type: "photo", size: "tall", src: "assets/photos/shop-photostrip.jpg", caption: "[caption]" },
@@ -91,7 +91,8 @@ window.SCRAPBOOK = {
     { type: "photo", size: "wide", src: "assets/photos/eating-together.jpg", caption: "[caption]" },
     { type: "note", text: "[an inside joke, if you like]" },
     { type: "video", size: "polaroid", src: "assets/videos/sample-clip-3.mp4", poster: "assets/videos/sample-clip-3.jpg", caption: "[video caption]" },
-    { type: "photo", size: "tall", src: "assets/photos/shakshuka-stare.jpg", caption: "[caption]" },
+    { type: "photo", size: "tall", src: "assets/photos/concert-night.jpg", caption: "[caption]" },
+    { type: "photo", size: "tall", src: "assets/photos/japan-crosswalk.jpg", caption: "[caption]" },
     { type: "video", size: "small", src: "assets/videos/sample-clip-2.mp4", poster: "assets/videos/sample-clip-2.jpg", caption: "[video caption]" },
     { type: "photo", size: "wide", src: "assets/photos/photobooth-license.jpg", caption: "[caption]" },
     { type: "photo", size: "tall", src: "assets/photos/stairs-keluar.jpg", caption: "[caption]" },
@@ -183,16 +184,12 @@ window.SCRAPBOOK = {
 
   /* ----------------------------------------------------------------
      MUSIC (never autoplays with sound)
-     Plays from Spotify in a small "now playing" card, so the song file
-     isn't stored in this public site.
-     - spotify: a Spotify song link (Share → Copy song link).
-       Note: people not logged in to Spotify in their browser hear a
-       30-second preview, which then loops.
-     - youtube: used only if spotify is empty. Plays the full song for
-       everyone, in a bigger card.
+     Plays from YouTube in a small "now playing" card, so the song file
+     isn't stored in this public site. Paste any YouTube link to change it.
+     (A spotify: "song link" line here would play from Spotify instead,
+     but logged-out visitors only hear a 30-second preview.)
      ---------------------------------------------------------------- */
   music: {
-    spotify: "https://open.spotify.com/track/0GfWxo8gFJKgQ96tBrq3qo",
     youtube: "https://www.youtube.com/watch?v=4qSjyl8JN4g",
     title: "Stuck — LANY",
   },
