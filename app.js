@@ -4,167 +4,187 @@
   const $$ = (s, el = document) => [...el.querySelectorAll(s)];
   const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
   const setImg = (node, src) => { if (src) node.style.setProperty('--img', `url("${encodeURI(src)}")`); };
-  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+  // Small, repeatable "random" so tilts stay the same on every visit
+  const wobble = (i, max) => (((i * 37 + 11) % 19) / 9 - 1) * max;
 
   const name = (C.name || 'you').trim();
   const unlockAt = C.unlockAt ? new Date(C.unlockAt) : null;
   const preview = new URLSearchParams(location.search).has('preview');
   const isOpen = () => preview || !unlockAt || Date.now() >= unlockAt.getTime();
+  const unlockLabel = unlockAt ? unlockAt.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', timeZone: 'Asia/Kuala_Lumpur' }) : '';
+  const stampDate = s => {
+    if (!s) return '';
+    const d = new Date(s); if (isNaN(d)) return s;
+    return `'${String(d.getFullYear()).slice(2)} ${d.getMonth() + 1} ${d.getDate()}`;
+  };
 
-  /* ---- Names and text ---- */
-  $$('[data-name]').forEach(n => n.textContent = name + '.');
-  $('[data-edition]').textContent = `VOL. 25 / FOR ${name.toUpperCase()}`;
+  /* ---- Cover ---- */
+  document.title = `Happy birthday, ${name}`;
+  $('[data-name]').textContent = name;
   $('[data-hero-line]').textContent = C.heroLine || '';
-  document.title = `Happy birthday, ${name} — 25 November`;
-  const note = $('[data-my-note]');
-  (C.myNote || []).forEach(p => note.append(el('p', null, p)));
-  $('[data-signature]').textContent = C.from ? `— ${C.from}` : '';
 
-  /* ---- Contact sheet ---- */
-  const sheet = $('#contact-sheet');
-  const shots = (C.contactSheet || []).slice(0, 12);
-  const scribbles = [['a little', 'escape'], ['good', 'company.'], null, ['moments', 'to keep'], ['another', 'year']];
-  const reels = 5, perReel = Math.ceil(Math.max(shots.length, 5) / reels);
-  let frameNo = 21;
-  for (let r = 0; r < reels; r++) {
-    const reel = el('div', `reel reel-${['one','two','three','four','five'][r]}`);
-    const rail = el('span', 'rail-label', `A ROLL FOR YOU · 400 / ${frameNo}`); rail.setAttribute('aria-hidden', 'true');
-    reel.append(rail);
-    const mine = shots.slice(r * perReel, r * perReel + perReel);
-    mine.forEach((src, i) => {
-      const b = el('button', 'negative'); b.type = 'button';
-      b.setAttribute('aria-label', 'Light up this photograph'); b.setAttribute('aria-pressed', 'false');
-      setImg(b, src);
-      b.append(el('span', 'frame-id', `${frameNo}${i % 2 ? 'A' : ''}`));
-      reel.append(b);
-      if (i === 0) {
-        if (r === 2) {
-          const s = el('span', 'scribble date-scribble'); s.append('25', el('br'), 'November');
-          const c = el('span', 'pencil-circle'); c.setAttribute('aria-hidden', 'true'); s.append(c); reel.append(s);
-        } else if (scribbles[r]) {
-          const s = el('span', 'scribble'); s.append(scribbles[r][0], el('br'), scribbles[r][1]); reel.append(s);
-        }
-      }
+  const ransom = $('[data-ransom]');
+  let li = 0;
+  'Happy birthday'.split(' ').forEach(word => {
+    const w = el('span', 'word'); w.setAttribute('aria-hidden', 'true');
+    [...word].forEach(ch => {
+      const c = el('span', `cut s${(li * 5 + 2) % 6}`, ch);
+      c.style.setProperty('--r', `${wobble(li, 7).toFixed(1)}deg`);
+      c.style.setProperty('--y', `${wobble(li + 3, 3).toFixed(1)}px`);
+      c.style.setProperty('--i', li);
+      w.append(c); li++;
     });
-    frameNo++;
-    if (r === 0 || r === 2 || r === 4) {
-      const end = el('span', 'reel-end', ['400 ───── 25A', '', 'EXPOSED WITH LOVE', '', 'END OF ROLL / 36 EXP'][r]);
-      end.setAttribute('aria-hidden', 'true'); reel.append(end);
-    }
-    sheet.append(reel);
-  }
-  const star = el('span', 'pencil-star', '✶'); star.setAttribute('aria-hidden', 'true'); sheet.append(star);
-
-  $$('.negative').forEach(frame => {
-    frame.addEventListener('pointermove', e => {
-      if (e.pointerType === 'touch' || reducedMotion.matches) return;
-      const r = frame.getBoundingClientRect();
-      frame.style.setProperty('--x', `${e.clientX - r.left}px`);
-      frame.style.setProperty('--y', `${e.clientY - r.top}px`);
-    });
-    frame.addEventListener('click', () => frame.setAttribute('aria-pressed', String(frame.getAttribute('aria-pressed') !== 'true')));
+    ransom.append(w);
   });
 
-  /* ---- Note photos ---- */
-  const notePhotos = [C.memories?.[0]?.photo || shots[0], C.memories?.[2]?.photo || shots[1]];
-  $$('[data-note-photo]').forEach((n, i) => setImg(n, notePhotos[i]));
+  // Polaroid stack: tap to send the top photo away
+  const stack = $('[data-stack]');
+  const shots = (C.contactSheet || []).slice(0, 12);
+  const stackCaps = C.stackCaptions || ['us, as usual', 'remember this?', 'good company', 'another year of this', 'keep this one', 'the crew'];
+  const cards = shots.map((src, i) => {
+    const p = el('figure', 'polaroid'); p.style.margin = 0;
+    const shot = el('div', 'shot'); setImg(shot, src);
+    p.append(shot, el('figcaption', 'caption', stackCaps[i % stackCaps.length]));
+    p.style.setProperty('--i', Math.min(i, 4));
+    return p;
+  });
+  let top = 0;
+  function layoutStack() {
+    cards.forEach((p, i) => {
+      const depth = (i - top + cards.length) % cards.length;
+      p.style.zIndex = cards.length - depth;
+      p.style.transform = `rotate(${depth === 0 ? -2 : wobble(i, 8).toFixed(1)}deg) translate(${depth ? wobble(i + 5, 10).toFixed(0) : 0}px, ${depth * 2}px)`;
+      p.hidden = depth > 4;
+    });
+  }
+  cards.slice().reverse().forEach(p => stack.prepend(p));
+  layoutStack();
+  $('.stack-hit').addEventListener('click', () => {
+    if (cards.length < 2) return;
+    const leaving = cards[top];
+    leaving.classList.add('out');
+    setTimeout(() => { leaving.classList.remove('out'); top = (top + 1) % cards.length; layoutStack(); }, 380);
+  });
+  if (!cards.length) { stack.hidden = true; $('.stack-hint').hidden = true; }
 
-  /* ---- Letters ---- */
+  /* ---- Countdown sticky note ---- */
+  const cd = $('[data-countdown]');
+  function tick() {
+    if (!unlockAt || isOpen()) { cd.textContent = 'Today is your day. Scroll down, it’s all yours.'; return; }
+    const ms = unlockAt - Date.now();
+    if (ms <= 0) { location.reload(); return; }
+    const d = Math.floor(ms / 864e5), h = Math.floor(ms / 36e5) % 24, m = Math.floor(ms / 6e4) % 60;
+    cd.textContent = d > 0
+      ? `${d} day${d > 1 ? 's' : ''}, ${h} hour${h !== 1 ? 's' : ''} until we open the rest`
+      : `${h}h ${m}m until we open the rest`;
+  }
+  tick(); setInterval(tick, 30000);
+
+  /* ---- Your note ---- */
+  const note = $('[data-my-note]');
+  (C.myNote || []).forEach(p => note.append(el('p', null, p)));
+  $('[data-signature]').textContent = C.from ? `love, ${C.from}` : '';
+  const notePhoto = $('[data-note-photo]');
+  const np = C.notePhoto || C.memories?.[0]?.photo || shots[0];
+  if (np) setImg(notePhoto, np); else notePhoto.hidden = true;
+
+  /* ---- Letters as envelopes ---- */
   const dialog = $('#letter');
+  const env = $('#envelopes');
   let lastTrigger;
-  const grid = $('#letters-grid');
-  const letters = C.letters || [];
-  const unlockLabel = unlockAt ? unlockAt.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', timeZone: 'Asia/Kuala_Lumpur' }) : '';
-  if (!isOpen()) $('[data-letters-hint]').textContent = `Sealed until ${unlockLabel}.`;
+  if (!isOpen()) $('[data-letters-hint]').textContent = `Sealed until ${unlockLabel}. Come back then.`;
 
-  letters.forEach((L, i) => {
-    const card = el('button', 'letter-card'); card.type = 'button';
-    const ph = el('div', 'letter-photo'); setImg(ph, L.photo);
-    if (!L.photo) ph.classList.add('no-photo');
-    const meta = el('div', 'letter-meta');
-    meta.append(el('span', 'frame-number', `LETTER ${String(i + 1).padStart(2, '0')} / FROM`), el('h3', null, L.from || 'A friend'));
-    const first = (L.message || [])[0] || '';
-    meta.append(el('p', 'letter-preview', isOpen() ? first : 'Sealed · opens on your birthday'));
-    card.append(ph, meta);
-    if (!isOpen()) { card.classList.add('sealed'); card.setAttribute('aria-disabled', 'true'); }
-    card.addEventListener('click', () => { if (isOpen()) openLetter(L, card); });
-    grid.append(card);
+  (C.letters || []).forEach((L, i) => {
+    const from = L.from || 'A friend';
+    const b = el('button', 'envelope'); b.type = 'button';
+    b.style.setProperty('--r', `${wobble(i, 3).toFixed(1)}deg`);
+    const body = el('span', 'body');
+    const peek = el('span', 'peek'); setImg(peek, L.photo);
+    body.append(peek, el('span', 'flap'));
+    const seal = el('span', 'seal', isOpen() ? '♡' : '25');
+    body.append(seal);
+    b.append(body, el('span', 'to', `from ${from}`));
+    if (isOpen()) {
+      b.setAttribute('aria-label', `Open the letter from ${from}`);
+      b.addEventListener('click', () => openLetter(L, b));
+    } else {
+      b.classList.add('sealed'); b.setAttribute('aria-disabled', 'true');
+      b.setAttribute('aria-label', `Letter from ${from}, sealed until ${unlockLabel}`);
+    }
+    env.append(b);
   });
 
   function openLetter(L, trigger) {
     lastTrigger = trigger;
-    $('[data-letter-eyebrow]').textContent = `From ${L.from || 'a friend'}`;
-    $('#letter-title').textContent = `Dear ${name},`;
     const media = $('[data-letter-media]'); media.replaceChildren();
     if (L.video) { const v = el('video'); v.src = L.video; v.controls = true; v.playsInline = true; v.preload = 'metadata'; media.append(v); }
-    else if (L.photo) { const img = el('img'); img.src = L.photo; img.alt = `Photo from ${L.from || 'a friend'}`; img.loading = 'lazy'; media.append(img); }
+    else if (L.photo) { const img = el('img'); img.src = L.photo; img.alt = `Photo from ${L.from || 'a friend'}`; media.append(img); }
+    $('#letter-title').textContent = `Dear ${name},`;
     const body = $('[data-letter-body]'); body.replaceChildren();
     (L.message || []).forEach(p => body.append(el('p', null, p)));
-    body.append(el('p', 'scribble letter-sign', `— ${L.from || 'a friend'}`));
-    dialog.showModal();
-    document.body.classList.add('invite-open');
-    dialog.scrollTop = 0;
+    $('[data-letter-sign]').textContent = `— ${L.from || 'a friend'}`;
+    dialog.showModal(); dialog.scrollTop = 0;
+    document.body.classList.add('dialog-open');
   }
-  const closeLetter = () => dialog.close();
-  $('.close-note').addEventListener('click', closeLetter);
-  $('[data-close-letter]').addEventListener('click', closeLetter);
-  dialog.addEventListener('click', e => { if (e.target === dialog) closeLetter(); });
+  const close = () => dialog.close();
+  $('[data-close]').addEventListener('click', close);
+  dialog.addEventListener('click', e => { if (e.target === dialog) close(); });
   dialog.addEventListener('close', () => {
     $$('video', dialog).forEach(v => v.pause());
-    document.body.classList.remove('invite-open');
+    document.body.classList.remove('dialog-open');
     lastTrigger?.focus({ preventScroll: true });
   });
 
-  /* ---- The roll ---- */
-  const strip = $('#roll-strip');
-  (C.memories || []).forEach(M => {
-    const a = el('article', 'moment');
-    const ph = el('div', 'moment-photo'); setImg(ph, M.photo); ph.setAttribute('role', 'img'); ph.setAttribute('aria-label', M.title || 'Memory');
-    a.append(ph, el('span', 'frame-number', `${M.label || ''}`.toUpperCase()), el('h3', null, M.title || ''), el('p', null, M.caption || ''));
-    strip.append(a);
+  /* ---- Clothesline ---- */
+  const line = $('#clothesline');
+  (C.memories || []).forEach((M, i) => {
+    const h = el('article', 'hang');
+    h.style.setProperty('--r', `${wobble(i + 2, 4).toFixed(1)}deg`);
+    const p = el('figure', 'polaroid'); p.style.margin = 0;
+    const shot = el('div', 'shot'); setImg(shot, M.photo);
+    shot.setAttribute('role', 'img'); shot.setAttribute('aria-label', M.title || 'A memory');
+    if (M.date) shot.append(el('span', 'date-stamp', stampDate(M.date)));
+    const cap = el('figcaption', 'caption', M.title || '');
+    if (M.caption) cap.append(el('small', null, M.caption));
+    p.append(shot, cap);
+    h.append(el('span', 'peg'), p);
+    line.append(h);
   });
+  if ((C.memories || []).length > 1) line.after(el('p', 'swipe-cue', 'swipe for more'));
 
-  /* ---- The reel ---- */
+  /* ---- Our film ---- */
   const videos = (C.videos || []).filter(v => v && v.src);
-  const video = $('#reel-video'), shell = $('#video-shell');
+  const video = $('#reel-video');
   const label = $('[data-reel-label]');
   const prev = $('[data-reel="prev"]'), next = $('[data-reel="next"]');
   let idx = 0;
   function load(i, autoplay) {
     idx = (i + videos.length) % videos.length;
     const v = videos[idx];
-    video.src = v.src; video.preload = 'metadata';
-    label.textContent = `${String(idx + 1).padStart(2, '0')} / ${String(videos.length).padStart(2, '0')} · FROM ${(v.from || 'A FRIEND').toUpperCase()}`;
+    video.src = v.src;
+    label.textContent = `${idx + 1} of ${videos.length}, from ${v.from || 'a friend'}`;
     if (autoplay) video.play().catch(() => {});
   }
   if (videos.length && isOpen()) {
-    video.hidden = false; shell.classList.add('has-video');
+    video.hidden = false; $('[data-screen-empty]').hidden = true;
     if (videos.length > 1) { prev.hidden = false; next.hidden = false; }
     load(0, false);
     video.addEventListener('ended', () => { if (idx < videos.length - 1) load(idx + 1, true); });
     prev.addEventListener('click', () => load(idx - 1, true));
     next.addEventListener('click', () => load(idx + 1, true));
   } else if (videos.length) {
-    $('[data-film-sub]').textContent = `${videos.length} little film${videos.length > 1 ? 's' : ''} waiting · opens ${unlockLabel}.`;
+    $('[data-screen-empty]').textContent = `${videos.length} little film${videos.length > 1 ? 's' : ''} waiting for you on ${unlockLabel}.`;
+  } else if (isOpen()) {
+    $('[data-screen-empty]').textContent = 'No films yet.';
   }
-
-  /* ---- Countdown ---- */
-  const cd = $('[data-countdown]');
-  function tick() {
-    if (!unlockAt || isOpen()) { cd.textContent = 'TODAY IS YOUR DAY · SCROLL TO DEVELOP'; return; }
-    const ms = unlockAt - Date.now();
-    const d = Math.floor(ms / 864e5), h = Math.floor(ms / 36e5) % 24, m = Math.floor(ms / 6e4) % 60;
-    cd.textContent = `DEVELOPING IN ${d}D ${h}H ${m}M`;
-    if (ms <= 0) location.reload();
-  }
-  tick(); setInterval(tick, 30000);
 
   /* ---- Wish ---- */
-  const wish = $('.wish'), hint = $('[data-wish-hint]');
-  wish.addEventListener('click', () => {
-    const out = wish.getAttribute('aria-pressed') !== 'true';
-    wish.setAttribute('aria-pressed', String(out));
-    hint.textContent = out ? 'WISH MADE · TAP TO RELIGHT' : 'TAP THE CANDLE · MAKE A WISH';
-    wish.setAttribute('aria-label', out ? 'Relight the candle' : 'Blow out the candle');
+  const cake = $('.cake'), hint = $('[data-wish-hint]');
+  cake.addEventListener('click', () => {
+    const out = cake.getAttribute('aria-pressed') !== 'true';
+    cake.setAttribute('aria-pressed', String(out));
+    cake.setAttribute('aria-label', out ? 'Relight the candle' : 'Blow out the candle');
+    hint.textContent = out ? `wish made. happy birthday, ${name}.` : 'tap the candle to blow it out';
   });
+  $('[data-colophon]').textContent = C.colophon || 'Put together with love by the crew.';
 })();

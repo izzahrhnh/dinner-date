@@ -1,6 +1,6 @@
-# A roll for you — birthday site
+# Birthday scrapbook
 
-A film-style birthday page: a contact sheet of photos, letters from friends, a swipeable roll of memories, and a reel of video messages. Letters and videos stay **sealed until 25 November, 12:00am (Malaysia time)**.
+A light, film-and-scrapbook birthday page: a stack of polaroids she taps through, your letter on lined paper, friends' letters as sealed envelopes, memories hanging on a clothesline, and a reel of video messages. Letters and videos stay **sealed until 25 November, 12:00am (Malaysia time)**.
 
 ## Add what friends send you
 
@@ -12,6 +12,7 @@ All content lives in **`memories.js`**. You never need to touch the other files.
    - A friend's letter: `{ from: "Aina", photo: "assets/photos/aina.jpg", message: ["Line one", "Line two"] },`
    - A letter with its own video instead of a photo: add `video: "assets/videos/aina.mp4"`
    - A video for the reel: `{ from: "Aina", src: "assets/videos/aina.mp4" },`
+   - A memory on the clothesline: `{ photo: "assets/photos/melaka.jpg", date: "2026-10-24", title: "Melaka", caption: "A short line" },` (the date shows as an orange camera stamp; leave it out if you don't know it)
 4. Delete every entry still marked **(sample)**, and the `sample-*.jpg` photos once you've replaced them.
 5. Set `name:` at the top to her name.
 

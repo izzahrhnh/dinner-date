@@ -20,14 +20,14 @@ window.BIRTHDAY = {
   // One line under the big "Happy birthday" title.
   heroLine: "A whole roll of us, developed just for you.",
 
-  // ---------- YOUR OWN NOTE (section 01) ----------
+  // ---------- YOUR OWN NOTE (lined letter) ----------
   myNote: [
     "Write your own birthday message to her here.",
     "Each line in quotes becomes its own paragraph."
   ],
 
-  // ---------- CONTACT SHEET (top of the page) ----------
-  // 6–12 photos look best. Square-ish photos work best here.
+  // ---------- PHOTO STACK (top of the page) ----------
+  // The pile of polaroids she taps through. 6–12 photos look best; square-ish photos crop best.
   contactSheet: [
     "assets/photos/sample-station.jpg",
     "assets/photos/sample-candles.jpg",
@@ -41,7 +41,7 @@ window.BIRTHDAY = {
     "assets/photos/sample-train.jpg"
   ],
 
-  // ---------- LETTERS FROM THE CREW (section 02) ----------
+  // ---------- LETTERS FROM THE CREW (envelopes) ----------
   // One block per friend. photo and video are optional — delete the line if they didn't send one.
   letters: [
     {
@@ -64,16 +64,17 @@ window.BIRTHDAY = {
     }
   ],
 
-  // ---------- THE ROLL SO FAR (section 03) ----------
+  // ---------- THE ROLL SO FAR (clothesline) ----------
   // Your memories together, in order. Swipe sideways on the page.
+  // date is optional — it shows as an orange disposable-camera stamp on the photo (format YYYY-MM-DD).
   memories: [
-    { photo: "assets/photos/sample-train.jpg",  label: "Frame 01", title: "Where it started", caption: "A short caption about this memory." },
-    { photo: "assets/photos/sample-afternoon-film.jpg", label: "Frame 02", title: "Melaka, together", caption: "The trip we never finished the site for." },
-    { photo: "assets/photos/sample-candles.jpg", label: "Frame 03", title: "A night to keep", caption: "A short caption about this memory." },
-    { photo: "assets/photos/sample-cinematic-landscape.jpg", label: "Frame 04", title: "The long way home", caption: "A short caption about this memory." }
+    { photo: "assets/photos/sample-train.jpg",  date: "2024-03-02", title: "Where it started", caption: "A short caption about this memory." },
+    { photo: "assets/photos/sample-afternoon-film.jpg", date: "2026-10-24", title: "Melaka, together", caption: "The trip we never finished the site for." },
+    { photo: "assets/photos/sample-candles.jpg", title: "A night to keep", caption: "A short caption about this memory." },
+    { photo: "assets/photos/sample-cinematic-landscape.jpg", title: "The long way home", caption: "A short caption about this memory." }
   ],
 
-  // ---------- OUR FILM (section 04) ----------
+  // ---------- OUR FILM ----------
   // Friends' video messages. They play one after another like a reel.
   // Use .mp4 files. Keep each under ~25 MB (send them to Claude to shrink if bigger).
   videos: [

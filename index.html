@@ -2,90 +2,107 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#090909">
-  <meta name="description" content="A birthday roll — letters, photos and little films from the crew.">
-  <title>Happy birthday — 25 November</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%23090909'/%3E%3Cpath d='M6 9h28v22H6z' stroke='%23e2d8c7' fill='none'/%3E%3Ccircle cx='20' cy='20' r='7' stroke='%23e2d8c7' fill='none'/%3E%3C/svg%3E">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#e8ece0">
+  <meta name="description" content="A birthday scrapbook — letters, photos and little films from the crew.">
+  <title>Happy birthday</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect x='6' y='4' width='28' height='32' rx='1' fill='%23fffdf7' stroke='%232b2a3a' stroke-width='2'/%3E%3Crect x='10' y='8' width='20' height='18' fill='%23c9d4bd'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Nanum+Pen+Script&family=Courier+Prime:wght@400;700&family=Abril+Fatface&family=Archivo+Black&family=Rubik+Mono+One&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <script src="memories.js" defer></script>
   <script src="app.js" defer></script>
 </head>
 <body>
-  <nav class="nav" aria-label="Main navigation">
-    <a class="brand" href="#home"><svg viewBox="0 0 40 28" aria-hidden="true"><path d="M2 7h9l3-5h12l3 5h9v19H2z"></path><circle cx="20" cy="16" r="7"></circle></svg>a roll for you<span>®</span></a>
-    <div class="nav-links"><a href="#letters">Letters</a><a href="#roll">The roll</a><a href="#film">Our film</a></div>
-    <span class="nav-date">25 NOVEMBER</span>
-  </nav>
-
-  <header id="home" class="hero">
-    <div class="hero-intro"><span class="eyebrow">A birthday, on film</span><span class="edition" data-edition>VOL. 25 / FOR YOU</span></div>
-    <div class="contact-sheet" id="contact-sheet" aria-label="An interactive contact sheet of our photos"></div>
-    <div class="hero-title">
-      <p class="interaction-hint">MOVE YOUR LIGHT OVER A FRAME · TAP TO KEEP IT LIT</p>
-      <h1>Happy birthday,<br><em data-name>you.</em></h1>
-      <p data-hero-line></p>
-      <a href="#letters" class="text-link">Open your letters <span class="arrow" aria-hidden="true"></span></a>
-    </div>
-    <div class="hero-foot"><span>35 MM / THE GOOD TIMES COLLECTION</span><span data-countdown>SCROLL TO DEVELOP</span></div>
-  </header>
+  <svg class="grain" aria-hidden="true"><filter id="grain-f"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(#grain-f)"/></svg>
 
   <main>
-    <section class="story section" id="note">
-      <div class="story-photos horizontal-film"><span class="film-code">400 / A ROLL FOR YOU / 25 NOV</span><div class="story-photo" data-note-photo="0" role="img" aria-label="Film photograph"></div><div class="story-photo" data-note-photo="1" role="img" aria-label="Film photograph"></div><span class="story-caption scribble">another year,<br>more frames.</span></div>
-      <div class="story-copy"><span class="eyebrow">01 / A note from me</span><h2>Another year<br><em>worth developing.</em></h2><div data-my-note></div><p class="scribble signature" data-signature></p></div>
+    <!-- Cover -->
+    <header class="cover" id="top">
+      <h1 class="ransom" data-ransom aria-label="Happy birthday"></h1>
+      <p class="her-name"><span data-name>you</span></p>
+
+      <div class="stack" data-stack>
+        <button class="stack-hit" type="button" aria-label="Show the next photo"></button>
+      </div>
+      <p class="pen-note stack-hint">tap the photos</p>
+
+      <p class="hero-line" data-hero-line></p>
+
+      <div class="sticky-note" data-countdown-wrap>
+        <p data-countdown></p>
+      </div>
+    </header>
+
+    <!-- Your note -->
+    <section class="page" id="note" aria-labelledby="note-title">
+      <h2 class="page-title" id="note-title">A note from me</h2>
+      <article class="lined-letter">
+        <span class="tape tape-tl" aria-hidden="true"></span>
+        <figure class="clip-photo" data-note-photo><span class="paperclip" aria-hidden="true"></span></figure>
+        <div class="letter-text" data-my-note></div>
+        <p class="signature" data-signature></p>
+      </article>
     </section>
 
-    <section class="section letters-section" id="letters">
-      <div class="section-heading"><div><span class="eyebrow">02 / Letters from the crew</span><h2>Everyone had<br><em>something to say.</em></h2></div><p data-letters-hint>Tap a frame to open it.</p></div>
-      <div class="letters-grid" id="letters-grid"></div>
+    <!-- Letters -->
+    <section class="page" id="letters" aria-labelledby="letters-title">
+      <h2 class="page-title" id="letters-title">Letters from the crew</h2>
+      <p class="page-sub" data-letters-hint>Tap an envelope to open it.</p>
+      <div class="envelopes" id="envelopes"></div>
     </section>
 
-    <section class="section itinerary" id="roll">
-      <div class="section-heading"><div><span class="eyebrow">03 / The roll so far</span><h2>Frames we <em>kept.</em></h2></div><p>Swipe through the roll.<br>Every frame, a little us.</p></div>
-      <div class="roll-strip horizontal-film" id="roll-strip"></div>
-      <p class="scribble strip-caption">not every moment needs a plan.</p>
+    <!-- The roll -->
+    <section class="page page-wide" id="roll" aria-labelledby="roll-title">
+      <h2 class="page-title" id="roll-title">The roll so far</h2>
+      <p class="page-sub">Hung up to dry, oldest first. Swipe along.</p>
+      <div class="line-wrap">
+        <div class="clothesline" id="clothesline" tabindex="0" aria-label="Our memories, in order"></div>
+      </div>
     </section>
 
-    <section class="section film-section" id="film">
-      <div class="film-copy"><span class="eyebrow">04 / Moving pictures</span><h2>Some moments<br><em>need a little motion.</em></h2><p>Little films from the people who love you. They play one after another, like an old reel.</p><span class="scribble">the group chat, but on film.</span></div>
-      <div class="projector" id="video-shell">
-        <div class="projector-bar"><span>OUR LITTLE FILM</span><span>25 / 11</span></div>
-        <div class="video-inner">
-          <div class="video-placeholder"><div class="countdown" aria-hidden="true">25</div><h3 data-film-title>Still developing.</h3><p data-film-sub>The reel arrives on your birthday.</p></div>
-          <video id="reel-video" controls playsinline preload="none" hidden aria-label="Video messages from friends"></video>
+    <!-- Our film -->
+    <section class="page" id="film" aria-labelledby="film-title">
+      <h2 class="page-title" id="film-title">Our film</h2>
+      <p class="page-sub" data-film-sub>Little videos from everyone, played one after another.</p>
+      <div class="screen">
+        <span class="tape tape-tl" aria-hidden="true"></span>
+        <span class="tape tape-br" aria-hidden="true"></span>
+        <div class="screen-inner" id="screen">
+          <video id="reel-video" playsinline controls preload="metadata" hidden></video>
+          <p class="screen-empty" data-screen-empty>The films are still developing.</p>
         </div>
-        <div class="projector-bar bottom reel-controls">
-          <button type="button" class="reel-btn" data-reel="prev" aria-label="Previous video" hidden>◂ PREV</button>
-          <span data-reel-label>PICTURE NO. 001</span>
-          <button type="button" class="reel-btn" data-reel="next" aria-label="Next video" hidden>NEXT ▸</button>
+        <div class="reel-controls">
+          <button type="button" class="pill" data-reel="prev" hidden>Previous</button>
+          <p class="reel-label" data-reel-label></p>
+          <button type="button" class="pill" data-reel="next" hidden>Next</button>
         </div>
       </div>
     </section>
 
-    <section class="closing">
-      <span class="eyebrow">One date. The whole crew.</span>
-      <button type="button" class="wish" aria-pressed="false" aria-label="Blow out the candle">
-        <svg viewBox="0 0 60 120" aria-hidden="true"><path class="flame" d="M30 8c7 10 10 17 10 24a10 10 0 0 1-20 0c0-7 3-14 10-24z"/><line x1="30" y1="42" x2="30" y2="50"/><rect x="21" y="50" width="18" height="62" rx="2"/><path d="M21 66l18-8M21 84l18-8M21 102l18-8"/></svg>
+    <!-- Wish -->
+    <section class="page wish-page" aria-labelledby="wish-title">
+      <h2 class="page-title" id="wish-title">Make a wish</h2>
+      <button class="cake" type="button" aria-pressed="false" aria-label="Blow out the candle">
+        <span class="flame" aria-hidden="true"></span>
+        <span class="smoke" aria-hidden="true"></span>
+        <span class="candle" aria-hidden="true"></span>
+        <span class="cake-top" aria-hidden="true"></span>
+        <span class="cake-body" aria-hidden="true"></span>
       </button>
-      <p class="wish-hint" data-wish-hint>TAP THE CANDLE · MAKE A WISH</p>
-      <h2>Happy birthday,<br><em data-name>you.</em></h2>
-      <p class="closing-date">25 NOVEMBER</p>
-      <p>Here's to another roll of us.</p>
-      <a class="text-link" href="#home">Back to the first frame <span class="arrow" aria-hidden="true"></span></a>
-      <span class="scribble closing-note">see you in the next frame.</span>
+      <p class="pen-note" data-wish-hint>tap the candle to blow it out</p>
+      <p class="colophon" data-colophon></p>
     </section>
   </main>
-  <footer><a class="brand" href="#home">a roll for you.</a><span>25 NOVEMBER / FROM THE WHOLE CREW</span><span>END OF ROLL ─ 36 EXP.</span></footer>
 
-  <dialog id="letter" aria-labelledby="letter-title">
-    <div class="note-card horizontal-film">
-      <button class="close-note" type="button" aria-label="Close letter">×</button>
-      <span class="eyebrow" data-letter-eyebrow>A letter for you</span>
-      <h2 id="letter-title"></h2>
-      <div class="letter-media" data-letter-media></div>
-      <div class="letter-body" data-letter-body></div>
-      <button class="open-envelope" type="button" data-close-letter>Keep it <span class="arrow" aria-hidden="true"></span></button>
+  <dialog class="postcard" id="letter" aria-labelledby="letter-title">
+    <button class="close" type="button" data-close aria-label="Close letter">×</button>
+    <div class="postcard-media" data-letter-media></div>
+    <div class="postcard-body">
+      <h3 id="letter-title"></h3>
+      <div data-letter-body></div>
+      <p class="signature" data-letter-sign></p>
     </div>
   </dialog>
 </body>
