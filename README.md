@@ -11,9 +11,8 @@ A digital scrapbook from the four of us. Live at `https://izzahrhnh.github.io/di
 | 03 Memory archive | Photos, polaroids, film strips and videos (tap to open) |
 | 04 Five of us | Group photo, five polaroids, four notes |
 | 05 Little things about you | Cards of habits, favourites, inside jokes |
-| 06 Our little chapters | Timeline with photos and optional video |
-| 07 Four letters, one little surprise | The encoded secret letter |
-| 08 And finally | Closing photo, four closing lines, signature |
+| 06 Four letters, one little surprise | The encoded secret letter |
+| 07 And finally | Closing photo, four closing lines, signature |
 
 ## How to personalise it
 

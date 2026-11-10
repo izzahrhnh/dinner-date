@@ -356,41 +356,7 @@ body:not(.is-closed) .open-btn { visibility: hidden; }
 @media (min-width: 1000px) { .things-board { columns: 3; } }
 
 /* =====================================================================
-   PAGE 06 — CHAPTERS (timeline)
-   ===================================================================== */
-.timeline { position: relative; list-style: none; margin-top: 3.4rem; padding: 0 0 0 30px; }
-.timeline-rail { position: absolute; left: 7px; top: 0; bottom: 0; width: 2px; background: var(--line); padding: 0 !important; }
-.timeline-fill { position: absolute; left: 0; top: 0; width: 100%; height: var(--progress, 0%); background: var(--wine); }
-.chapter { position: relative; padding-bottom: 4rem; }
-.chapter::before { content: ""; position: absolute; left: -29px; top: .45rem; width: 14px; height: 14px; border-radius: 50%; background: var(--white); border: 2px solid var(--wine); transition: background .6s; }
-.chapter.in::before { background: var(--wine); }
-.chapter .period { font: 400 .72rem/1 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--walnut); }
-.chapter h3 { margin: .5rem 0 1rem; font: 300 clamp(1.9rem, 5vw, 2.6rem)/1.05 var(--serif); }
-.chapter p.text { margin: 1rem 0 0; max-width: 32rem; color: var(--ink); }
-.chapter-photos { display: flex; gap: 0; align-items: flex-start; }
-.chapter-photos .cp { flex: 0 1 auto; width: 62%; margin: 0; background: var(--white); padding: 6px 6px 22px; box-shadow: var(--shadow); transform: rotate(var(--rot, 0deg)); position: relative; }
-.chapter-photos .cp + .cp { margin-left: -14%; margin-top: 2.2rem; width: 50%; }
-.chapter-photos .cp + .cp + .cp { margin-top: 0.6rem; width: 42%; }
-.chapter-photos .cp .photo { aspect-ratio: 4 / 5; }
-.chapter-photos .cp.only { width: 78%; }
-.chapter-photos .cp.only .photo { aspect-ratio: 4 / 3; }
-.chapter-video { margin-top: 1.2rem; position: relative; width: min(100%, 360px); aspect-ratio: 16 / 10; border: 0; padding: 0; background: none; }
-.chapter-video .vid { height: 100%; }
-
-@media (min-width: 900px) {
-  .timeline { padding: 0; }
-  .timeline-rail { left: 50%; margin-left: -1px; }
-  .chapter { width: 50%; padding: 0 4rem 6rem 0; text-align: right; }
-  .chapter::before { left: auto; right: -8px; }
-  .chapter:nth-child(odd) { margin-left: 50%; padding: 0 0 6rem 4rem; text-align: left; }
-  .chapter:nth-child(odd)::before { right: auto; left: -8px; }
-  .chapter:not(:nth-child(odd)) .chapter-photos { justify-content: flex-end; }
-  .chapter:not(:nth-child(odd)) p.text { margin-left: auto; }
-  .chapter:not(:nth-child(odd)) .chapter-video { margin-left: auto; }
-}
-
-/* =====================================================================
-   PAGE 07 — THE SECRET LETTER
+   PAGE 06 — THE SECRET LETTER
    ===================================================================== */
 .secret { --paper-old: #E8DCC8; }
 .secret-stage { position: relative; margin-top: 3rem; display: grid; gap: 2.4rem; justify-items: center; }
@@ -469,7 +435,7 @@ body:not(.is-closed) .open-btn { visibility: hidden; }
 .washi-b { top: -12px; left: 50%; margin-left: -52px; transform: rotate(-3deg); }
 
 /* =====================================================================
-   PAGE 08 — CLOSING
+   PAGE 07 — CLOSING
    ===================================================================== */
 .closing { text-align: center; overflow: hidden; padding-bottom: 10rem; }
 .closing .page-no { margin-bottom: 2.2rem; }

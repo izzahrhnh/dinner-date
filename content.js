@@ -23,7 +23,7 @@ window.SCRAPBOOK = {
     lastName: "Mastura",
   },
 
-  /* ✏️ The four of you. These names appear on page 04, page 07 and page 08. */
+  /* ✏️ The four of you. These names appear on page 04, page 06 and page 07. */
   contributors: [
     { name: "[Contributor 01]", photo: "assets/photos/sample-coffee.jpg" },
     { name: "[Contributor 02]", photo: "assets/photos/sample-trees.jpg" },
@@ -129,19 +129,7 @@ window.SCRAPBOOK = {
   ],
 
   /* ----------------------------------------------------------------
-     PAGE 06 — OUR LITTLE CHAPTERS (timeline, oldest first)
-     photos: one or more. video is optional ({ src, poster }).
-     ---------------------------------------------------------------- */
-  chapters: [
-    { period: "[Year / month]", title: "[How it started]", photos: ["assets/photos/sample-train.jpg"], text: "[One or two sentences about this chapter.]" },
-    { period: "[Year / month]", title: "[Chapter title]", photos: ["assets/photos/sample-coffee.jpg", "assets/photos/sample-rose.jpg"], text: "[One or two sentences.]" },
-    { period: "[Year / month]", title: "[Chapter title]", photos: ["assets/photos/sample-cinematic-landscape.jpg"], video: { src: "assets/videos/sample-clip-2.mp4", poster: "assets/videos/sample-clip-2.jpg" }, text: "[One or two sentences.]" },
-    { period: "[Year / month]", title: "[Chapter title]", photos: ["assets/photos/sample-afternoon-film.jpg", "assets/photos/sample-candles.jpg", "assets/photos/sample-trees.jpg"], text: "[One or two sentences.]" },
-    { period: "2026", title: "[Where we are now]", photos: ["assets/photos/sample-station.jpg"], text: "[One or two sentences.]" },
-  ],
-
-  /* ----------------------------------------------------------------
-     PAGE 07 — FOUR LETTERS, ONE LITTLE SURPRISE (the secret letter)
+     PAGE 06 — FOUR LETTERS, ONE LITTLE SURPRISE (the secret letter)
      The letter below is ENCODED. To use your real letter:
        1. Open tools/cipher.html on the site.
        2. Write the letter, choose a key word, and press Encode.
@@ -163,7 +151,7 @@ window.SCRAPBOOK = {
   },
 
   /* ----------------------------------------------------------------
-     PAGE 08 — AND FINALLY, DEAR NURIN
+     PAGE 07 — AND FINALLY, DEAR NURIN
      ---------------------------------------------------------------- */
   closing: {
     heading: "Some memories are too precious to leave in our camera rolls.",

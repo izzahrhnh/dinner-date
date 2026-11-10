@@ -36,7 +36,7 @@
   }
 
   /* =========================================================
-     LIGHTBOX — every photo and video in the archive + chapters
+     LIGHTBOX — every photo and video in the archive
      ========================================================= */
   const media = [];
   const lb = $('[data-lightbox]'), lbMedia = $('[data-lb-media]');
@@ -221,35 +221,6 @@
   });
 
   /* =========================================================
-     PAGE 06 — CHAPTERS
-     ========================================================= */
-  const timeline = $('[data-timeline]');
-  (S.chapters || []).forEach((c, i) => {
-    const li = el('li', 'chapter reveal');
-    li.append(el('span', 'period', c.period || ''), el('h3', null, c.title || ''));
-    const ph = el('div', 'chapter-photos');
-    const list = (c.photos || []).slice(0, 3);
-    list.forEach((src, k) => {
-      const fig = el('figure', `cp${list.length === 1 ? ' only' : ''}`);
-      fig.style.setProperty('--rot', `${tilt(i * 3 + k, 3.5)}deg`);
-      const idx = addMedia({ type: 'photo', src, caption: c.title, date: c.period });
-      fig.append(photo(src, c.title || ''));
-      const b = el('button', 'item-btn'); b.type = 'button'; b.setAttribute('aria-label', `Open photo from ${c.title || 'this chapter'}`);
-      b.addEventListener('click', () => openLightbox(idx, b)); fig.append(b);
-      ph.append(fig);
-    });
-    li.append(ph);
-    if (c.video?.src) {
-      const idx = addMedia({ type: 'video', src: c.video.src, poster: c.video.poster, caption: c.title, date: c.period });
-      const b = el('button', 'chapter-video'); b.type = 'button'; b.setAttribute('aria-label', `Play video from ${c.title || 'this chapter'}`);
-      b.append(videoThumb(c.video)); b.addEventListener('click', () => openLightbox(idx, b));
-      li.append(b);
-    }
-    if (c.text) li.append(el('p', 'text', c.text));
-    timeline.append(li);
-  });
-
-  /* =========================================================
      FILM BANDS between pages (thumbnails slide as you scroll)
      ========================================================= */
   const thumbs = media.filter(m => m.type === 'photo').map(m => m.src);
@@ -261,7 +232,7 @@
   });
 
   /* =========================================================
-     PAGE 07 — THE SECRET LETTER
+     PAGE 06 — THE SECRET LETTER
      ========================================================= */
   const SL = S.secretLetter || {};
   const secret = $('#secret');
@@ -376,7 +347,7 @@
   });
 
   /* =========================================================
-     PAGE 08 — CLOSING
+     PAGE 07 — CLOSING
      ========================================================= */
   const C = S.closing || {};
   $('[data-first-2]').textContent = first;
@@ -424,7 +395,7 @@
   }
 
   /* =========================================================
-     MOTION — reveals, parallax, timeline progress, film bands
+     MOTION — reveals, parallax, film bands
      ========================================================= */
   let observersOn = false;
   function startObservers() {
@@ -442,7 +413,6 @@
 
   const coverPhotos = $$('.c-photo');
   const bands = $$('[data-film-band]');
-  const fill = $('[data-timeline-fill]');
   let ticking = false;
   function onScroll() {
     if (ticking) return; ticking = true;
@@ -455,11 +425,6 @@
           const r = b.parentElement.getBoundingClientRect();
           if (r.bottom > 0 && r.top < vh) b.style.transform = `translateX(${(i % 2 ? -1 : 1) * (r.top - vh) * .35 - 300}px)`;
         });
-      }
-      if (fill && !story.hidden) {
-        const r = timeline.getBoundingClientRect();
-        const p = Math.min(1, Math.max(0, (vh * .6 - r.top) / r.height));
-        fill.style.setProperty('--progress', `${(p * 100).toFixed(1)}%`);
       }
     });
   }
