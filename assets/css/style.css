@@ -484,6 +484,8 @@ body:not(.is-closed) .open-btn { visibility: hidden; }
 .mc-close { width: 28px; height: 28px; border: 0; background: none; font-size: 1.3rem; line-height: 1; color: var(--walnut); }
 .mc-frame { width: 240px; height: 200px; background: var(--ink); }
 .mc-frame iframe { display: block; width: 240px; height: 200px; border: 0; }
+.music-card.is-spotify .mc-frame { height: 80px; background: transparent; border-radius: 12px; overflow: hidden; }
+.music-card.is-spotify .mc-frame iframe { height: 80px; border-radius: 12px; }
 .mc-title { margin: 8px 0 0; font: 500 1.3rem/1.1 var(--hand); color: var(--wine); text-align: center; }
 .mc-hint { display: none; margin: 4px 0 0; font-size: .8rem; color: var(--walnut); text-align: center; }
 .music-card.needs-tap .mc-hint { display: block; }

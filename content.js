@@ -169,12 +169,16 @@ window.SCRAPBOOK = {
 
   /* ----------------------------------------------------------------
      MUSIC (never autoplays with sound)
-     Plays from YouTube in a small "now playing" card, so the song file
-     isn't stored in this public site. Paste any YouTube link to change it.
-     To use your own audio file instead, delete the youtube line and set
-     src: "assets/audio/your-file.mp3".
+     Plays from Spotify in a small "now playing" card, so the song file
+     isn't stored in this public site.
+     - spotify: a Spotify song link (Share → Copy song link).
+       Note: people not logged in to Spotify in their browser hear a
+       30-second preview, which then loops.
+     - youtube: used only if spotify is empty. Plays the full song for
+       everyone, in a bigger card.
      ---------------------------------------------------------------- */
   music: {
+    spotify: "https://open.spotify.com/track/0GfWxo8gFJKgQ96tBrq3qo",
     youtube: "https://www.youtube.com/watch?v=4qSjyl8JN4g",
     title: "Stuck — LANY",
   },

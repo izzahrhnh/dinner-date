@@ -114,7 +114,7 @@
     document.body.classList.remove('is-closed');
     store.sset('opened', '1');
     $('[data-music]').hidden = false;
-    loadYouTube();
+    loadPlayer();
     startObservers();
     if (scroll) requestAnimationFrame(() => $('#begin').scrollIntoView({ behavior: reduced.matches ? 'auto' : 'smooth' }));
   }
@@ -369,34 +369,58 @@
      MUSIC — never autoplays; remembers the choice this visit
      ========================================================= */
   const audio = $('[data-audio]'), mBtn = $('[data-music]'), mText = $('[data-music-text]');
-  const ytId = (() => {
+  const card = $('[data-music-card]');
+  const spId = ((S.music?.spotify || '').match(/track[/:]([A-Za-z0-9]{22})/) || [])[1] || '';
+  const ytId = spId ? '' : (() => {
     const u = S.music?.youtube || '';
     const m = u.match(/(?:v=|youtu\.be\/|embed\/|shorts\/)([\w-]{11})/) || u.match(/^([\w-]{11})$/);
     return m ? m[1] : '';
   })();
-  const card = $('[data-music-card]');
-  let yt = null, ytReady = false, wantPlay = false, hintTimer = null;
+  const embedded = Boolean(spId || ytId);
+  if (spId) card.classList.add('is-spotify');
+  $('[data-music-title]').textContent = S.music?.title || '';
+  let player = null, playerReady = false, wantPlay = false, hintTimer = null, loading = false;
   const LOUD = 70, SOFT = 12;
 
-  // YouTube's player: created once the book is opened, so a tap can start it straight away.
-  function loadYouTube() {
-    if (!ytId || yt || window.__ytLoading) return;
-    window.__ytLoading = true;
-    $('[data-music-title]').textContent = S.music.title || '';
-    window.onYouTubeIframeAPIReady = () => {
-      yt = new YT.Player('yt-player', {
-        videoId: ytId, width: 240, height: 200,
-        playerVars: { playsinline: 1, controls: 1, loop: 1, playlist: ytId, rel: 0, modestbranding: 1 },
-        events: {
-          onReady: () => { ytReady = true; yt.setVolume(LOUD); if (wantPlay) yt.playVideo(); },
-          onStateChange: e => {
-            if (e.data === YT.PlayerState.PLAYING) { clearTimeout(hintTimer); card.classList.remove('needs-tap'); music.set(true); }
-            if (e.data === YT.PlayerState.PAUSED && music.playing && !music.ducking) music.set(false, true);
+  // The player is created when the book opens, so a tap can start it straight away.
+  function loadPlayer() {
+    if (!embedded || player || loading) return;
+    loading = true;
+    const tag = document.createElement('script');
+    if (spId) {
+      window.onSpotifyIframeApiReady = API => {
+        API.createController($('#music-player'), { uri: `spotify:track:${spId}`, width: '100%', height: 80 }, ctrl => {
+          player = ctrl; playerReady = true;
+          let last = 0;
+          ctrl.addListener('playback_update', e => {
+            const { isPaused, position, duration } = e.data;
+            if (!isPaused && position > 0) { clearTimeout(hintTimer); card.classList.remove('needs-tap'); if (!music.playing) music.set(true); }
+            // loop: start again when the song (or preview) reaches its end
+            if (duration && position >= duration - 400 && last < position && wantPlay) setTimeout(() => { ctrl.seek(0); ctrl.resume(); }, 300);
+            if (isPaused && music.playing && !music.ducking && position > 0 && position < duration - 600) music.set(false, true);
+            last = position;
+          });
+          if (wantPlay) ctrl.play();
+        });
+      };
+      tag.src = 'https://open.spotify.com/embed/iframe-api/v1';
+    } else {
+      window.onYouTubeIframeAPIReady = () => {
+        player = new YT.Player('music-player', {
+          videoId: ytId, width: 240, height: 200,
+          playerVars: { playsinline: 1, controls: 1, loop: 1, playlist: ytId, rel: 0, modestbranding: 1 },
+          events: {
+            onReady: () => { playerReady = true; player.setVolume(LOUD); if (wantPlay) player.playVideo(); },
+            onStateChange: e => {
+              if (e.data === YT.PlayerState.PLAYING) { clearTimeout(hintTimer); card.classList.remove('needs-tap'); music.set(true); }
+              if (e.data === YT.PlayerState.PAUSED && music.playing && !music.ducking) music.set(false, true);
+            },
           },
-        },
-      });
-    };
-    const tag = document.createElement('script'); tag.src = 'https://www.youtube.com/iframe_api'; document.head.append(tag);
+        });
+      };
+      tag.src = 'https://www.youtube.com/iframe_api';
+    }
+    document.head.append(tag);
   }
 
   const music = {
@@ -406,13 +430,13 @@
       mBtn.setAttribute('aria-pressed', String(on));
       mBtn.setAttribute('aria-label', on ? 'Pause music' : 'Play music');
       mText.textContent = on ? 'Music on' : 'Music off';
-      if (ytId && !on && !keepCard) card.classList.remove('is-open');
+      if (embedded && !on && !keepCard) card.classList.remove('is-open');
     },
     async play() {
-      if (ytId) {
+      if (embedded) {
         card.classList.add('is-open'); wantPlay = true;
-        if (ytReady) yt.playVideo(); else loadYouTube();
-        // some phones only let the video itself start the sound
+        if (playerReady) spId ? player.play() : player.playVideo(); else loadPlayer();
+        // some phones only let the player itself start the sound
         clearTimeout(hintTimer); hintTimer = setTimeout(() => { if (!this.playing) card.classList.add('needs-tap'); }, 2500);
         return;
       }
@@ -423,21 +447,25 @@
     },
     pause() {
       wantPlay = false;
-      if (ytId) { if (ytReady) yt.pauseVideo(); card.classList.remove('is-open', 'needs-tap'); this.set(false); return; }
+      if (embedded) { if (playerReady) spId ? player.pause() : player.pauseVideo(); card.classList.remove('is-open', 'needs-tap'); this.set(false); return; }
       audio.pause(); this.set(false);
     },
     resumeIfWanted() { if (store.sget('music') === 'on' && !this.playing) this.play(); },
+    // quieter while a video plays (Spotify can't change volume, so it pauses instead)
     duck(down) {
-      if (!this.playing) return;
-      if (ytId && ytReady) { this.ducking = down; yt.setVolume(down ? SOFT : LOUD); }
-      else audio.volume = down ? .08 : .55;
+      if (!this.playing && !this.ducking) return;
+      if (!embedded) { audio.volume = down ? .08 : .55; return; }
+      if (!playerReady) return;
+      this.ducking = down;
+      if (spId) down ? player.pause() : player.resume();
+      else player.setVolume(down ? SOFT : LOUD);
     },
   };
-  if (!ytId && !S.music?.src) mBtn.remove();
+  if (!embedded && !S.music?.src) mBtn.remove();
   else {
     mBtn.title = S.music.title || '';
-    mBtn.addEventListener('click', () => music.playing || card?.classList.contains('is-open') ? music.pause() : music.play());
-    $('[data-music-close]')?.addEventListener('click', () => music.pause());
+    mBtn.addEventListener('click', () => music.playing || card.classList.contains('is-open') ? music.pause() : music.play());
+    $('[data-music-close]').addEventListener('click', () => music.pause());
     // browsers only allow sound after a tap, so a remembered "on" resumes on the first one
     if (store.sget('music') === 'on') addEventListener('pointerdown', () => music.resumeIfWanted(), { once: true });
   }
