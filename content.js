@@ -40,7 +40,7 @@ window.SCRAPBOOK = {
     subtitle: "A collection of little things, beautiful memories and moments we never want to forget.",
     // ✏️ 3 photos for the opening collage. The first one is the biggest.
     photos: [
-      "assets/photos/garden-selfie.jpg",
+      "assets/photos/photobooth-pink-1.jpg",
       "assets/photos/camera-flash.jpg",
       "assets/photos/hand-signs.jpg",
     ],
@@ -78,7 +78,6 @@ window.SCRAPBOOK = {
     { type: "photo", size: "tall", src: "assets/photos/shop-photostrip.jpg", caption: "[caption]" },
     { type: "photo", size: "wide", src: "assets/photos/restaurant-two.jpg", caption: "[caption]" },
     { type: "strip", photos: [
-        "assets/photos/photobooth-pink-1.jpg",
         "assets/photos/photobooth-pink-2.jpg",
         "assets/photos/photobooth-pink-3.jpg",
         "assets/photos/photobooth-pink-4.jpg",
@@ -104,7 +103,7 @@ window.SCRAPBOOK = {
     { type: "photo", size: "wide", src: "assets/photos/beach-two.jpg", caption: "[caption]" },
     { type: "photo", size: "tall", src: "assets/photos/mirror-roses.jpg", caption: "[caption]" },
     { type: "photo", size: "small", src: "assets/photos/holding-photostrip.jpg", caption: "[caption]" },
-    { type: "photo", size: "small", src: "assets/photos/stage-together.jpg", caption: "[caption]", date: "12 Oct 2025" },
+    { type: "photo", size: "wide", src: "assets/photos/garden-selfie.jpg", caption: "[caption]" },
   ],
 
   /* ----------------------------------------------------------------
