@@ -92,7 +92,7 @@ main .page::before {
 .botanical { position: absolute; color: var(--walnut); opacity: .55; pointer-events: none; }
 
 .photo { position: relative; overflow: hidden; background: var(--old); }
-.photo img { width: 100%; height: 100%; object-fit: cover; }
+.photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
 .photo::after { /* gentle film fade on every photograph */
   content: ""; position: absolute; inset: 0; pointer-events: none; mix-blend-mode: soft-light;
   background: linear-gradient(170deg, rgba(255, 228, 190, .26), rgba(110, 80, 70, .12));
@@ -280,7 +280,7 @@ body:not(.is-closed) .open-btn { visibility: hidden; }
 .strip-film::before, .strip-film::after { content: ""; position: absolute; left: 0; width: 100%; min-width: 1200px; height: 7px;
   background: radial-gradient(ellipse 3.5px 2.5px at 50% 50%, var(--cream) 90%, transparent 100%) 0 0 / 14px 7px repeat-x; }
 .strip-film::before { top: 4px; } .strip-film::after { bottom: 4px; }
-.strip-film .s-frame { flex: 0 0 auto; height: 100%; aspect-ratio: 1.25; position: relative; border: 0; padding: 0; background: none; }
+.strip-film .s-frame { flex: 1 0 auto; height: 100%; aspect-ratio: 1.25; position: relative; border: 0; padding: 0; background: none; }
 .strip-film .s-frame .photo { height: 100%; }
 .item.strip .cap { bottom: -6px; }
 
@@ -441,7 +441,8 @@ body:not(.is-closed) .open-btn { visibility: hidden; }
 .closing .page-no { margin-bottom: 2.2rem; }
 .closing-heading { margin: 1rem auto 0; max-width: 18ch; font: 300 clamp(2.2rem, 7vw, 4rem)/1.08 var(--serif); }
 .closing-photo { position: relative; margin-top: 3.4rem; max-width: 52rem; padding: 10px 10px 54px; background: var(--white); box-shadow: var(--shadow-lg); transform: rotate(-1deg); }
-.closing-photo .photo { aspect-ratio: 16 / 10; }
+.closing-photo { max-width: 34rem !important; }
+.closing-photo .photo img { height: auto; }
 .closing-photo figcaption { position: absolute; left: 0; right: 0; bottom: 14px; font: 500 1.5rem/1 var(--hand); color: var(--walnut); }
 .closing-photo .washi { top: -12px; left: 50%; margin-left: -52px; }
 .closing-notes { margin-top: 3.4rem; display: grid; gap: 16px; text-align: left; max-width: 52rem; }

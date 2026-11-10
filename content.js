@@ -40,9 +40,9 @@ window.SCRAPBOOK = {
     subtitle: "A collection of little things, beautiful memories and moments we never want to forget.",
     // ✏️ 3 photos for the opening collage. The first one is the biggest.
     photos: [
-      "assets/photos/sample-station.jpg",
-      "assets/photos/sample-afternoon-film.jpg",
-      "assets/photos/sample-train.jpg",
+      "assets/photos/photobooth-train-2.jpg",
+      "assets/photos/camera-flash.jpg",
+      "assets/photos/hand-signs.jpg",
     ],
     note: "for you, from the four of us",      // ✏️ small handwritten note
     stampDate: "25 NOV 2026",                  // date on the postage stamp
@@ -72,32 +72,31 @@ window.SCRAPBOOK = {
      For videos: src = the .mp4, poster = a still image for the thumbnail.
      ---------------------------------------------------------------- */
   archive: [
-    { type: "photo", size: "feature", src: "assets/photos/sample-afternoon-film.jpg", caption: "one of those days", date: "[date]", place: "[place]" },
-    { type: "photo", size: "polaroid", src: "assets/photos/sample-coffee.jpg", caption: "a little moment worth keeping" },
-    { type: "note", text: "[a little note about this day]" },
-    { type: "video", size: "wide", src: "assets/videos/sample-clip-1.mp4", poster: "assets/videos/sample-clip-1.jpg", caption: "we really did that", date: "[date]" },
-    { type: "photo", size: "tall", src: "assets/photos/sample-station.jpg", caption: "nothing special, but somehow everything", place: "[place]" },
-    { type: "photo", size: "small", src: "assets/photos/sample-rose.jpg", caption: "the kind of memory that stays" },
-    { type: "photo", size: "polaroid", src: "assets/photos/sample-trees.jpg", caption: "just us being us" },
+    { type: "photo", size: "feature", src: "assets/photos/hand-signs.jpg", caption: "just us being us" },
+    { type: "photo", size: "polaroid", src: "assets/photos/camera-flash.jpg", caption: "[caption]" },
+    { type: "note", text: "[a little note]" },
+    { type: "photo", size: "tall", src: "assets/photos/shop-photostrip.jpg", caption: "[caption]" },
+    { type: "photo", size: "wide", src: "assets/photos/restaurant-two.jpg", caption: "[caption]" },
     { type: "strip", photos: [
-        "assets/photos/sample-train.jpg",
-        "assets/photos/sample-candles.jpg",
-        "assets/photos/sample-station.jpg",
-        "assets/photos/sample-coffee.jpg",
-      ], caption: "[caption for this roll]" },
-    { type: "video", size: "polaroid", src: "assets/videos/sample-clip-3.mp4", poster: "assets/videos/sample-clip-3.jpg", caption: "[video caption]" },
-    { type: "photo", size: "wide", src: "assets/photos/sample-cinematic-landscape.jpg", caption: "[caption]", date: "[date]", place: "[place]" },
-    { type: "photo", size: "small", src: "assets/photos/sample-candles.jpg", caption: "[caption]" },
+        "assets/photos/photobooth-train-1.jpg",
+        "assets/photos/photobooth-train-2.jpg",
+        "assets/photos/photobooth-train-3.jpg",
+      ], caption: "[caption for the photobooth]" },
+    { type: "photo", size: "polaroid", src: "assets/photos/car-nap.jpg", caption: "[caption]" },
+    { type: "video", size: "wide", src: "assets/videos/sample-clip-1.mp4", poster: "assets/videos/sample-clip-1.jpg", caption: "[video caption]" },
+    { type: "photo", size: "tall", src: "assets/photos/cards-table.jpg", caption: "[caption]" },
+    { type: "photo", size: "wide", src: "assets/photos/eating-together.jpg", caption: "[caption]" },
     { type: "note", text: "[an inside joke, if you like]" },
+    { type: "video", size: "polaroid", src: "assets/videos/sample-clip-3.mp4", poster: "assets/videos/sample-clip-3.jpg", caption: "[video caption]" },
+    { type: "photo", size: "small", src: "assets/photos/mirror-makcik-bawang.jpg", caption: "[caption]" },
     { type: "video", size: "small", src: "assets/videos/sample-clip-2.mp4", poster: "assets/videos/sample-clip-2.jpg", caption: "[video caption]" },
-    { type: "photo", size: "tall", src: "assets/photos/sample-train.jpg", caption: "[caption]" },
   ],
 
   /* ----------------------------------------------------------------
      PAGE 04 — FIVE OF US, IN LITTLE FRAMES
      ---------------------------------------------------------------- */
   fiveOfUs: {
-    groupPhoto: "assets/photos/sample-afternoon-film.jpg",   // ✏️ a photo of all five of you
+    groupPhoto: "assets/photos/red-curtain-five.jpg",   // a photo of all five of you
     recipientPhoto: "assets/photos/sample-station.jpg",     // ✏️ a photo of Nurin
     // ✏️ One short message from each of you, in the same order as contributors above.
     messages: [
@@ -155,7 +154,7 @@ window.SCRAPBOOK = {
      ---------------------------------------------------------------- */
   closing: {
     heading: "Some memories are too precious to leave in our camera rolls.",
-    groupPhoto: "assets/photos/sample-cinematic-landscape.jpg",   // ✏️ one final group photo
+    groupPhoto: "assets/photos/mirror-makcik-bawang.jpg",   // one final group photo
     // ✏️ One closing line from each of you (same order as contributors).
     messages: [
       "[Contributor 01's closing line]",
