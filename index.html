@@ -3,125 +3,174 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#dad8d3">
-  <meta name="description" content="A birthday scrapbook for Nurin — photos, little films and private letters from the crew.">
-  <title>Happy birthday, Nurin</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect x='4' y='8' width='32' height='24' fill='%231c1b1f'/%3E%3Crect x='11' y='13' width='18' height='14' fill='%23f0e7d6'/%3E%3C/svg%3E">
+  <meta name="theme-color" content="#F3EBDD">
+  <meta name="robots" content="noindex">
+  <meta name="description" content="A little world, made just for Nurin.">
+  <title>A little world for Nurin</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='4' fill='%23F3EBDD'/%3E%3Ccircle cx='20' cy='20' r='11' fill='%23713B43'/%3E%3Cpath d='M16 25v-10l8 10v-10' stroke='%23FAF8F2' stroke-width='2' fill='none'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Special+Elite&family=Mrs+Saint+Delafield&family=Gochi+Hand&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-  <script src="memories.js" defer></script>
-  <script src="seal.js" defer></script>
-  <script src="app.js" defer></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Caveat:wght@400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="content.js" defer></script>
+  <script src="assets/js/cipher.js" defer></script>
+  <script src="assets/js/main.js" defer></script>
 </head>
-<body>
-  <svg class="grain" aria-hidden="true"><filter id="grain-f"><feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(#grain-f)"/></svg>
+<body class="is-closed">
+  <svg class="grain" aria-hidden="true"><filter id="grain-f"><feTurbulence type="fractalNoise" baseFrequency=".75" numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(#grain-f)"/></svg>
 
-  <div class="journal">
-    <div class="spiral" aria-hidden="true"></div>
+  <!-- shared botanical drawings -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="sprig" viewBox="0 0 60 160"><g fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><path d="M30 158C29 120 31 80 34 40 35 25 33 12 30 3"/><path d="M31 120c-9-6-16-15-18-26 9 3 16 11 18 26zM32 98c9-7 15-16 16-27-9 4-15 13-16 27zM33 76c-8-6-13-14-14-24 8 3 13 11 14 24zM34 55c7-6 11-13 11-22-7 4-11 11-11 22zM33 34c-5-4-8-10-8-17 5 3 8 9 8 17z"/></g></symbol>
+    <symbol id="bloom" viewBox="0 0 80 120"><g fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><path d="M40 118C41 95 39 70 40 46"/><path d="M40 82c-10-2-17-9-19-18 9 1 16 7 19 18zM40 70c9-3 15-10 16-19-8 2-14 8-16 19z"/><circle cx="40" cy="30" r="5"/><path d="M40 25c-4-9-1-18 4-21 3 7 1 15-4 21zM45 28c7-7 16-7 21-4-6 6-14 7-21 4zM45 34c9 1 15 8 16 14-8 0-14-6-16-14zM36 34c-3 9-10 13-17 12 3-7 9-11 17-12zM35 28c-9-3-14-10-14-16 8 1 13 7 14 16z"/></g></symbol>
+  </svg>
 
-    <!-- Cover -->
-    <header class="cover">
-      <div class="collage" data-collage>
-        <div class="scrap grid-paper" aria-hidden="true"></div>
-        <div class="scrap lined-scrap" aria-hidden="true"></div>
-        <p class="strip strip-cover">collect beautiful moments</p>
-        <span class="sparkles" aria-hidden="true">✦ ✧ ✦</span>
-      </div>
-
-      <h1 class="title">
-        <span class="first" data-first>Nurin</span>
-        <span class="last" data-last>Mastura</span>
-        <span class="bar">Happy birthday · <span data-date>25.11.2026</span></span>
-      </h1>
-      <p class="hero-line" data-hero-line></p>
-    </header>
-
-    <!-- Group note -->
-    <section class="spread" aria-labelledby="note-h">
-      <h2 class="strip" id="note-h">a note from all of us</h2>
-      <article class="torn-page">
-        <span class="tape tape-a" aria-hidden="true"></span>
-        <div class="handwriting" data-group-note></div>
-        <p class="sign" data-group-sign></p>
-      </article>
-      <img class="sticker sticker-blossom" src="assets/stickers/blossom.png" alt="" width="160" height="147" loading="lazy">
-    </section>
-
-    <!-- Private letters -->
-    <section class="spread" aria-labelledby="letters-h">
-      <h2 class="strip" id="letters-h">for your eyes only</h2>
-      <p class="scribble">Each of us wrote you a secret letter. Answer our question to open it.</p>
-      <div class="envelopes" id="envelopes"></div>
-    </section>
-
-    <!-- Roll -->
-    <section class="spread spread-roll" aria-labelledby="roll-h">
-      <h2 class="strip" id="roll-h">the roll so far</h2>
-      <div class="film-wrap">
-        <div class="film" id="film" tabindex="0" aria-label="Our memories, oldest first. Scroll sideways."></div>
-      </div>
-      <p class="scribble scribble-right">swipe along →</p>
-      <img class="sticker sticker-peony" src="assets/stickers/peony.png" alt="" width="360" height="309" loading="lazy">
-    </section>
-
-    <!-- Videos -->
-    <section class="spread" aria-labelledby="films-h">
-      <h2 class="strip" id="films-h">our little films</h2>
-      <div class="portra">
-        <div class="portra-edge" aria-hidden="true"><span>NURIN 400</span><span class="edge-no">25</span></div>
-        <div class="portra-window">
-          <video id="reel" playsinline controls preload="metadata" hidden></video>
-          <p class="portra-empty" data-reel-empty>The films are still developing. Check back soon.</p>
-        </div>
-        <div class="portra-holes" aria-hidden="true"></div>
-      </div>
-      <div class="reel-nav">
-        <button type="button" class="tag-btn" data-reel="prev" hidden>previous</button>
-        <p class="reel-label" data-reel-label></p>
-        <button type="button" class="tag-btn" data-reel="next" hidden>next</button>
-      </div>
-    </section>
-
-    <!-- Wish -->
-    <section class="spread wish" aria-labelledby="wish-h">
-      <h2 class="strip" id="wish-h">make a wish</h2>
-      <button class="cake" type="button" aria-pressed="false" aria-label="Blow out the candle">
-        <span class="flame" aria-hidden="true"></span>
-        <span class="smoke" aria-hidden="true"></span>
-        <span class="candle" aria-hidden="true"></span>
-        <span class="cake-body" aria-hidden="true"></span>
-      </button>
-      <p class="scribble" data-wish-hint>tap the candle to blow it out</p>
-      <p class="strip strip-end">hold on tight to your dreams</p>
-    </section>
-  </div>
-
-  <!-- Letter dialog -->
-  <dialog class="letter" id="letter" aria-labelledby="letter-h">
-    <button class="close" type="button" data-close aria-label="Close">×</button>
-
-    <form class="lock" data-lock>
-      <p class="strip strip-small" id="letter-h" data-letter-from>from a friend</p>
-      <p class="lock-label">A question only you can answer:</p>
-      <p class="question" data-question></p>
-      <label class="answer">
-        <span class="visually-hidden">Your answer</span>
-        <input type="text" name="answer" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="your answer" required>
-      </label>
-      <button class="unlock-btn" type="submit">Open the letter</button>
-      <p class="lock-msg" data-lock-msg role="status" aria-live="polite"></p>
-    </form>
-
-    <div class="opened" data-opened hidden>
-      <figure class="opened-photo" data-opened-photo hidden><img alt=""></figure>
-      <div class="opened-text">
-        <p class="dear" data-dear>Dear Nurin,</p>
-        <div class="handwriting" data-opened-body></div>
-        <p class="sign" data-opened-sign></p>
-      </div>
+  <!-- PAGE 01 — COVER -->
+  <header class="cover page" id="cover" data-tone="cream">
+    <div class="cover-collage" data-cover-collage aria-hidden="true"></div>
+    <div class="cover-text">
+      <p class="label" data-cover-label></p>
+      <h1 class="cover-name"><span data-first></span> <em data-last></em></h1>
+      <p class="cover-line" data-cover-line></p>
+      <p class="cover-sub" data-cover-sub></p>
+      <button class="open-btn" type="button" data-open><span data-open-label>Open your little world</span> <span class="arrow" aria-hidden="true">→</span></button>
     </div>
+    <div class="stamp" aria-hidden="true">
+      <div class="stamp-inner"><svg class="stamp-art"><use href="#bloom"/></svg><span class="stamp-val">25</span></div>
+      <svg class="postmark" viewBox="0 0 120 120"><defs><path id="pm-c" d="M60 60m-44 0a44 44 0 1 1 88 0a44 44 0 1 1 -88 0"/></defs><circle cx="60" cy="60" r="52" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="60" cy="60" r="34" fill="none" stroke="currentColor" stroke-width="1"/><text font-size="10.5" letter-spacing="2.5" fill="currentColor"><textPath href="#pm-c" data-stamp-path>A LITTLE WORLD · KUALA LUMPUR ·</textPath></text><text x="60" y="64" text-anchor="middle" font-size="11" fill="currentColor" data-stamp-date>25 NOV 2026</text></svg>
+    </div>
+  </header>
+
+  <main id="story" hidden>
+    <!-- PAGE 02 -->
+    <section class="page intro" id="begin" data-tone="paper" aria-labelledby="begin-h">
+      <p class="page-no">Page 02</p>
+      <h2 class="page-title" id="begin-h">Before you begin</h2>
+      <article class="aged-letter reveal">
+        <span class="washi washi-a" aria-hidden="true"></span>
+        <div data-intro></div>
+        <p class="hand-sign" data-intro-sign></p>
+      </article>
+      <svg class="botanical b-intro" aria-hidden="true"><use href="#sprig"/></svg>
+    </section>
+
+    <div class="film-band" aria-hidden="true"><div class="film-band-track" data-film-band></div></div>
+
+    <!-- PAGE 03 -->
+    <section class="page archive" id="archive" data-tone="white" aria-labelledby="archive-h">
+      <p class="page-no">Page 03</p>
+      <h2 class="page-title" id="archive-h">The memory archive</h2>
+      <p class="page-lede">Tap any photograph to see it closer.</p>
+      <div class="archive-grid" data-archive></div>
+    </section>
+
+    <!-- PAGE 04 -->
+    <section class="page five" id="five" data-tone="cream" aria-labelledby="five-h">
+      <p class="page-no">Page 04</p>
+      <h2 class="page-title" id="five-h">Five of us, in little frames</h2>
+      <div class="five-frames" data-five-frames></div>
+      <ul class="five-details" data-five-details></ul>
+      <div class="five-notes" data-five-notes></div>
+    </section>
+
+    <!-- PAGE 05 -->
+    <section class="page things" id="things" data-tone="paper" aria-labelledby="things-h">
+      <p class="page-no">Page 05</p>
+      <h2 class="page-title" id="things-h">Little things about you</h2>
+      <div class="things-board" data-things></div>
+    </section>
+
+    <!-- PAGE 06 -->
+    <section class="page chapters" id="chapters" data-tone="white" aria-labelledby="chapters-h">
+      <p class="page-no">Page 06</p>
+      <h2 class="page-title" id="chapters-h">Our little chapters</h2>
+      <ol class="timeline" data-timeline>
+        <li class="timeline-rail" aria-hidden="true"><span class="timeline-fill" data-timeline-fill></span></li>
+      </ol>
+    </section>
+
+    <div class="film-band" aria-hidden="true"><div class="film-band-track" data-film-band></div></div>
+
+    <!-- PAGE 07 -->
+    <section class="page secret" id="secret" data-tone="old" aria-labelledby="secret-h">
+      <p class="page-no">Page 07</p>
+      <h2 class="page-title" id="secret-h">Four letters, one little surprise</h2>
+      <p class="page-lede" data-secret-intro></p>
+
+      <div class="secret-stage" data-secret-stage>
+        <div class="envelope" data-envelope aria-hidden="true">
+          <div class="env-back"></div>
+          <div class="env-letter"></div>
+          <div class="env-front"></div>
+          <div class="env-flap"></div>
+          <div class="wax"><span class="wax-half l"></span><span class="wax-half r"></span><span class="wax-mark">N</span></div>
+        </div>
+
+        <article class="manuscript" data-manuscript>
+          <p class="manuscript-head"><span>Encoded letter</span><span>No. 07</span></p>
+          <div class="manuscript-body" data-cipher-body></div>
+        </article>
+      </div>
+
+      <div class="puzzle" data-puzzle>
+        <div class="clue-card">
+          <p class="mini-label">The riddle</p>
+          <p class="riddle" data-riddle></p>
+          <p class="mini-label">How it was hidden</p>
+          <p class="method" data-method></p>
+        </div>
+
+        <form class="key-form" data-key-form>
+          <label for="key-input" class="mini-label">Your answer (the key)</label>
+          <div class="key-row">
+            <input id="key-input" name="key" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="type the word">
+            <button type="submit" class="unlock-btn">Unlock</button>
+          </div>
+          <p class="key-msg" data-key-msg role="status" aria-live="polite"></p>
+          <div class="hints">
+            <ol class="hint-list" data-hint-list></ol>
+            <button type="button" class="hint-btn" data-hint-btn>I need a hint</button>
+          </div>
+        </form>
+      </div>
+
+      <article class="revealed" data-revealed hidden tabindex="-1" aria-label="Your letter">
+        <span class="washi washi-b" aria-hidden="true"></span>
+        <div class="revealed-body" data-plain-body></div>
+        <button type="button" class="text-btn" data-show-cipher>See it encoded again</button>
+      </article>
+    </section>
+
+    <!-- PAGE 08 -->
+    <section class="page closing" id="closing" data-tone="cream" aria-labelledby="closing-h">
+      <p class="page-no">Page 08</p>
+      <p class="label">And finally, dear <span data-first-2></span></p>
+      <h2 class="closing-heading" id="closing-h" data-closing-heading></h2>
+      <figure class="closing-photo reveal" data-closing-photo></figure>
+      <div class="closing-notes" data-closing-notes></div>
+      <p class="closing-collective reveal" data-closing-collective></p>
+      <p class="hand-sign closing-sign" data-closing-sign></p>
+      <p class="closing-date" data-closing-date></p>
+      <svg class="botanical b-close" aria-hidden="true"><use href="#bloom"/></svg>
+    </section>
+  </main>
+
+  <!-- Music -->
+  <button class="music" type="button" data-music hidden aria-pressed="false" aria-label="Play music">
+    <span class="eq" aria-hidden="true"><i></i><i></i><i></i></span>
+    <span class="music-text" data-music-text>Music off</span>
+  </button>
+  <audio data-audio loop preload="none"></audio>
+
+  <!-- Lightbox -->
+  <dialog class="lightbox" data-lightbox aria-label="Photo viewer">
+    <button class="lb-close" type="button" data-lb-close aria-label="Close">×</button>
+    <button class="lb-nav prev" type="button" data-lb-prev aria-label="Previous">‹</button>
+    <figure class="lb-figure">
+      <div class="lb-media" data-lb-media></div>
+      <figcaption class="lb-caption"><span class="lb-hand" data-lb-caption></span><span class="lb-meta" data-lb-meta></span></figcaption>
+    </figure>
+    <button class="lb-nav next" type="button" data-lb-next aria-label="Next">›</button>
   </dialog>
 </body>
 </html>

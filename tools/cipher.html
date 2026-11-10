@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Letter encoder (for the four of you)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,400&family=DM+Sans:opsz,wght@9..40,400;9..40,500&family=DM+Mono&display=swap" rel="stylesheet">
+  <style>
+    :root { --cream:#F3EBDD; --old:#D9C8B2; --walnut:#80634F; --wine:#713B43; --ink:#332B28; --white:#FAF8F2; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--cream); color: var(--ink); font: 400 1rem/1.6 "DM Sans", system-ui, sans-serif; }
+    main { max-width: 46rem; margin: 0 auto; padding: 3rem 16px 5rem; }
+    h1 { font: 300 2.4rem/1.1 "Cormorant Garamond", serif; margin: .4rem 0 1rem; }
+    .label { font: .72rem/1.4 "DM Mono", monospace; letter-spacing: .16em; text-transform: uppercase; color: var(--walnut); display: block; margin: 1.6rem 0 .4rem; }
+    p { color: var(--walnut); margin: 0 0 .6rem; }
+    textarea, input { width: 100%; border: 1px solid var(--walnut); background: var(--white); padding: .7rem .8rem; font: inherit; color: inherit; border-radius: 2px; }
+    textarea { min-height: 16rem; resize: vertical; }
+    textarea.code { font: .82rem/1.5 "DM Mono", monospace; min-height: 9rem; background: #EFE5D4; }
+    input { font: 1rem "DM Mono", monospace; letter-spacing: .15em; text-transform: uppercase; }
+    button { margin-top: 1rem; border: 0; background: var(--wine); color: var(--white); padding: .85rem 1.4rem; font: .76rem/1 "DM Mono", monospace; letter-spacing: .16em; text-transform: uppercase; cursor: pointer; border-radius: 2px; }
+    button.light { background: transparent; color: var(--wine); border: 1px solid var(--wine); margin-left: .4rem; }
+    .out { display: none; margin-top: 2rem; padding: 1.4rem; background: var(--white); box-shadow: 0 10px 24px -12px rgba(51,43,40,.38); }
+    .ok { color: #3d6b3d; font: .85rem "DM Mono", monospace; }
+    .warn { color: var(--wine); }
+    ol { color: var(--walnut); padding-left: 1.2rem; }
+  </style>
+</head>
+<body>
+<main>
+  <span class="label">Tool · not linked from the site</span>
+  <h1>Encode the secret letter</h1>
+  <p>Write the letter, choose a key word, and press Encode. Nothing leaves this page. Copy the two results into <b>content.js</b> under <code>secretLetter</code>.</p>
+
+  <label class="label" for="plain">The letter</label>
+  <p>Leave an empty line between paragraphs. The first line ("Dear Nurin,") and the last paragraph (your names) are styled specially.</p>
+  <textarea id="plain">Dear Nurin,
+
+Write your letter here.
+
+From all four of us</textarea>
+
+  <label class="label" for="key">Key word (letters only)</label>
+  <p>This is the answer Nurin has to find. Make your riddle and hints lead to it. Spaces, numbers and accents are ignored.</p>
+  <input id="key" autocomplete="off" spellcheck="false">
+
+  <button id="go" type="button">Encode</button>
+  <p id="err" class="warn"></p>
+
+  <section class="out" id="out">
+    <span class="label">1 · cipherText</span>
+    <textarea class="code" id="ct" readonly></textarea>
+    <button type="button" data-copy="ct">Copy cipherText</button>
+
+    <span class="label">2 · keyFingerprint</span>
+    <textarea class="code" id="fp" readonly style="min-height:3.4rem"></textarea>
+    <button type="button" data-copy="fp">Copy keyFingerprint</button>
+
+    <p class="ok" id="check"></p>
+    <span class="label">Then</span>
+    <ol>
+      <li>In content.js replace the text between the quotes after <code>cipherText:</code> with result 1. Easiest: copy the whole result, which already includes its quotes, and replace <code>"…"</code> entirely.</li>
+      <li>Replace the text after <code>keyFingerprint:</code> with result 2.</li>
+      <li>Update <code>riddle</code>, <code>methodClue</code> and <code>hints</code> so they lead to your key.</li>
+      <li>Delete this letter from wherever you drafted it if you want it to stay a surprise.</li>
+    </ol>
+  </section>
+</main>
+<script src="../assets/js/cipher.js"></script>
+<script>
+  const $ = id => document.getElementById(id);
+  $('go').addEventListener('click', async () => {
+    const text = $('plain').value.replace(/\r\n/g, '\n').trim();
+    const key = Cipher.cleanKey($('key').value);
+    $('err').textContent = '';
+    if (!text) { $('err').textContent = 'Write the letter first.'; return; }
+    if (key.length < 3) { $('err').textContent = 'Use a key word of at least 3 letters.'; return; }
+    const ct = Cipher.encode(text, key);
+    $('ct').value = JSON.stringify(ct);            // with quotes and \n, ready to paste
+    $('fp').value = await Cipher.fingerprint(key);
+    $('check').textContent = Cipher.decode(ct, key) === text ? '✓ Checked: decoding with "' + key + '" gives back your exact letter.' : 'Something went wrong — please try again.';
+    $('out').style.display = 'block'; $('out').scrollIntoView({ behavior: 'smooth' });
+  });
+  document.querySelectorAll('[data-copy]').forEach(b => b.addEventListener('click', async () => {
+    const t = $(b.dataset.copy);
+    try { await navigator.clipboard.writeText(t.value); } catch { t.select(); document.execCommand('copy'); }
+    b.textContent = 'Copied';
+  }));
+</script>
+</body>
+</html>
