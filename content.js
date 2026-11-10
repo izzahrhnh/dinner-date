@@ -72,8 +72,8 @@ window.SCRAPBOOK = {
      For videos: src = the .mp4, poster = a still image for the thumbnail.
      ---------------------------------------------------------------- */
   archive: [
-    { type: "photo", size: "feature", src: "assets/photos/hand-signs.jpg", caption: "just us being us" },
-    { type: "photo", size: "polaroid", src: "assets/photos/camera-flash.jpg", caption: "[caption]" },
+    { type: "photo", size: "feature", src: "assets/photos/board-game-room.jpg", caption: "[caption]" },
+    { type: "photo", size: "polaroid", src: "assets/photos/beach-camera.jpg", caption: "[caption]" },
     { type: "note", text: "[a little note]" },
     { type: "photo", size: "tall", src: "assets/photos/shop-photostrip.jpg", caption: "[caption]" },
     { type: "photo", size: "wide", src: "assets/photos/restaurant-two.jpg", caption: "[caption]" },
@@ -88,7 +88,7 @@ window.SCRAPBOOK = {
     { type: "photo", size: "wide", src: "assets/photos/eating-together.jpg", caption: "[caption]" },
     { type: "note", text: "[an inside joke, if you like]" },
     { type: "video", size: "polaroid", src: "assets/videos/sample-clip-3.mp4", poster: "assets/videos/sample-clip-3.jpg", caption: "[video caption]" },
-    { type: "photo", size: "small", src: "assets/photos/mirror-makcik-bawang.jpg", caption: "[caption]" },
+    { type: "photo", size: "tall", src: "assets/photos/shakshuka-stare.jpg", caption: "[caption]" },
     { type: "video", size: "small", src: "assets/videos/sample-clip-2.mp4", poster: "assets/videos/sample-clip-2.jpg", caption: "[video caption]" },
   ],
 
@@ -119,12 +119,12 @@ window.SCRAPBOOK = {
      photo is optional.
      ---------------------------------------------------------------- */
   littleThings: [
-    { title: "Things we love about you", items: ["[something specific]", "[something specific]", "[something specific]"], photo: "assets/photos/sample-rose.jpg" },
+    { title: "Things we love about you", items: ["[something specific]", "[something specific]", "[something specific]"], photo: "assets/photos/volunteer-certificate.jpg" },
     { title: "Your little habits", items: ["[a habit]", "[a habit]"] },
-    { title: "Things that remind us of you", items: ["[a song]", "[a place]", "[a smell, a snack, a colour]"], photo: "assets/photos/sample-coffee.jpg" },
+    { title: "Things that remind us of you", items: ["[a song]", "[a place]", "[a smell, a snack, a colour]"], photo: "assets/photos/phone-cafe-night.jpg" },
     { title: "Your favourite things", items: ["[favourite]", "[favourite]", "[favourite]"] },
     { title: "Things only the five of us understand", items: ["[inside joke]", "[inside joke]"] },
-    { title: "Little moments that make us laugh", items: ["[moment]", "[moment]"], photo: "assets/photos/sample-trees.jpg" },
+    { title: "Little moments that make us laugh", items: ["[moment]", "[moment]"], photo: "assets/photos/deadpan-two.jpg" },
   ],
 
   /* ----------------------------------------------------------------

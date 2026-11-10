@@ -349,7 +349,8 @@ body:not(.is-closed) .open-btn { visibility: hidden; }
 .thing ul { margin: 0; padding: 0; list-style: none; }
 .thing li { position: relative; padding-left: 1.1rem; font: 500 1.3rem/1.45 var(--hand); color: var(--ink); }
 .thing li::before { content: "—"; position: absolute; left: 0; color: var(--walnut); }
-.thing .photo { margin: 1rem 0 0; aspect-ratio: 4 / 3; }
+.thing .photo { margin: 1rem 0 0; }
+.thing .photo img { height: auto; max-height: 26rem; }
 .thing .photo + .washi { position: absolute; }
 .thing .botanical { right: 10px; top: 8px; width: 28px; height: 72px; opacity: .4; }
 @media (min-width: 640px) { .things-board { columns: 2; } }
