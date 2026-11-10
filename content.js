@@ -168,11 +168,14 @@ window.SCRAPBOOK = {
   },
 
   /* ----------------------------------------------------------------
-     MUSIC (optional, never autoplays with sound)
-     ✏️ Replace with your song: put the .mp3 in assets/audio/.
+     MUSIC (never autoplays with sound)
+     Plays from YouTube in a small "now playing" card, so the song file
+     isn't stored in this public site. Paste any YouTube link to change it.
+     To use your own audio file instead, delete the youtube line and set
+     src: "assets/audio/your-file.mp3".
      ---------------------------------------------------------------- */
   music: {
-    src: "assets/audio/placeholder-song.mp3",
-    title: "[Song title — artist]",
+    youtube: "https://www.youtube.com/watch?v=4qSjyl8JN4g",
+    title: "Stuck — LANY",
   },
 };

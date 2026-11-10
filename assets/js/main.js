@@ -114,6 +114,7 @@
     document.body.classList.remove('is-closed');
     store.sset('opened', '1');
     $('[data-music]').hidden = false;
+    loadYouTube();
     startObservers();
     if (scroll) requestAnimationFrame(() => $('#begin').scrollIntoView({ behavior: reduced.matches ? 'auto' : 'smooth' }));
   }
@@ -368,28 +369,75 @@
      MUSIC — never autoplays; remembers the choice this visit
      ========================================================= */
   const audio = $('[data-audio]'), mBtn = $('[data-music]'), mText = $('[data-music-text]');
+  const ytId = (() => {
+    const u = S.music?.youtube || '';
+    const m = u.match(/(?:v=|youtu\.be\/|embed\/|shorts\/)([\w-]{11})/) || u.match(/^([\w-]{11})$/);
+    return m ? m[1] : '';
+  })();
+  const card = $('[data-music-card]');
+  let yt = null, ytReady = false, wantPlay = false, hintTimer = null;
+  const LOUD = 70, SOFT = 12;
+
+  // YouTube's player: created once the book is opened, so a tap can start it straight away.
+  function loadYouTube() {
+    if (!ytId || yt || window.__ytLoading) return;
+    window.__ytLoading = true;
+    $('[data-music-title]').textContent = S.music.title || '';
+    window.onYouTubeIframeAPIReady = () => {
+      yt = new YT.Player('yt-player', {
+        videoId: ytId, width: 240, height: 200,
+        playerVars: { playsinline: 1, controls: 1, loop: 1, playlist: ytId, rel: 0, modestbranding: 1 },
+        events: {
+          onReady: () => { ytReady = true; yt.setVolume(LOUD); if (wantPlay) yt.playVideo(); },
+          onStateChange: e => {
+            if (e.data === YT.PlayerState.PLAYING) { clearTimeout(hintTimer); card.classList.remove('needs-tap'); music.set(true); }
+            if (e.data === YT.PlayerState.PAUSED && music.playing && !music.ducking) music.set(false, true);
+          },
+        },
+      });
+    };
+    const tag = document.createElement('script'); tag.src = 'https://www.youtube.com/iframe_api'; document.head.append(tag);
+  }
+
   const music = {
-    playing: false,
-    set(on) {
+    playing: false, ducking: false,
+    set(on, keepCard) {
       this.playing = on; store.sset('music', on ? 'on' : 'off');
       mBtn.setAttribute('aria-pressed', String(on));
       mBtn.setAttribute('aria-label', on ? 'Pause music' : 'Play music');
       mText.textContent = on ? 'Music on' : 'Music off';
+      if (ytId && !on && !keepCard) card.classList.remove('is-open');
     },
     async play() {
+      if (ytId) {
+        card.classList.add('is-open'); wantPlay = true;
+        if (ytReady) yt.playVideo(); else loadYouTube();
+        // some phones only let the video itself start the sound
+        clearTimeout(hintTimer); hintTimer = setTimeout(() => { if (!this.playing) card.classList.add('needs-tap'); }, 2500);
+        return;
+      }
       if (!S.music?.src) return;
       if (!audio.src) audio.src = S.music.src;
       audio.volume = .55;
       try { await audio.play(); this.set(true); } catch { this.set(false); }
     },
-    pause() { audio.pause(); this.set(false); },
+    pause() {
+      wantPlay = false;
+      if (ytId) { if (ytReady) yt.pauseVideo(); card.classList.remove('is-open', 'needs-tap'); this.set(false); return; }
+      audio.pause(); this.set(false);
+    },
     resumeIfWanted() { if (store.sget('music') === 'on' && !this.playing) this.play(); },
-    duck(down) { if (this.playing) audio.volume = down ? .08 : .55; },
+    duck(down) {
+      if (!this.playing) return;
+      if (ytId && ytReady) { this.ducking = down; yt.setVolume(down ? SOFT : LOUD); }
+      else audio.volume = down ? .08 : .55;
+    },
   };
-  if (!S.music?.src) mBtn.remove();
+  if (!ytId && !S.music?.src) mBtn.remove();
   else {
     mBtn.title = S.music.title || '';
-    mBtn.addEventListener('click', () => music.playing ? music.pause() : music.play());
+    mBtn.addEventListener('click', () => music.playing || card?.classList.contains('is-open') ? music.pause() : music.play());
+    $('[data-music-close]')?.addEventListener('click', () => music.pause());
     // browsers only allow sound after a tap, so a remembered "on" resumes on the first one
     if (store.sget('music') === 'on') addEventListener('pointerdown', () => music.resumeIfWanted(), { once: true });
   }
