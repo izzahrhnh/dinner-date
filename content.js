@@ -23,12 +23,13 @@ window.SCRAPBOOK = {
     lastName: "Mastura",
   },
 
-  /* ✏️ The four of you. These names appear on page 04, page 06 and page 07. */
+  /* ✏️ The four of you. These names sign the notes on page 04.
+     (You can add photo: "assets/photos/…" to each to show a little polaroid of them.) */
   contributors: [
-    { name: "Izzah", photo: "assets/photos/photobooth-lune-2.jpg" },
-    { name: "Afikah", photo: "assets/photos/photobooth-lune-3.jpg" },
-    { name: "Hazi", photo: "assets/photos/photobooth-lune-4.jpg" },
-    { name: "Wahieda", photo: "assets/photos/photobooth-lune-5.jpg" },
+    { name: "Izzah" },
+    { name: "Afikah" },
+    { name: "Hazi" },
+    { name: "Wahieda" },
   ],
 
   /* ----------------------------------------------------------------
@@ -112,7 +113,7 @@ window.SCRAPBOOK = {
   fiveOfUs: {
     groupPhoto: "assets/photos/red-curtain-five.jpg",   // a photo of all five of you
     recipientPhoto: "assets/photos/photobooth-lune-6.jpg",     // the polaroid labelled with her name
-    // ✏️ One short message from each of you, in the same order as contributors above.
+    // ✏️ One short birthday message from each of you, in the same order as contributors above.
     messages: [
       "[Izzah — a few sentences to Nurin, in your own words.]",
       "[Afikah — a few sentences to Nurin, in your own words.]",
@@ -169,13 +170,6 @@ window.SCRAPBOOK = {
   closing: {
     heading: "Some memories are too precious to leave in our camera rolls.",
     groupPhoto: "assets/photos/mirror-makcik-bawang.jpg",   // one final group photo
-    // ✏️ One closing line from each of you (same order as contributors).
-    messages: [
-      "[Izzah's closing line]",
-      "[Afikah's closing line]",
-      "[Hazi's closing line]",
-      "[Wahieda's closing line]",
-    ],
     collective: "[A message from all of us together. Keep it simple and true.]",
     signature: "from us",
     date: "25 · 11 · 2026",

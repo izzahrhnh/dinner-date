@@ -185,6 +185,7 @@
   group.append(photo(five.groupPhoto, `All five of us`), el('span', 'washi'), el('span', 'washi wine'));
   frames.append(group);
   people.forEach((p, i) => {
+    if (!p.photo) return;   // individual photos are optional
     const fig = el('figure', `mini-polaroid c${i} reveal-photo`);
     fig.style.setProperty('--rot', `${[-4, 3.5, 2.5, -3][i]}deg`);
     fig.append(photo(p.photo, p.name), el('figcaption', null, p.name));
@@ -357,7 +358,7 @@
   const cp = $('[data-closing-photo]');
   cp.append(el('span', 'washi'), photo(C.groupPhoto, 'All five of us'), el('figcaption', null, 'the five of us'));
   const cn = $('[data-closing-notes]');
-  people.forEach((p, i) => {
+  (C.messages || []).length && people.forEach((p, i) => {   // optional per-person lines
     const n = el('div', 'closing-note reveal'); n.style.setProperty('--d', `${i * .12}s`);
     n.append(el('p', null, (C.messages || [])[i] || ''), el('span', 'from', p.name));
     cn.append(n);
