@@ -170,7 +170,7 @@ window.SCRAPBOOK = {
   closing: {
     heading: "Some memories are too precious to leave in our camera rolls.",
     groupPhoto: "assets/photos/mirror-makcik-bawang.jpg",   // one final group photo
-    collective: "[A message from all of us together. Keep it simple and true.]",
+    collective: "Happy birthday, Nuwinnn!",
     signature: "from us",
     date: "25 · 11 · 2026",
   },
