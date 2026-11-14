@@ -118,7 +118,8 @@
     startObservers();
     if (scroll) requestAnimationFrame(() => $('#begin').scrollIntoView({ behavior: reduced.matches ? 'auto' : 'smooth' }));
   }
-  $('[data-open]').addEventListener('click', () => { openStory(true); music.resumeIfWanted(); });
+  // Opening the book is her tap, so the song starts here (browsers allow sound after a tap).
+  $('[data-open]').addEventListener('click', () => { openStory(true); music.play(); });
 
   /* =========================================================
      PAGE 02 — BEFORE YOU BEGIN
@@ -468,6 +469,8 @@
     $('[data-music-close]').addEventListener('click', () => music.pause());
     // browsers only allow sound after a tap, so a remembered "on" resumes on the first one
     if (store.sget('music') === 'on') addEventListener('pointerdown', () => music.resumeIfWanted(), { once: true });
+    // get the player ready while she is still on the cover, so the tap on "Open" can start it at once
+    loadPlayer();
   }
 
   /* =========================================================

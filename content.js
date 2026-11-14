@@ -182,14 +182,14 @@ window.SCRAPBOOK = {
   },
 
   /* ----------------------------------------------------------------
-     MUSIC (never autoplays with sound)
+     MUSIC (starts when she taps "Open your little world")
      Plays from YouTube in a small "now playing" card, so the song file
      isn't stored in this public site. Paste any YouTube link to change it.
      (A spotify: "song link" line here would play from Spotify instead,
      but logged-out visitors only hear a 30-second preview.)
      ---------------------------------------------------------------- */
   music: {
-    youtube: "https://www.youtube.com/watch?v=4qSjyl8JN4g",
-    title: "Stuck — LANY",
+    youtube: "https://youtu.be/eD7kpZRGyGs",
+    title: "pink skies — LANY",
   },
 };
