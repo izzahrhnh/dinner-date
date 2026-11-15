@@ -240,8 +240,12 @@
         it.n.style.gridColumn = `${c + 1} / span ${span}`;
         it.n.style.gridRow = `${y} / span ${h}`;
         for (let k = c; k < c + span; k++) tops[k] = y + h + vgap;
+        placed.push({ it, c, span, y, h });
       };
-      items.forEach(it => {
+      // the photobooth strip goes first, across the top, so nothing leaves a gap above it
+      const ordered = [...items.filter(i => i.kind === 'strip'), ...items.filter(i => i.kind !== 'strip')];
+      const placed = [];
+      ordered.forEach(it => {
         if (it.kind === 'strip') { const m = Math.max(...tops); tops.fill(m); place(it, 0, 12); return; }
         const pref = it.kind === 'note' ? 3 : it.portrait ? pick([3, 4, 4]) : pick([5, 6, 6, 7]);
         for (let guard = 0; guard < 40; guard++) {
@@ -259,6 +263,15 @@
             span = Math.max(3, r - 3);
           }
           place(it, c, span); return;
+        }
+      });
+      // even out the bottom edge: the last piece in each column stretches down to the same line
+      const end = Math.max(...tops);
+      placed.forEach(p => {
+        const isLast = tops.slice(p.c, p.c + p.span).every(t => t === p.y + p.h + vgap);
+        if (isLast && p.it.kind !== 'strip') {
+          p.it.n.style.gridRow = `${p.y} / span ${end - vgap - p.y}`;
+          p.it.n.classList.add('stretched');
         }
       });
       return;
