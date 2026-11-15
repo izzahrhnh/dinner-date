@@ -184,6 +184,46 @@
     grid.append(f);
   });
 
+  // Lay the archive out row by row so every row fills the page edge to edge (no empty gaps),
+  // however many photos and videos are added. Items in a row share one height.
+  const SIZES = ['feature', 'wide', 'tall', 'polaroid', 'small', 'note', 'strip'];
+  const LAYOUT = {
+    wide:   { cols: 12, w: { feature: 8, wide: 7, tall: 5, polaroid: 4, small: 4, note: 4, strip: 12 }, h: { feature: 9, wide: 6, tall: 8, polaroid: 7, small: 5, note: 3, strip: 5 } },
+    narrow: { cols: 6,  w: { feature: 6, wide: 6, tall: 3, polaroid: 3, small: 3, note: 3, strip: 6 },  h: { feature: 7, wide: 5, tall: 6, polaroid: 5, small: 4, note: 3, strip: 4 } },
+  };
+  const wideMQ = matchMedia('(min-width: 760px)');
+  function packArchive() {
+    const L = LAYOUT[wideMQ.matches ? 'wide' : 'narrow'];
+    const queue = [...grid.children].map(n => ({ n, size: SIZES.find(c => n.classList.contains(c)) || 'small' }));
+    let row = 1;
+    while (queue.length) {
+      const line = [queue.shift()]; let used = L.w[line[0].size];
+      // fill what's left of the row, looking a few items ahead for one that fits
+      while (used < L.cols) {
+        const k = queue.slice(0, 5).findIndex(q => L.w[q.size] <= L.cols - used);
+        if (k < 0) break;
+        const [q] = queue.splice(k, 1); line.push(q); used += L.w[q.size];
+      }
+      // still a gap? widen the photos in this row to close it
+      const widths = line.map(q => L.w[q.size]);
+      for (let gap = L.cols - used, j = 0; gap > 0; gap--, j++) {
+        const pick = line.map((q, i) => i).filter(i => line[i].size !== 'note');
+        widths[pick.length ? pick[j % pick.length] : j % line.length]++;
+      }
+      const solid = line.filter(q => q.size !== 'note');
+      const h = Math.max(...(solid.length ? solid : line).map(q => L.h[q.size]));
+      let col = 1;
+      line.forEach((q, i) => {
+        q.n.style.gridColumn = `${col} / span ${widths[i]}`;
+        q.n.style.gridRow = `${row} / span ${h}`;           // notes become a full-height lined card
+        col += widths[i];
+      });
+      row += h;
+    }
+  }
+  packArchive();
+  wideMQ.addEventListener('change', packArchive);
+
   /* =========================================================
      PAGE 04 — FIVE OF US
      ========================================================= */
@@ -220,6 +260,10 @@
      PAGE 05 — LITTLE THINGS
      ========================================================= */
   const board = $('[data-things]');
+  // sections listed in hiddenPages stay in the code but don't show; page numbers close the gap
+  (S.hiddenPages || []).forEach(id => { const sec = document.getElementById(id); if (sec) sec.hidden = true; });
+  $$('#story > .page:not([hidden]) .page-no').forEach((n, i) => { n.textContent = `Page ${String(i + 2).padStart(2, '0')}`; });
+
   (S.littleThings || []).forEach((t, i) => {
     const card = el('article', 'thing reveal');
     card.style.setProperty('--rot', `${tilt(i + 3, 1.2)}deg`);

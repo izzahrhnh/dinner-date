@@ -17,6 +17,10 @@ window.SCRAPBOOK = {
      still needs replacing. Set to false before you send it to Nurin. */
   showPlaceholderTags: true,
 
+  /* Pages to hide for now (they stay in the code and can be brought back by
+     removing them from this list). "things" = Little things about you. */
+  hiddenPages: ["things"],
+
   recipient: {
     firstName: "Nurin",
     lastName: "Mastura",
@@ -110,6 +114,9 @@ window.SCRAPBOOK = {
     { type: "photo", size: "tall", src: "assets/photos/mirror-roses.jpg", caption: "[caption]" },
     { type: "photo", size: "small", src: "assets/photos/holding-photostrip.jpg", caption: "[caption]" },
     { type: "photo", size: "wide", src: "assets/photos/garden-selfie.jpg", caption: "[caption]" },
+    { type: "photo", size: "wide", src: "assets/photos/cafe-orange.jpg", caption: "[caption]" },
+    { type: "photo", size: "tall", src: "assets/photos/volunteer-certificate.jpg", caption: "[caption]" },
+    { type: "photo", size: "tall", src: "assets/photos/phone-cafe-night.jpg", caption: "[caption]" },
   ],
 
   /* ----------------------------------------------------------------
