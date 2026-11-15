@@ -107,7 +107,6 @@ window.SCRAPBOOK = {
     { type: "photo", size: "polaroid", src: "assets/photos/market-stamp.jpg", caption: "[caption]" },
     { type: "note", text: "[a little note]" },
     { type: "photo", size: "wide", src: "assets/photos/beach-two.jpg", caption: "[caption]" },
-    { type: "photo", size: "wide", src: "assets/photos/cafe-orange.jpg", caption: "[caption]" },
     { type: "photo", size: "tall", src: "assets/photos/mirror-roses.jpg", caption: "[caption]" },
     { type: "photo", size: "small", src: "assets/photos/holding-photostrip.jpg", caption: "[caption]" },
     { type: "photo", size: "wide", src: "assets/photos/garden-selfie.jpg", caption: "[caption]" },
@@ -128,7 +127,7 @@ window.SCRAPBOOK = {
     ],
     // ✏️ One short birthday message from each of you, in the same order as contributors above.
     messages: [
-      "[Izzah — a few sentences to Nurin, in your own words.]",
+      "Happy 22nd birthday Nurinnn!!!! Wishing you well every now and then, keep being you and semoga sentiasa diberkati Tuhan dalam setiap perlakuanmu…. May your 22nd bday be the memories that you'll cherish foreverrr.",
       "[Afikah — a few sentences to Nurin, in your own words.]",
       "[Hazi — a few sentences to Nurin, in your own words.]",
       "[Wahieda — a few sentences to Nurin, in your own words.]",
@@ -152,7 +151,7 @@ window.SCRAPBOOK = {
     { title: "Things that remind us of you", items: ["[a song]", "[a place]", "[a smell, a snack, a colour]"], photo: "assets/photos/phone-cafe-night.jpg" },
     { title: "Your favourite things", items: ["[favourite]", "[favourite]", "[favourite]"] },
     { title: "Things only the five of us understand", items: ["[inside joke]", "[inside joke]"] },
-    { title: "Little moments that make us laugh", items: ["[moment]", "[moment]"], photo: "assets/photos/deadpan-two.jpg" },
+    { title: "Little moments that make us laugh", items: ["[moment]", "[moment]"], photo: "assets/photos/cafe-orange.jpg" },
   ],
 
   /* ----------------------------------------------------------------

@@ -32,6 +32,13 @@
   function videoThumb(v) {
     const box = el('div', 'vid');
     box.append(photo(v.poster, ''), el('span', 'play'), el('span', 'vid-label', '▶ FILM'));
+    // a silent copy that plays on its own while the clip is on screen (tap opens it with sound)
+    const live = el('video', 'vid-live');
+    live.muted = true; live.loop = true; live.playsInline = true; live.preload = 'none';
+    live.setAttribute('muted', ''); live.setAttribute('playsinline', ''); live.setAttribute('aria-hidden', 'true');
+    live.dataset.src = v.src; if (v.poster) live.poster = v.poster;
+    live.addEventListener('playing', () => box.classList.add('is-live'));
+    box.append(live);
     return box;
   }
 
@@ -61,6 +68,7 @@
     if (!media.length) return;
     lastFocus = trigger; showMedia(i); lb.showModal(); document.body.classList.add('lb-open');
     if (music.playing && media[i].type === 'video') music.duck(true);
+    if (media[i].type === 'video') $$('.vid-live').forEach(v => v.pause());
   }
   lb.addEventListener('close', () => {
     lbMedia.replaceChildren(); document.body.classList.remove('lb-open'); music.duck(false);
@@ -223,13 +231,27 @@
     board.append(card);
   });
 
+  // play each archive clip (muted) while it's on screen, pause it when it scrolls away
+  const liveClips = $$('.vid-live');
+  if (liveClips.length && 'IntersectionObserver' in window && !reduced.matches) {
+    const clipIO = new IntersectionObserver(entries => entries.forEach(({ target: v, isIntersecting }) => {
+      if (isIntersecting) {
+        if (!v.src) v.src = v.dataset.src;
+        v.play().catch(() => {});
+      } else if (!v.paused) v.pause();
+    }), { threshold: .6 });
+    liveClips.forEach(v => clipIO.observe(v));
+    // the open lightbox video has sound; keep the little ones still meanwhile
+    lb.addEventListener('close', () => liveClips.forEach(v => { if (v.src && v.getBoundingClientRect().top < innerHeight && v.getBoundingClientRect().bottom > 0) v.play().catch(() => {}); }));
+  }
+
   /* =========================================================
      FILM BANDS between pages (thumbnails slide as you scroll)
      ========================================================= */
   const thumbs = media.filter(m => m.type === 'photo').map(m => m.src);
   $$('[data-film-band]').forEach((track, t) => {
     for (let k = 0; k < 28; k++) {
-      if (k % 4 === 0) track.append(el('b', null, `${first.toUpperCase()} 400  ${k + 1}A`));
+      if (k % 4 === 0) track.append(el('b', null, k % 8 === 0 ? '25 · 11 · 2004' : `${first.toUpperCase()} · 22`));
       const s = el('span'); s.style.backgroundImage = `url("${encodeURI(thumbs[(k + t * 3) % Math.max(thumbs.length, 1)] || '')}")`; track.append(s);
     }
   });
