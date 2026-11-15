@@ -363,7 +363,15 @@
     n.append(el('p', null, (C.messages || [])[i] || ''), el('span', 'from', p.name));
     cn.append(n);
   });
-  $('[data-closing-collective]').textContent = C.collective || '';
+  // "Happy birthday, Nuwinnn!" → a serif line, then the name in big handwriting with a drawn swash
+  const coll = $('[data-closing-collective]'), txt = C.collective || '', cut = txt.indexOf(',');
+  if (cut > 0) {
+    coll.classList.add('is-wish');
+    const name = el('span', 'wish-name', txt.slice(cut + 1).trim());
+    name.insertAdjacentHTML('beforeend', '<svg class="wish-swash" viewBox="0 0 300 40" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M6 26c46-12 96-17 146-14 44 3 84 9 140-2-40 14-86 20-128 18"/></svg>');
+    coll.append(el('span', 'wish-lead', txt.slice(0, cut)), name);
+    coll.insertAdjacentHTML('beforeend', '<svg class="wish-spark s1" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1v18M1 10h18M4 4l12 12M16 4L4 16"/></svg><svg class="wish-spark s2" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2v16M2 10h16"/></svg><svg class="wish-spark s3" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v14M3 10h14"/></svg>');
+  } else coll.textContent = txt;
   $('[data-closing-sign]').textContent = C.signature || '';
   $('[data-closing-date]').textContent = C.date || '';
 

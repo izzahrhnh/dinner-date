@@ -452,6 +452,23 @@ body:not(.is-closed) .open-btn { visibility: hidden; }
 .closing-note .from { display: block; margin-top: .4rem; font: 500 1.3rem/1 var(--hand); color: var(--wine); }
 .closing-collective { margin: 3.6rem auto 0; max-width: 34rem; font: 400 1.55rem/1.45 var(--serif); }
 .closing-sign { text-align: center; font-size: 2.2rem; }
+/* the birthday wish */
+.closing-collective.is-wish { position: relative; display: flex; flex-direction: column; align-items: center; width: fit-content; max-width: 100%; margin-top: 4.4rem; line-height: 1; }
+.wish-lead { font: italic 300 clamp(2.4rem, 9vw, 4rem)/1 var(--serif); color: var(--ink); letter-spacing: .01em; }
+.wish-name { position: relative; display: inline-block; margin-top: -.08em; padding: 0 .2em; font: 600 clamp(4.6rem, 19vw, 8.5rem)/1 var(--hand); color: var(--wine); transform: rotate(-4deg); text-shadow: 0 2px 0 rgba(113, 59, 67, .08); }
+.wish-swash { position: absolute; left: 4%; right: 0; bottom: -.12em; width: 92%; height: .32em; overflow: visible; }
+.wish-swash path { fill: none; stroke: var(--walnut); stroke-width: 2.4; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1.6s var(--ease) .7s; }
+.closing-collective.in .wish-swash path { stroke-dashoffset: 0; }
+.wish-spark { position: absolute; width: 1.1rem; height: 1.1rem; fill: none; stroke: var(--wine); stroke-width: 1.4; stroke-linecap: round; opacity: 0; transform: scale(.4); transition: opacity .6s var(--ease), transform .6s var(--ease); }
+.wish-spark.s1 { top: -.6rem; right: -1.6rem; width: 1.5rem; height: 1.5rem; transition-delay: 1.4s; }
+.wish-spark.s2 { top: 38%; left: -1.4rem; stroke: var(--walnut); transition-delay: 1.6s; }
+.wish-spark.s3 { bottom: .4rem; right: -.6rem; width: .8rem; height: .8rem; transition-delay: 1.8s; }
+.closing-collective.in .wish-spark { opacity: .85; transform: none; }
+.closing-collective.is-wish + .closing-sign { margin-top: 2.4rem; }
+@media (prefers-reduced-motion: reduce) {
+  .wish-swash path { stroke-dashoffset: 0; transition: none; }
+  .wish-spark { opacity: .85; transform: none; transition: none; }
+}
 .closing-date { margin: 1.2rem 0 0; font: .78rem/1 var(--mono); letter-spacing: .3em; color: var(--walnut); }
 .b-close { width: 70px; height: 110px; left: 50%; margin-left: -35px; bottom: 1.2rem; opacity: .4; position: absolute; }
 @media (min-width: 760px) { .closing-notes { grid-template-columns: repeat(2, 1fr); gap: 10px 48px; } }
