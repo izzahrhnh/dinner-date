@@ -40,10 +40,7 @@ window.SCRAPBOOK = {
      ---------------------------------------------------------------- */
   cover: {
     // ✏️ the big cut-out photo of her in the middle of the birthday poster
-    hero: "assets/photos/nurin-baby-cutout.webp",
-    // a little polaroid tucked into the corner: her, all grown up
-    baby: "assets/photos/holding-photostrip.jpg",
-    babyCaption: "now, at 22",
+    hero: "assets/photos/baby-nurin.jpg",
     age: "22",
     // little words around the poster (top-left, top-right, left, right)
     tags: ["", "", "our chosen family", "through everything, together"],

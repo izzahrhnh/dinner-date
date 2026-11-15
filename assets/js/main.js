@@ -100,9 +100,6 @@
   document.title = `A little world for ${first}`;
 
   const hero = $('[data-hero]'); hero.src = cover.hero || ''; hero.alt = first;
-  const baby = $('[data-baby]');
-  if (cover.baby) { baby.querySelector('img').src = cover.baby; baby.querySelector('figcaption').textContent = cover.babyCaption || ''; }
-  else baby.hidden = true;
 
   // the wall of prints behind the poster: every photo in the archive, overlapping like a pile
   const wall = $('[data-cover-wall]');
