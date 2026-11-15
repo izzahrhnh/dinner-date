@@ -229,8 +229,41 @@
       for (let k = 0; k < Math.min(queue.length, 4) && got.length < max; k++) if (pred(queue[k], got)) got.push(k);
       return got.reverse().map(k => queue.splice(k, 1)[0]).reverse();
     };
-    const queue = items.slice();
     grid.style.gridAutoRows = unit + 'px'; grid.style.rowGap = '0px';
+    if (wide) {
+      // laptops/iPads: a tight scrapbook "masonry" — mixed widths, each piece drops into the
+      // lowest open spot, so there are no big empty gaps between photos and videos
+      const tops = new Array(cols).fill(1), vgap = 2, slack = 3;
+      const place = (it, c, span) => {
+        const y = Math.max(...tops.slice(c, c + span));
+        const h = Math.ceil(heightFor(it, span) / unit);
+        it.n.style.gridColumn = `${c + 1} / span ${span}`;
+        it.n.style.gridRow = `${y} / span ${h}`;
+        for (let k = c; k < c + span; k++) tops[k] = y + h + vgap;
+      };
+      items.forEach(it => {
+        if (it.kind === 'strip') { const m = Math.max(...tops); tops.fill(m); place(it, 0, 12); return; }
+        const pref = it.kind === 'note' ? 3 : it.portrait ? pick([3, 4, 4]) : pick([5, 6, 6, 7]);
+        for (let guard = 0; guard < 40; guard++) {
+          // the lowest open stretch of the page
+          const m = Math.min(...tops), c = tops.indexOf(m);
+          let r = 1; while (c + r < cols && tops[c + r] <= m + slack) r++;
+          if (r < 3) {                                   // too narrow for anything: level it with its neighbours
+            const nb = Math.min(...[tops[c - 1], tops[c + r]].filter(v => v !== undefined));
+            for (let k = c; k < c + r; k++) tops[k] = nb; continue;
+          }
+          let span = Math.min(pref, r);
+          if (r - span > 0 && r - span < 3) span = r;     // don't leave a sliver beside it
+          span = Math.min(span, it.portrait ? 4 : 8);        // keep portraits and videos from getting huge
+          if (r - span > 0 && r - span < 3) {             // still a sliver? shrink so the next piece fits
+            span = Math.max(3, r - 3);
+          }
+          place(it, c, span); return;
+        }
+      });
+      return;
+    }
+    const queue = items.slice();
     let top = 1;
     while (queue.length) {
       const a = queue.shift(), row = [];
