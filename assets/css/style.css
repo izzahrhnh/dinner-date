@@ -558,3 +558,75 @@ body:not(.is-closed) .open-btn { visibility: hidden; }
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; transition-delay: 0s !important; }
   .reveal, .reveal-photo { opacity: 1; transform: rotate(var(--rot, 0deg)); }
 }
+
+/* =====================================================================
+   DARK FILM-COLLAGE THEME
+   Dark developed-film pages; photos and notes stay on cream paper,
+   with red marker hearts and yellow scribbled stars drawn over them.
+   ===================================================================== */
+:root {
+  --night: #1E1714;        /* page background: darkroom brown-black */
+  --night-2: #261C18;
+  --night-3: #2E221D;
+  --on-night: #F1E4D3;     /* text on dark pages */
+  --on-night-soft: #BFA894;
+  --marker: #C3272F;       /* red marker */
+  --marker-soft: rgba(195, 39, 47, .85);
+  --star: #F2B630;         /* yellow highlighter star */
+  --white: #F4EADB;        /* polaroid paper, a touch aged */
+  --wine: #B8323C;
+  --shadow: 0 1px 1px rgba(0, 0, 0, .25), 0 14px 28px -12px rgba(0, 0, 0, .7);
+  --shadow-lg: 0 2px 2px rgba(0, 0, 0, .25), 0 26px 50px -18px rgba(0, 0, 0, .8);
+}
+body { background: var(--night); color: var(--on-night); }
+.grain { opacity: .14; mix-blend-mode: screen; }
+::selection { background: rgba(195, 39, 47, .35); }
+
+/* pages: a warm film glow in the corners, like a light leak */
+.page { --glow: radial-gradient(60% 40% at 0% 0%, rgba(214, 120, 52, .16), transparent 70%), radial-gradient(55% 40% at 100% 100%, rgba(195, 39, 47, .12), transparent 70%); }
+.page[data-tone="cream"] { background: var(--glow), var(--night); }
+.page[data-tone="paper"] { background: var(--glow), var(--night-2); }
+.page[data-tone="white"] { background: var(--glow), var(--night-3); }
+.page[data-tone="old"]   { background: var(--glow), var(--night-2); }
+
+/* type that sits directly on the dark pages */
+.page-title, .cover-name, .cover-line, .closing-heading, .wish-lead { color: var(--on-night); }
+.label, .page-no, .page-lede, .cover-sub, .closing-date { color: var(--on-night-soft); }
+.cover-name em, .wish-name { color: var(--marker); }
+.page-title .mark { position: relative; display: inline-block; }
+.page-title .mark::after {        /* a marker underline under each page title */
+  content: ""; position: absolute; left: -2%; right: -4%; bottom: -.18em; height: .32em;
+  background: no-repeat center / 100% 100% url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 20' preserveAspectRatio='none'%3E%3Cpath d='M3 12c60-7 140-9 200-6 30 2 60 3 94-2' fill='none' stroke='%23C3272F' stroke-width='3.2' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+.closing-sign, .hand-sign { color: var(--marker); }
+.closing .hand-sign::after, .hand-sign::after { color: var(--marker); }
+.aged-letter .hand-sign { color: var(--marker); }
+
+/* cover button & stamp */
+.open-btn { color: var(--on-night); border-color: var(--on-night-soft); }
+.open-btn:hover, .open-btn:focus-visible { background: var(--marker); border-color: var(--marker); color: #fff; }
+.stamp { color: var(--on-night-soft); }
+
+/* paper pieces keep dark ink */
+.aged-letter, .note-paper, .polaroid-frame, .item.polaroid .frame, .mini-polaroid, .closing-photo, .cover-note, .five-details li { color: var(--ink); }
+.five-details li { background: var(--white); border-color: rgba(0,0,0,.2); }
+.item .cap { color: var(--ink); }
+
+/* washi tape → semi-clear tape on dark */
+:root { --tape: rgba(240, 225, 200, .38); --tape-wine: rgba(195, 39, 47, .55); }
+
+/* film band between pages: proper film stock */
+.film-band { background: #0E0A09; }
+
+/* doodles: red marker hearts and yellow stars dropped around the collage */
+.doodle { position: absolute; pointer-events: none; z-index: 6; overflow: visible; }
+.doodle path { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.doodle.heart path { stroke: var(--marker-soft); stroke-width: 3; }
+.doodle.star path { stroke: var(--star); stroke-width: 2.6; }
+.doodle.clip { z-index: 7; }
+.doodle.clip path { stroke: #B9B4AE; stroke-width: 2.4; }
+
+/* music pill on dark */
+.music { background: rgba(30, 23, 20, .85); color: var(--on-night-soft); border-color: rgba(241, 228, 211, .2); }
+
+.mini-polaroid { position: relative; }

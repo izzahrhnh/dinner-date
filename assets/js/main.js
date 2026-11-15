@@ -397,6 +397,32 @@
     requestAnimationFrame(t => { last = t; requestAnimationFrame(step); });
   });
 
+  // ---- doodles: red marker hearts, yellow stars, paperclips, scattered like a hand-made collage
+  $$('.page-title').forEach(t => { if (!t.querySelector('.mark')) t.innerHTML = `<span class="mark">${t.innerHTML}</span>`; });
+  const DOODLE = {
+    heart: '<path d="M50 88C20 66 6 48 8 30 10 14 26 6 38 12c7 3 11 10 12 16 2-8 7-15 15-18 13-4 27 5 27 21 0 20-18 38-42 57"/><path d="M47 85C24 66 13 50 14 33" opacity=".55"/>',
+    star: '<path d="M50 6l11 30 32 1-25 19 9 31-27-18-27 18 10-31L7 37l32-1z"/><path d="M48 12l10 26" opacity=".5"/>',
+    clip: '<path d="M30 92V22a14 14 0 0 1 28 0v58a9 9 0 0 1-18 0V30"/>',
+  };
+  const doodle = (kind, style) => {
+    const s = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    s.setAttribute('viewBox', '0 0 100 100'); s.setAttribute('aria-hidden', 'true');
+    s.classList.add('doodle', kind); s.innerHTML = DOODLE[kind]; Object.assign(s.style, style); return s;
+  };
+  let dseed = 11; const drnd = () => (dseed = (dseed * 9301 + 49297) % 233280) / 233280;
+  [...grid.children].forEach((item, i) => {
+    if (item.classList.contains('strip') || item.classList.contains('note')) return;
+    const roll = i % 5;
+    if (roll === 1) item.append(doodle('heart', { width: '64px', height: '64px', top: '-18px', [drnd() < .5 ? 'left' : 'right']: '-16px', transform: `rotate(${-20 + drnd() * 40}deg)` }));
+    if (roll === 3) item.append(doodle('star', { width: '42px', height: '42px', bottom: '-12px', [drnd() < .5 ? 'left' : 'right']: '-10px', transform: `rotate(${drnd() * 40 - 20}deg)` }));
+    if (roll === 4 && item.classList.contains('polaroid')) item.append(doodle('clip', { width: '26px', height: '58px', top: '-30px', left: `${30 + drnd() * 40}%`, transform: `rotate(${drnd() * 30 - 15}deg)` }));
+  });
+  $$('.mini-polaroid').forEach((f, i) => f.append(doodle(i % 2 ? 'star' : 'heart', { width: i % 2 ? '34px' : '46px', height: i % 2 ? '34px' : '46px', top: '-14px', right: '-12px' })));
+  const cc = $('.cover-collage');
+  if (cc) { cc.append(doodle('heart', { width: '110px', height: '110px', left: '-4%', top: '-2%', transform: 'rotate(-14deg)' }), doodle('star', { width: '54px', height: '54px', right: '24%', bottom: '-4%', transform: 'rotate(12deg)' })); }
+  const cpd = $('[data-closing-photo]');
+  if (cpd) cpd.append(doodle('heart', { width: '96px', height: '96px', right: '-34px', bottom: '-30px', transform: 'rotate(12deg)' }), doodle('star', { width: '46px', height: '46px', left: '-20px', top: '-18px' }));
+
   // play each archive clip (muted) while it's on screen, pause it when it scrolls away
   const liveClips = $$('.vid-live');
   if (liveClips.length && 'IntersectionObserver' in window && !reduced.matches) {
