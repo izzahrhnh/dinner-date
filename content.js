@@ -134,6 +134,11 @@ window.SCRAPBOOK = {
     { type: "photo", size: "wide", src: "assets/photos/mala-table.jpg", caption: "[caption]" },
     { type: "photo", size: "polaroid", src: "assets/photos/driving.jpg", caption: "[caption]" },
     { type: "photo", size: "polaroid", src: "assets/photos/lift-selfie.jpg", caption: "[caption]" },
+    { type: "video", size: "wide", src: "assets/videos/clip-booth-chat.mp4", poster: "assets/videos/clip-booth-chat.jpg", caption: "[video caption]" },
+    { type: "video", size: "tall", src: "assets/videos/clip-pasta.mp4", poster: "assets/videos/clip-pasta.jpg", caption: "[video caption]" },
+    { type: "video", size: "tall", src: "assets/videos/clip-cards-game.mp4", poster: "assets/videos/clip-cards-game.jpg", caption: "[video caption]" },
+    { type: "video", size: "tall", src: "assets/videos/clip-atv.mp4", poster: "assets/videos/clip-atv.jpg", caption: "[video caption]" },
+    { type: "video", size: "polaroid", src: "assets/videos/clip-beach-cards.mp4", poster: "assets/videos/clip-beach-cards.jpg", caption: "[video caption]" },
   ],
 
   /* ----------------------------------------------------------------
