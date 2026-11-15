@@ -94,7 +94,7 @@
   document.title = `A little world for ${first}`;
 
   const collage = $('[data-cover-collage]');
-  (cover.photos || []).slice(0, 3).forEach((src, i) => {
+  (cover.photos || []).slice(0, 5).forEach((src, i) => {
     const f = el('div', `c-photo c${i + 1}`);
     f.append(photo(src, '', true));
     if (i === 0) f.append(el('span', 'washi'));
@@ -184,11 +184,11 @@
   const group = el('figure', 'group-shot reveal-photo'); group.style.margin = 0; group.style.setProperty('--rot', '-.6deg');
   group.append(photo(five.groupPhoto, `All five of us`), el('span', 'washi'), el('span', 'washi wine'));
   frames.append(group);
-  people.forEach((p, i) => {
-    if (!p.photo) return;   // individual photos are optional
+  const littleFrames = (five.frames || people.map(p => ({ photo: p.photo, caption: p.name }))).filter(f => f.photo).slice(0, 4);
+  littleFrames.forEach((p, i) => {
     const fig = el('figure', `mini-polaroid c${i} reveal-photo`);
     fig.style.setProperty('--rot', `${[-4, 3.5, 2.5, -3][i]}deg`);
-    fig.append(photo(p.photo, p.name), el('figcaption', null, p.name));
+    fig.append(photo(p.photo, p.caption || first), el('figcaption', null, p.caption || ''));
     frames.append(fig);
   });
   const her = el('figure', 'mini-polaroid her reveal-photo'); her.style.setProperty('--rot', '1.5deg');
@@ -508,7 +508,7 @@
       ticking = false;
       const y = scrollY, vh = innerHeight;
       if (!reduced.matches) {
-        if (y < vh * 1.2) coverPhotos.forEach((p, i) => { p.style.translate = `0 ${y * [.06, .14, .1][i]}px`; });
+        if (y < vh * 1.2) coverPhotos.forEach((p, i) => { p.style.translate = `0 ${y * [.06, .14, .1, .12, .08][i]}px`; });
         bands.forEach((b, i) => {
           const r = b.parentElement.getBoundingClientRect();
           if (r.bottom > 0 && r.top < vh) b.style.transform = `translateX(${(i % 2 ? -1 : 1) * (r.top - vh) * .35 - 300}px)`;
