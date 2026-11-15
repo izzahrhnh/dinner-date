@@ -18,8 +18,8 @@ window.SCRAPBOOK = {
   showPlaceholderTags: true,
 
   /* Pages to hide for now (they stay in the code and can be brought back by
-     removing them from this list). "things" = Little things about you. */
-  hiddenPages: ["things"],
+     removing them from this list). "things" = Little things about you, "secret" = the coded letter. */
+  hiddenPages: ["things", "secret"],
 
   recipient: {
     firstName: "Nurin",
