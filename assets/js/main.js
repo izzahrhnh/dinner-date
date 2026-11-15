@@ -91,25 +91,49 @@
      PAGE 01 — COVER
      ========================================================= */
   const cover = S.cover || {};
-  $('[data-cover-label]').textContent = cover.label || '';
-  $('[data-first]').textContent = first;
-  $('[data-last]').textContent = last;
+  $$('[data-first]').forEach(n => n.textContent = first);
+  $$('[data-last]').forEach(n => n.textContent = last);
   $('[data-cover-line]').textContent = cover.line || '';
-  $('[data-cover-sub]').textContent = cover.subtitle || '';
   $('[data-open-label]').textContent = cover.button || 'Open your little world';
-  $('[data-stamp-date]').textContent = cover.stampDate || '';
-  $('[data-stamp-path]').textContent = `A LITTLE WORLD · MADE FOR ${first.toUpperCase()} · `;
+  (cover.tags || []).forEach((txt, i) => $$(`[data-tag="${i}"]`).forEach(n => n.textContent = txt));
+  $('[data-age]').textContent = cover.age || '';
   document.title = `A little world for ${first}`;
 
-  const collage = $('[data-cover-collage]');
-  (cover.photos || []).slice(0, 5).forEach((src, i) => {
-    const f = el('div', `c-photo c${i + 1}`);
-    f.append(photo(src, '', true));
-    if (i === 0) f.append(el('span', 'washi'));
-    if (i === 1) f.append(el('span', 'washi wine'));
-    collage.append(f);
+  // "BIRTHDAY" as cut-out ransom letters, each on its own scrap of paper
+  const ransom = $('[data-ransom]'), word = ransom.textContent.trim();
+  ransom.setAttribute('aria-label', word); ransom.textContent = '';
+  const SCRAPS = [['#C3272F', '#F4EADB', 'abril'], ['#F4EADB', '#1E1714', 'serif'], ['#1E1714', '#F4EADB', 'archivo'], ['#E9B8B0', '#7A1F27', 'abril'],
+                  ['#F2B630', '#1E1714', 'archivo'], ['#F4EADB', '#C3272F', 'serif'], ['#7A1F27', '#F4EADB', 'abril'], ['#DCD3C3', '#1E1714', 'archivo']];
+  [...word].forEach((ch, i) => {
+    const [bg, fg, face] = SCRAPS[i % SCRAPS.length];
+    const l = el('span', `rl ${face}`, ch);
+    l.setAttribute('aria-hidden', 'true');
+    l.style.cssText = `--bg:${bg};--fg:${fg};--r:${[-6, 4, -3, 7, -5, 3, -7, 5][i % 8]}deg;--y:${[2, -4, 3, -2, 4, -3, 1, -5][i % 8]}px;--d:${.9 + i * .07}s`;
+    ransom.append(l);
   });
-  if (cover.note) collage.append(el('p', 'cover-note', cover.note));
+
+  // crayon starburst behind her
+  const burst = $('[data-burst]');
+  for (let k = 0; k < 14; k++) {
+    const a1 = (k / 14) * Math.PI * 2, a2 = a1 + .14, r1 = 60, r2 = k % 2 ? 190 : 150;
+    const p = (r, a) => `${200 + r * Math.cos(a)} ${200 + r * Math.sin(a)}`;
+    burst.insertAdjacentHTML('beforeend', `<path d="M${p(r1, a1 - .05)} L${p(r2, a1 + .07)} L${p(r1, a2)} Z" class="${k % 3 ? 'ray' : 'ray red'}"/>`);
+  }
+
+  const hero = $('[data-hero]'); hero.src = cover.hero || ''; hero.alt = first;
+  const baby = $('[data-baby]');
+  if (cover.baby) { baby.querySelector('img').src = cover.baby; baby.querySelector('figcaption').textContent = cover.babyCaption || ''; }
+  else baby.hidden = true;
+
+  // the wall of prints behind the poster: every photo in the archive, overlapping like a pile
+  const wall = $('[data-cover-wall]');
+  const wallPhotos = [...(cover.photos || []), ...(S.archive || []).filter(a => a.type === 'photo').map(a => a.src)];
+  [...new Set(wallPhotos)].slice(0, 24).forEach((src, i) => {
+    const pr = el('div', 'print');
+    pr.style.cssText = `--r:${[-7, 4, -3, 8, -5, 6, -2, 3][i % 8]}deg;--i:${i}`;
+    const img = el('img'); img.src = src; img.alt = ''; img.decoding = 'async'; if (i > 11) img.loading = 'lazy';
+    pr.append(img); wall.append(pr);
+  });
 
   const coverEl = $('#cover');
   const ready = () => requestAnimationFrame(() => coverEl.classList.add('ready'));
@@ -418,8 +442,8 @@
     if (roll === 4 && item.classList.contains('polaroid')) item.append(doodle('clip', { width: '26px', height: '58px', top: '-30px', left: `${30 + drnd() * 40}%`, transform: `rotate(${drnd() * 30 - 15}deg)` }));
   });
   $$('.mini-polaroid').forEach((f, i) => f.append(doodle(i % 2 ? 'star' : 'heart', { width: i % 2 ? '34px' : '46px', height: i % 2 ? '34px' : '46px', top: '-14px', right: '-12px' })));
-  const cc = $('.cover-collage');
-  if (cc) { cc.append(doodle('heart', { width: '110px', height: '110px', left: '-4%', top: '-2%', transform: 'rotate(-14deg)' }), doodle('star', { width: '54px', height: '54px', right: '24%', bottom: '-4%', transform: 'rotate(12deg)' })); }
+  const hz = $('.hero');
+  if (hz) hz.append(doodle('star', { width: '62px', height: '62px', left: '4%', top: '6%', transform: 'rotate(-12deg)' }), doodle('star', { width: '44px', height: '44px', right: '6%', bottom: '24%', transform: 'rotate(14deg)' }), doodle('heart', { width: '70px', height: '70px', right: '2%', top: '2%', transform: 'rotate(12deg)' }));
   const cpd = $('[data-closing-photo]');
   if (cpd) cpd.append(doodle('heart', { width: '96px', height: '96px', right: '-34px', bottom: '-30px', transform: 'rotate(12deg)' }), doodle('star', { width: '46px', height: '46px', left: '-20px', top: '-18px' }));
 
@@ -713,7 +737,7 @@
     $$('.reveal, .reveal-photo').forEach(n => io.observe(n));
   }
 
-  const coverPhotos = $$('.c-photo');
+  const coverPhotos = $$('.cover-wall .print');
   const bands = $$('[data-film-band]');
   let ticking = false;
   function onScroll() {
@@ -722,7 +746,7 @@
       ticking = false;
       const y = scrollY, vh = innerHeight;
       if (!reduced.matches) {
-        if (y < vh * 1.2) coverPhotos.forEach((p, i) => { p.style.translate = `0 ${y * [.06, .14, .1, .12, .08][i]}px`; });
+        if (y < vh * 1.2) coverPhotos.forEach((p, i) => { p.style.translate = `0 ${y * (.05 + (i % 5) * .03)}px`; });
         bands.forEach((b, i) => {
           const r = b.parentElement.getBoundingClientRect();
           if (r.bottom > 0 && r.top < vh) b.style.transform = `translateX(${(i % 2 ? -1 : 1) * (r.top - vh) * .35 - 300}px)`;

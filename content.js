@@ -39,21 +39,25 @@ window.SCRAPBOOK = {
      PAGE 01 — THE COVER
      ---------------------------------------------------------------- */
   cover: {
-    label: "A little something for you",
+    // ✏️ the big cut-out photo of her in the middle of the birthday poster
+    hero: "assets/photos/nurin-cutout.webp",
+    // a little polaroid of her as a baby, tucked into the corner
+    baby: "assets/photos/baby-nurin.jpg",
+    babyCaption: "since 2004",
+    age: "22",
+    // little words around the poster (top-left, top-right, left, right)
+    tags: ["our best friend", "grateful always", "you are our chosen family", "through everything, together."],
     line: "A little world, made just for you.",
-    subtitle: "A collection of little things, beautiful memories and moments we never want to forget.",
-    // ✏️ Up to 5 photos for the opening collage. The first one is the biggest.
+    // the photos that lead the wall of prints behind the poster (the rest come from the archive)
     photos: [
-      "assets/photos/baby-nurin.jpg",
       "assets/photos/photobooth-pink-1.jpg",
-      "assets/photos/hand-signs.jpg",
       "assets/photos/flowers-jump-close.jpg",
+      "assets/photos/hand-signs.jpg",
       "assets/photos/camera-flash.jpg",
     ],
-    note: "for you, from us",      // ✏️ small handwritten note
-    stampDate: "25 NOV 2026",                  // date on the postage stamp
     button: "Open your little world",
   },
+
 
   /* ----------------------------------------------------------------
      PAGE 02 — BEFORE YOU BEGIN
