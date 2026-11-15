@@ -70,7 +70,8 @@ window.SCRAPBOOK = {
 
   /* ----------------------------------------------------------------
      PAGE 03 — THE MEMORY ARCHIVE
-     Add as many as you like. They're laid out like a scrapbook spread.
+     Add as many as you like. They're scattered like a scrapbook spread, and
+     videos are spread out between the photos automatically.
      type:  "photo" | "video" | "strip" (3–5 photos on a film strip) | "note"
      size:  "feature" (big) | "wide" | "tall" | "polaroid" | "small"
      caption: short, lowercase works best. Appears on hover/tap.
@@ -116,7 +117,23 @@ window.SCRAPBOOK = {
     { type: "photo", size: "wide", src: "assets/photos/garden-selfie.jpg", caption: "[caption]" },
     { type: "photo", size: "wide", src: "assets/photos/cafe-orange.jpg", caption: "[caption]" },
     { type: "photo", size: "tall", src: "assets/photos/volunteer-certificate.jpg", caption: "[caption]" },
-    { type: "photo", size: "tall", src: "assets/photos/phone-cafe-night.jpg", caption: "[caption]" },
+    { type: "photo", size: "wide", src: "assets/photos/restaurant-thumbs.jpg", caption: "[caption]" },
+    { type: "photo", size: "wide", src: "assets/photos/sleepover-selfie.jpg", caption: "[caption]" },
+    { type: "video", size: "wide", src: "assets/videos/clip-breakfast.mp4", poster: "assets/videos/clip-breakfast.jpg", caption: "[video caption]" },
+    { type: "photo", size: "wide", src: "assets/photos/mario-lamp.jpg", caption: "[caption]" },
+    { type: "photo", size: "tall", src: "assets/photos/makcik-bawang-three.jpg", caption: "[caption]" },
+    { type: "photo", size: "wide", src: "assets/photos/beach-chairs.jpg", caption: "[caption]" },
+    { type: "photo", size: "wide", src: "assets/photos/cafe-three.jpg", caption: "[caption]" },
+    { type: "video", size: "tall", src: "assets/videos/clip-pose.mp4", poster: "assets/videos/clip-pose.jpg", caption: "[video caption]" },
+    { type: "photo", size: "wide", src: "assets/photos/plants-cafe.jpg", caption: "[caption]" },
+    { type: "photo", size: "wide", src: "assets/photos/black-hijab-two.jpg", caption: "[caption]" },
+    { type: "photo", size: "tall", src: "assets/photos/seaside-two.jpg", caption: "[caption]" },
+    { type: "photo", size: "wide", src: "assets/photos/frying-night.jpg", caption: "[caption]" },
+    { type: "photo", size: "wide", src: "assets/photos/nasi-campur-stare.jpg", caption: "[caption]" },
+    { type: "photo", size: "tall", src: "assets/photos/avocado-mirror.jpg", caption: "[caption]" },
+    { type: "photo", size: "wide", src: "assets/photos/mala-table.jpg", caption: "[caption]" },
+    { type: "photo", size: "polaroid", src: "assets/photos/driving.jpg", caption: "[caption]" },
+    { type: "photo", size: "polaroid", src: "assets/photos/lift-selfie.jpg", caption: "[caption]" },
   ],
 
   /* ----------------------------------------------------------------

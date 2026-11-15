@@ -120,6 +120,7 @@
   function openStory(scroll) {
     story.hidden = false;
     document.body.classList.remove('is-closed');
+    packArchive();                                   // the archive needs its real width to lay out
     store.sset('opened', '1');
     $('[data-music]').hidden = false;
     loadPlayer();
@@ -140,7 +141,17 @@
      PAGE 03 — THE MEMORY ARCHIVE
      ========================================================= */
   const grid = $('[data-archive]');
-  (S.archive || []).forEach((item, i) => {
+  // spread the videos out evenly between the photos ("selang-seli"), whatever order they were added in
+  const archiveItems = (() => {
+    const all = S.archive || [];
+    const vids = all.filter(a => a.type === 'video'), rest = all.filter(a => a.type !== 'video');
+    if (!vids.length) return all;
+    const every = Math.max(2, Math.floor(rest.length / (vids.length + 1)));
+    const out = []; let v = 0;
+    rest.forEach((a, i) => { out.push(a); if ((i + 1) % every === 0 && v < vids.length) out.push(vids[v++]); });
+    return out.concat(vids.slice(v));
+  })();
+  archiveItems.forEach((item, i) => {
     const type = item.type || 'photo';
     if (type === 'note') {
       const f = el('div', 'item note reveal-photo');
@@ -184,45 +195,88 @@
     grid.append(f);
   });
 
-  // Lay the archive out row by row so every row fills the page edge to edge (no empty gaps),
-  // however many photos and videos are added. Items in a row share one height.
-  const SIZES = ['feature', 'wide', 'tall', 'polaroid', 'small', 'note', 'strip'];
-  const LAYOUT = {
-    wide:   { cols: 12, w: { feature: 8, wide: 7, tall: 5, polaroid: 4, small: 4, note: 4, strip: 12 }, h: { feature: 9, wide: 6, tall: 8, polaroid: 7, small: 5, note: 3, strip: 5 } },
-    narrow: { cols: 6,  w: { feature: 6, wide: 6, tall: 3, polaroid: 3, small: 3, note: 3, strip: 6 },  h: { feature: 7, wide: 5, tall: 6, polaroid: 5, small: 4, note: 3, strip: 4 } },
-  };
+  // Scatter the archive like a scrapbook: some photos on their own, some in pairs or threes,
+  // nudged left or right and dropped a little lower than their neighbours. Two videos never
+  // share a row. The arrangement is the same every visit (seeded), and redraws on resize.
+  const SHAPES = window.PHOTO_SHAPES || {};
+  const DEFAULT_SHAPE = { feature: .7, wide: .66, tall: 1.4, polaroid: 1.25, small: 1.25, note: .8 };
   const wideMQ = matchMedia('(min-width: 760px)');
   function packArchive() {
-    const L = LAYOUT[wideMQ.matches ? 'wide' : 'narrow'];
-    const queue = [...grid.children].map(n => ({ n, size: SIZES.find(c => n.classList.contains(c)) || 'small' }));
-    let row = 1;
+    const wide = wideMQ.matches, cols = wide ? 12 : 6, gap = wide ? 18 : 14, unit = 8;
+    const gw = grid.clientWidth; if (!gw) return;
+    const colW = (gw - gap * (cols - 1)) / cols;
+    const px = span => span * colW + (span - 1) * gap;
+    let seed = 7;
+    const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+    const pick = arr => arr[Math.floor(rnd() * arr.length)];
+    const items = [...grid.children].map(n => {
+      const kind = n.classList.contains('strip') ? 'strip' : n.classList.contains('note') ? 'note' : n.querySelector('.vid') ? 'video' : 'photo';
+      const size = ['feature', 'wide', 'tall', 'polaroid', 'small'].find(c => n.classList.contains(c)) || 'note';
+      const src = n.querySelector('img')?.getAttribute('src');
+      const shape = SHAPES[src] || DEFAULT_SHAPE[size] || 1;
+      return { n, kind, size, shape, portrait: kind === 'note' || shape > 1.05 };
+    });
+    const heightFor = (it, span) => {
+      const w = px(span);
+      if (it.kind === 'strip') return wide ? 250 : 190;
+      if (it.kind === 'note') return Math.min(w * .8, 240);
+      if (it.size === 'polaroid') return (w - 14) * it.shape + 37;
+      if (it.kind === 'video') return (w - 28) * it.shape + 24;
+      return w * it.shape;
+    };
+    const take = (pred, max) => {                       // next few items that suit this row
+      const got = [];
+      for (let k = 0; k < Math.min(queue.length, 4) && got.length < max; k++) if (pred(queue[k], got)) got.push(k);
+      return got.reverse().map(k => queue.splice(k, 1)[0]).reverse();
+    };
+    const queue = items.slice();
+    grid.style.gridAutoRows = unit + 'px'; grid.style.rowGap = '0px';
+    let top = 1;
     while (queue.length) {
-      const line = [queue.shift()]; let used = L.w[line[0].size];
-      // fill what's left of the row, looking a few items ahead for one that fits
-      while (used < L.cols) {
-        const k = queue.slice(0, 5).findIndex(q => L.w[q.size] <= L.cols - used);
-        if (k < 0) break;
-        const [q] = queue.splice(k, 1); line.push(q); used += L.w[q.size];
+      const a = queue.shift(), row = [];
+      const okWith = (q, got) => q.kind !== 'strip' && !(q.kind === 'video' && (a.kind === 'video' || got.some(k => queue[k].kind === 'video')));
+      if (a.kind === 'strip') row.push({ it: a, col: 1, span: cols, drop: 0 });
+      else if (!a.portrait) {
+        const roll = rnd();
+        const mate = wide && roll < .5 ? take((q, g) => q.portrait && okWith(q, g), 1)[0] : null;
+        const twin = wide && !mate && roll < .85 ? take((q, g) => !q.portrait && okWith(q, g), 1)[0] : null;
+        if (mate) {                                      // landscape + portrait
+          const big = pick([7, 7, 8]), small = big === 8 ? 4 : pick([4, 5]), left = rnd() < .5;
+          row.push({ it: a, col: left ? 1 : 13 - big, span: big, drop: 0 });
+          row.push({ it: mate, col: left ? 13 - small : 1, span: small, drop: pick([3, 6, 10]) });
+        } else if (twin) {                               // two landscapes, staggered
+          const [w1, w2] = pick([[6, 6], [7, 5], [5, 7]]);
+          row.push({ it: a, col: 1, span: w1, drop: 0 });
+          row.push({ it: twin, col: 13 - w2, span: w2, drop: pick([6, 10, 16]) });
+        } else {                                         // one on its own, nudged off-centre
+          const span = wide ? pick([7, 8, 9]) : pick([6, 6, 5]);
+          row.push({ it: a, col: 1 + Math.floor(rnd() * (cols - span + 1)), span, drop: 0 });
+        }
+      } else {
+        const mates = take((q, g) => q.portrait && okWith(q, g), wide ? pick([1, 2, 2]) : pick([1, 1, 0]));
+        const group = [a, ...mates];
+        if (wide) {
+          const plans = { 1: [[pick([1, 3, 5, 7]), pick([4, 5])]], 2: [[1, 4, 6, 4], [2, 4, 8, 4], [1, 5, 8, 4], [3, 4, 8, 5]], 3: [[1, 4, 5, 4, 9, 4], [1, 3, 5, 4, 10, 3], [2, 3, 6, 4, 10, 3]] };
+          const plan = pick(plans[group.length]);
+          group.forEach((it, i) => row.push({ it, col: plan[i * 2], span: plan[i * 2 + 1], drop: i === 0 ? 0 : pick([2, 5, 9]) }));
+        } else if (group.length === 2) {
+          group.forEach((it, i) => row.push({ it, col: i ? 4 : 1, span: 3, drop: i ? pick([3, 6, 9]) : 0 }));
+        } else row.push({ it: a, col: pick([1, 3, 2]), span: 4, drop: 0 });
       }
-      // still a gap? widen the photos in this row to close it
-      const widths = line.map(q => L.w[q.size]);
-      for (let gap = L.cols - used, j = 0; gap > 0; gap--, j++) {
-        const pick = line.map((q, i) => i).filter(i => line[i].size !== 'note');
-        widths[pick.length ? pick[j % pick.length] : j % line.length]++;
-      }
-      const solid = line.filter(q => q.size !== 'note');
-      const h = Math.max(...(solid.length ? solid : line).map(q => L.h[q.size]));
-      let col = 1;
-      line.forEach((q, i) => {
-        q.n.style.gridColumn = `${col} / span ${widths[i]}`;
-        q.n.style.gridRow = `${row} / span ${h}`;           // notes become a full-height lined card
-        col += widths[i];
+      let bottom = top;
+      row.forEach(r => {
+        const h = Math.ceil(heightFor(r.it, r.span) / unit), y = top + r.drop;
+        r.it.n.style.gridColumn = `${r.col} / span ${r.span}`;
+        r.it.n.style.gridRow = `${y} / span ${h}`;
+        bottom = Math.max(bottom, y + h);
       });
-      row += h;
+      top = bottom + (wide ? 4 : 3);
     }
   }
   packArchive();
   wideMQ.addEventListener('change', packArchive);
+  let lastW = grid.clientWidth;
+  addEventListener('resize', () => { clearTimeout(packArchive.t); packArchive.t = setTimeout(() => { if (grid.clientWidth !== lastW) { lastW = grid.clientWidth; packArchive(); } }, 150); });
 
   /* =========================================================
      PAGE 04 — FIVE OF US
