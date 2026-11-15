@@ -40,10 +40,10 @@ window.SCRAPBOOK = {
      ---------------------------------------------------------------- */
   cover: {
     // ✏️ the big cut-out photo of her in the middle of the birthday poster
-    hero: "assets/photos/nurin-cutout.webp",
-    // a little polaroid of her as a baby, tucked into the corner
-    baby: "assets/photos/baby-nurin.jpg",
-    babyCaption: "since 2004",
+    hero: "assets/photos/nurin-baby-cutout.webp",
+    // a little polaroid tucked into the corner: her, all grown up
+    baby: "assets/photos/holding-photostrip.jpg",
+    babyCaption: "now, at 22",
     age: "22",
     // little words around the poster (top-left, top-right, left, right)
     tags: ["our best friend", "grateful always", "you are our chosen family", "through everything, together."],
@@ -132,7 +132,7 @@ window.SCRAPBOOK = {
     { type: "photo", size: "wide", src: "assets/photos/plants-cafe.jpg", caption: "peace sign behind the plants" },
     { type: "photo", size: "wide", src: "assets/photos/black-hijab-two.jpg", caption: "matching greys, arms crossed" },
     { type: "photo", size: "tall", src: "assets/photos/seaside-two.jpg", caption: "seaside, side by side" },
-    { type: "photo", size: "wide", src: "assets/photos/frying-night.jpg", caption: "night market chefs, thumbs up" },
+    { type: "photo", size: "wide", src: "assets/photos/frying-night.jpg", caption: "our early encounter" },
     { type: "photo", size: "wide", src: "assets/photos/nasi-campur-stare.jpg", caption: "don't touch my food" },
     { type: "photo", size: "tall", src: "assets/photos/avocado-mirror.jpg", caption: "cashier this way →" },
     { type: "photo", size: "wide", src: "assets/photos/mala-table.jpg", caption: "table 88, mala night" },

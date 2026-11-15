@@ -726,3 +726,17 @@ body { background: var(--night); color: var(--on-night); }
   .side-tag { max-width: 7rem; font-size: .62rem; }
   .baby { width: 24%; }
 }
+/* baby cut-out with a party hat */
+.hero-wrap { position: relative; z-index: 2; display: inline-block; height: 100%; max-width: 100%; }
+.hero-wrap .hero-cut { height: 100%; width: auto; max-width: 100%; object-fit: contain; object-position: bottom; }
+.party-hat { position: absolute; left: 57%; top: 13%; width: 19%; transform: translate(-50%, -88%) rotate(14deg); filter: drop-shadow(0 6px 6px rgba(0,0,0,.3));
+  opacity: 0; transition: opacity .8s var(--ease) 2s, transform 1s var(--ease) 2s; }
+.cover.ready .party-hat { opacity: 1; }
+.hero { height: min(46svh, 420px); margin-top: 1.8rem; }
+.baby img { object-position: center 35%; }
+@media (min-width: 900px) { .hero { height: min(50svh, 450px); } }
+.hero { --h: min(46svh, 420px); height: var(--h); }
+.hero-wrap { height: auto; width: min(100%, calc(var(--h) * 1.05)); }
+.hero-wrap .hero-cut { width: 100%; height: auto; max-width: none; }
+.party-hat { left: 56%; top: 14%; width: 17%; }
+@media (min-width: 900px) { .hero { --h: min(50svh, 450px); } }
