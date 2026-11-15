@@ -43,7 +43,7 @@ window.SCRAPBOOK = {
       "assets/photos/baby-nurin.jpg",
       "assets/photos/photobooth-pink-1.jpg",
       "assets/photos/hand-signs.jpg",
-      "assets/photos/flowers-jump.jpg",
+      "assets/photos/flowers-jump-close.jpg",
       "assets/photos/camera-flash.jpg",
     ],
     note: "for you, from us",      // ✏️ small handwritten note

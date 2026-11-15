@@ -231,6 +231,28 @@
     board.append(card);
   });
 
+  // photobooth strips glide sideways on their own while on screen; a touch pauses them for a moment
+  $$('.strip-film').forEach(film => {
+    if (reduced.matches) return;
+    let visible = false, dir = 1, holdUntil = 0, last = 0, pos = 0;
+    const hold = ms => { holdUntil = performance.now() + ms; pos = film.scrollLeft; };
+    ['pointerdown', 'wheel', 'touchstart'].forEach(ev => film.addEventListener(ev, () => hold(4000), { passive: true }));
+    film.addEventListener('mouseenter', () => hold(1e9)); film.addEventListener('mouseleave', () => hold(800));
+    new IntersectionObserver(([e]) => { visible = e.isIntersecting; }, { threshold: .4 }).observe(film);
+    const step = now => {
+      const dt = Math.min(now - last, 50); last = now;
+      const max = film.scrollWidth - film.clientWidth;
+      if (visible && max > 4 && now > holdUntil) {
+        pos += dir * dt * .045;                              // about 45px a second
+        if (pos >= max) { pos = max; dir = -1; holdUntil = now + 1400; }
+        if (pos <= 0) { pos = 0; dir = 1; holdUntil = now + 1400; }
+        film.scrollLeft = pos;
+      }
+      requestAnimationFrame(step);
+    };
+    requestAnimationFrame(t => { last = t; requestAnimationFrame(step); });
+  });
+
   // play each archive clip (muted) while it's on screen, pause it when it scrolls away
   const liveClips = $$('.vid-live');
   if (liveClips.length && 'IntersectionObserver' in window && !reduced.matches) {
