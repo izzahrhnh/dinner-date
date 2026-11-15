@@ -99,27 +99,6 @@
   $('[data-age]').textContent = cover.age || '';
   document.title = `A little world for ${first}`;
 
-  // "BIRTHDAY" as cut-out ransom letters, each on its own scrap of paper
-  const ransom = $('[data-ransom]'), word = ransom.textContent.trim();
-  ransom.setAttribute('aria-label', word); ransom.textContent = '';
-  const SCRAPS = [['#C3272F', '#F4EADB', 'abril'], ['#F4EADB', '#1E1714', 'serif'], ['#1E1714', '#F4EADB', 'archivo'], ['#E9B8B0', '#7A1F27', 'abril'],
-                  ['#F2B630', '#1E1714', 'archivo'], ['#F4EADB', '#C3272F', 'serif'], ['#7A1F27', '#F4EADB', 'abril'], ['#DCD3C3', '#1E1714', 'archivo']];
-  [...word].forEach((ch, i) => {
-    const [bg, fg, face] = SCRAPS[i % SCRAPS.length];
-    const l = el('span', `rl ${face}`, ch);
-    l.setAttribute('aria-hidden', 'true');
-    l.style.cssText = `--bg:${bg};--fg:${fg};--r:${[-6, 4, -3, 7, -5, 3, -7, 5][i % 8]}deg;--y:${[2, -4, 3, -2, 4, -3, 1, -5][i % 8]}px;--d:${.9 + i * .07}s`;
-    ransom.append(l);
-  });
-
-  // crayon starburst behind her
-  const burst = $('[data-burst]');
-  for (let k = 0; k < 14; k++) {
-    const a1 = (k / 14) * Math.PI * 2, a2 = a1 + .14, r1 = 60, r2 = k % 2 ? 190 : 150;
-    const p = (r, a) => `${200 + r * Math.cos(a)} ${200 + r * Math.sin(a)}`;
-    burst.insertAdjacentHTML('beforeend', `<path d="M${p(r1, a1 - .05)} L${p(r2, a1 + .07)} L${p(r1, a2)} Z" class="${k % 3 ? 'ray' : 'ray red'}"/>`);
-  }
-
   const hero = $('[data-hero]'); hero.src = cover.hero || ''; hero.alt = first;
   const baby = $('[data-baby]');
   if (cover.baby) { baby.querySelector('img').src = cover.baby; baby.querySelector('figcaption').textContent = cover.babyCaption || ''; }
@@ -443,7 +422,7 @@
   });
   $$('.mini-polaroid').forEach((f, i) => f.append(doodle(i % 2 ? 'star' : 'heart', { width: i % 2 ? '34px' : '46px', height: i % 2 ? '34px' : '46px', top: '-14px', right: '-12px' })));
   const hz = $('.hero');
-  if (hz) hz.append(doodle('star', { width: '62px', height: '62px', left: '4%', top: '6%', transform: 'rotate(-12deg)' }), doodle('star', { width: '44px', height: '44px', right: '6%', bottom: '24%', transform: 'rotate(14deg)' }), doodle('heart', { width: '70px', height: '70px', right: '2%', top: '2%', transform: 'rotate(12deg)' }));
+  if (hz) hz.append(doodle('star', { width: '38px', height: '38px', right: '12%', top: '4%', transform: 'rotate(14deg)' }), doodle('star', { width: '26px', height: '26px', left: '16%', bottom: '10%', transform: 'rotate(-10deg)' }));
   const cpd = $('[data-closing-photo]');
   if (cpd) cpd.append(doodle('heart', { width: '96px', height: '96px', right: '-34px', bottom: '-30px', transform: 'rotate(12deg)' }), doodle('star', { width: '46px', height: '46px', left: '-20px', top: '-18px' }));
 
