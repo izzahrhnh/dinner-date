@@ -65,88 +65,91 @@
     if (poster) poster.insertAdjacentHTML('beforeend', '<span class="glare" aria-hidden="true"></span>');
   }
 
-  /* ---------------- THE WHEEL ----------------
-     A big, slow wheel of photos turning around a point far below the screen.
-     Only a few are in view at once; the one at the top is in focus, with its
-     caption written underneath. Scroll (or drag) to turn it. */
+  /* ---------------- THE GALLERY WALK ----------------
+     Her photos hang on a gallery wall under spotlights, each with a small
+     museum label. A girl walks along in front of them as you scroll, and
+     stops to look at each one. */
   const R = S.ring;
   const ringSec = $('#ring');
   if (ringSec && R && (R.photos || []).length) {
     const rt = $('[data-ring-title]'); (rt.querySelector('.mark') || rt).textContent = R.title || '';
     $('[data-ring-lede]').textContent = R.lede || '';
     const capOf = {}; (S.archive || []).forEach(a => { if (a.src) capOf[a.src] = a.caption; }); Object.assign(capOf, R.notes || {});
-    const stage = $('[data-ring-stage]'), track = $('[data-ring-track]'), sticky = $('.ring-sticky', ringSec);
-    const core = $('[data-ring-core]'); core.remove();
-    sticky.insertAdjacentHTML('beforeend', `<div class="wheel-caption" aria-live="polite"><p class="wc-text"></p><p class="wc-count"></p></div>
-      <div class="wheel-dial" aria-hidden="true"><span class="wd-needle"></span><span class="wd-words">${(R.core || []).join(' ')}</span></div>`);
-    const capEl = $('.wc-text', sticky), countEl = $('.wc-count', sticky), needle = $('.wd-needle', sticky);
+    const track = $('[data-ring-track]'), sticky = $('.ring-sticky', ringSec), stage = $('[data-ring-stage]');
+    $('[data-ring-core]')?.remove();
+    sticky.classList.add('gallery-room');
+    stage.className = 'gallery-wall';
     const n = R.photos.length;
-    const cards = R.photos.map((src, i) => {
-      const card = document.createElement('figure');
-      card.className = 'wheel-card';
-      card.innerHTML = '<img alt="" decoding="async">';
-      const img = card.querySelector('img'); img.src = src; if (i > 3) img.loading = 'lazy';
-      stage.append(card);
-      return card;
+    const pieces = R.photos.map((src, i) => {
+      const art = document.createElement('figure');
+      art.className = 'artwork';
+      art.innerHTML = `<span class="spot" aria-hidden="true"></span><div class="art-img"><img alt="" decoding="async"></div>
+        <figcaption class="placard"><span class="pl-no">No. ${String(i + 1).padStart(2, '0')}</span><span class="pl-title"></span><span class="pl-meta">photograph · from the five of us</span></figcaption>`;
+      const img = art.querySelector('img'); img.src = src; if (i > 2) img.loading = 'lazy';
+      art.querySelector('.pl-title').textContent = capOf[src] || '';
+      stage.append(art);
+      return art;
     });
-    let radius = 600, step = .3;
+    sticky.insertAdjacentHTML('beforeend', `
+      <div class="floor" aria-hidden="true"></div>
+      <div class="visitor" aria-hidden="true">
+        <svg viewBox="0 0 120 300">
+          <defs><linearGradient id="vis-rim" x1="0" x2="1"><stop offset="0" stop-color="#5a3a2e"/><stop offset=".1" stop-color="#140e0c"/><stop offset=".85" stop-color="#140e0c"/><stop offset="1" stop-color="#6b4636"/></linearGradient></defs>
+          <g fill="url(#vis-rim)">
+            <g class="leg l"><path d="M50 232 L46 292 L56 292 L60 232 Z"/></g>
+            <g class="leg r"><path d="M62 232 L64 292 L74 292 L72 232 Z"/></g>
+            <path class="dress" d="M40 92 C30 120 24 180 22 240 C40 248 82 248 98 240 C96 180 90 120 80 92 Z"/>
+            <path class="arm l" d="M40 98 C32 130 30 160 34 186 L40 186 C40 160 42 132 46 104 Z"/>
+            <path class="arm r" d="M80 98 C88 130 90 160 86 186 L80 186 C80 160 78 132 74 104 Z"/>
+            <path class="hijab" d="M60 18 C44 18 36 32 36 48 C36 62 40 72 38 84 C34 96 30 108 32 122 C48 128 72 128 88 122 C90 108 86 96 82 84 C80 72 84 62 84 48 C84 32 76 18 60 18 Z"/>
+          </g>
+        </svg>
+        <span class="visitor-shadow"></span>
+      </div>`);
+    const visitor = $('.visitor', sticky);
+
+    let gap = 400, first = 0;
     const layout = () => {
-      const cw = cards[0].offsetWidth, ch = cards[0].offsetHeight;
-      const vh = sticky.clientHeight;
-      if (!cw || !vh) return false;                    // still hidden (book not opened yet)
-      radius = Math.max(vh * 1.05, innerWidth * .62);
-      step = (cw * 1.7) / radius;                      // generous gaps between photos
-      const top = Math.max(vh * .14, 88);
-      stage.style.top = `${top + ch / 2 + radius}px`;
-      cards.forEach((c, i) => { c.style.transform = `rotate(${i * step}rad) translateY(${-radius}px)`; });
-      track.style.height = `${Math.max(2, n * .55) * 100}svh`;
+      const w = sticky.clientWidth; if (!w) return false;
+      const aw = pieces[0].offsetWidth;
+      gap = Math.max(aw * 1.9, w * .52);               // lots of wall between pictures
+      first = w / 2;
+      pieces.forEach((p, i) => { p.style.left = `${first + i * gap - aw / 2}px`; });
+      stage.style.width = `${first * 2 + (n - 1) * gap}px`;
+      track.style.height = `${Math.max(2.5, n * .7) * 100}svh`;
       return true;
     };
     addEventListener('resize', layout);
-    (document.readyState === 'complete' ? Promise.resolve() : new Promise(r => addEventListener('load', r, { once: true }))).then(layout);
-    layout();
 
-    let drag = 0, dragV = 0, angle = 0, dragging = false, lastX = 0, visible = false, active = -1;
-    sticky.addEventListener('pointerdown', e => { if (e.pointerType === 'mouse' && e.button) return; dragging = true; lastX = e.clientX; dragV = 0; sticky.classList.add('grabbing'); });
-    addEventListener('pointermove', e => { if (!dragging) return; const dx = e.clientX - lastX; lastX = e.clientX; drag -= dx / radius; dragV = -dx / radius; }, { passive: true });
-    const end = () => { if (!dragging) return; dragging = false; sticky.classList.remove('grabbing'); };
-    addEventListener('pointerup', end); addEventListener('pointercancel', end);
-
-    const show = i => {
-      if (i === active) return; active = i;
-      capEl.classList.remove('on');
-      setTimeout(() => { capEl.textContent = capOf[R.photos[i]] || ''; countEl.textContent = `${String(i + 1).padStart(2, '0')}  /  ${String(n).padStart(2, '0')}`; capEl.classList.add('on'); }, 180);
+    let x = 0, visible = false, lastX = 0, facing = 1, walk = 0;
+    const paint = target => {
+      const v = target - x;
+      x = lerp(x, target, .085);
+      stage.style.transform = `translate3d(${-x}px,0,0)`;
+      const speed = Math.abs(v);
+      if (Math.abs(x - lastX) > .4) facing = x > lastX ? 1 : -1;
+      lastX = x;
+      walk += Math.min(speed, 40) * .02;
+      const moving = speed > 6;
+      visitor.classList.toggle('walking', moving);
+      visitor.style.setProperty('--step', moving ? Math.sin(walk) : 0);
+      visitor.style.setProperty('--face', facing);
+      // the picture she's standing at lights up
+      const at = clamp(Math.round(x / gap), 0, n - 1);
+      pieces.forEach((p, i) => p.classList.toggle('lit', i === at && !moving));
     };
-    const paint = () => {
-      stage.style.transform = `rotate(${-angle}rad)`;
-      cards.forEach((c, i) => {
-        const d = Math.abs(i * step - angle) / step;      // how many places from the top
-        const near = Math.max(0, 1 - d);
-        c.style.setProperty('--s', (.84 + .16 * near).toFixed(3));
-        c.style.opacity = Math.max(0, 1 - Math.max(0, d - .6) * .32).toFixed(3);
-        c.style.setProperty('--dim', (.55 + .45 * near).toFixed(3));
-        c.classList.toggle('focus', d < .5);
-      });
-      const i = clamp(Math.round(angle / step), 0, n - 1); show(i);
-      needle.style.transform = `rotate(${-50 + (angle / ((n - 1) * step)) * 100}deg)`;
-    };
-    if (reduced) { new IntersectionObserver(([en]) => { if (en.isIntersecting && layout()) paint(); }).observe(track); }
+    if (reduced) { new IntersectionObserver(([en]) => { if (en.isIntersecting && layout()) paint(0); }).observe(track); }
     else {
-      new IntersectionObserver(([en]) => { visible = en.isIntersecting; if (visible) { layout(); requestAnimationFrame(spin); } }).observe(track);
-      function spin() {
+      new IntersectionObserver(([en]) => { visible = en.isIntersecting; if (visible) { layout(); requestAnimationFrame(tick); } }).observe(track);
+      function tick() {
         if (!visible) return;
         const r = track.getBoundingClientRect();
         const p = clamp(-r.top / Math.max(1, r.height - innerHeight), 0, 1);
-        if (!dragging) { drag += dragV; dragV *= .92; }
-        const max = (n - 1) * step;
-        drag = clamp(drag, -p * max - step * .4, (1 - p) * max + step * .4);
-        // each photo rests at the top for a while before the wheel turns to the next
+        // she lingers at each picture, then walks on to the next
         const raw = p * (n - 1), k = Math.floor(raw), f = raw - k;
-        const e = f < .3 ? 0 : f > .7 ? 1 : (u => u * u * (3 - 2 * u))((f - .3) / .4);
-        const target = Math.min(n - 1, k + e) * step + drag;
-        angle = lerp(angle, target, .08);
-        paint();
-        requestAnimationFrame(spin);
+        const e = f < .35 ? 0 : f > .75 ? 1 : (u => u * u * (3 - 2 * u))((f - .35) / .4);
+        paint(Math.min(n - 1, k + e) * gap);
+        requestAnimationFrame(tick);
       }
     }
   }
@@ -174,7 +177,7 @@
 
   /* ---------------- tilt toward the cursor ---------------- */
   if (finePointer && !reduced) {
-    const tiltables = () => $$('.archive-grid > .item:not(.strip), .group-shot, .mini-polaroid, .closing-photo, .aged-letter, .wheel-card.focus');
+    const tiltables = () => $$('.archive-grid > .item:not(.strip), .group-shot, .mini-polaroid, .closing-photo, .aged-letter, .artwork.lit .art-img');
     const bind = el => {
       if (el.dataset.tilt) return; el.dataset.tilt = '1';
       el.addEventListener('pointermove', e => {

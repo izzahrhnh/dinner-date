@@ -143,11 +143,11 @@ window.SCRAPBOOK = {
   ],
 
   /* ----------------------------------------------------------------
-     THE RING — photos on a 3D carousel that spins as she scrolls
+     THE GALLERY WALK — photos hung on a gallery wall; a girl walks past them as she scrolls
      ---------------------------------------------------------------- */
   ring: {
-    title: "All the way around",
-    lede: "Scroll slowly. Every photo has a little note.",
+    title: "A little gallery of you",
+    lede: "Take a slow walk. Every picture has a little label.",
     core: ["22 years of you"],
     // notes for photos that aren't in the archive (the rest reuse their archive caption)
     notes: {
