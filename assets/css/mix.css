@@ -1,0 +1,156 @@
+/* ==================================================================
+   MIX — burgundy bookends (opening + final page), glass navigation
+   Palette from the brief: midnight wine, deep burgundy, muted rose,
+   champagne, soft ivory.
+   ================================================================== */
+:root {
+  --wine-0: #21151B;
+  --wine-1: #492432;
+  --rose: #A96572;
+  --champagne: #E8DCCE;
+  --ivory: #F8F3EA;
+  --glass: rgba(248, 243, 234, .12);
+  --glass-line: rgba(248, 243, 234, .26);
+}
+
+/* ---------------- shared ---------------- */
+.particles { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+.wine { background: radial-gradient(90% 70% at 50% 20%, #5A2C3C 0%, var(--wine-1) 38%, var(--wine-0) 100%) !important; color: var(--ivory); }
+
+/* ---------------- 1. opening ---------------- */
+#cover.wine::before { background: radial-gradient(ellipse 55% 60% at 50% 48%, rgba(33, 21, 27, .25), rgba(33, 21, 27, .88) 92%); }
+#cover.wine .cover-wall.is-3d .print { background: var(--ivory); box-shadow: 0 26px 44px -20px rgba(0, 0, 0, .7); }
+#cover.wine .cover-wall.is-3d .print img { filter: saturate(.75) brightness(.8) sepia(.12); }
+#cover .particles { z-index: 2; }
+#cover .poster { z-index: 3; background: var(--ivory); box-shadow: 0 50px 90px -30px rgba(0, 0, 0, .85), 0 0 0 1px rgba(255, 255, 255, .06); }
+
+.gift { position: absolute; inset: 0; z-index: 4; display: grid; place-items: center; align-content: center; gap: 1.6rem; pointer-events: none; }
+.gift-env {
+  pointer-events: auto; position: relative; width: min(78vw, 400px); aspect-ratio: 1.45; padding: 0; border: 0; background: none; cursor: pointer;
+  perspective: 900px; animation: gift-float 6s ease-in-out infinite; filter: drop-shadow(0 40px 50px rgba(0, 0, 0, .55));
+}
+@keyframes gift-float { 0%, 100% { transform: translateY(0) rotate(-1.5deg); } 50% { transform: translateY(-12px) rotate(1deg); } }
+.ge-back, .ge-front, .ge-flap { position: absolute; inset: 0; border-radius: 10px; }
+.ge-back { background: linear-gradient(160deg, rgba(248, 243, 234, .22), rgba(248, 243, 234, .08)); border: 1px solid var(--glass-line); backdrop-filter: blur(14px) saturate(1.2); -webkit-backdrop-filter: blur(14px) saturate(1.2); }
+.ge-front {
+  clip-path: polygon(0 32%, 50% 66%, 100% 32%, 100% 100%, 0 100%);
+  background: linear-gradient(180deg, rgba(248, 243, 234, .30), rgba(248, 243, 234, .14)); border: 1px solid var(--glass-line);
+  backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+  display: flex; flex-direction: column; justify-content: flex-end; align-items: center; padding-bottom: 9%; gap: .35rem; z-index: 2;
+}
+.ge-to { font: 500 clamp(1.5rem, 5.4vw, 2rem)/1 var(--hand); color: var(--ivory); }
+.ge-date { font: 400 .62rem/1 var(--mono); letter-spacing: .32em; color: var(--champagne); opacity: .8; }
+.ge-flap {
+  clip-path: polygon(0 0, 100% 0, 50% 62%); transform-origin: 50% 0; z-index: 3;
+  background: linear-gradient(180deg, rgba(248, 243, 234, .34), rgba(248, 243, 234, .16)); border-top: 1px solid var(--glass-line);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  transition: transform 1s cubic-bezier(.6, .05, .3, 1);
+}
+/* a light sweep across the glass */
+.ge-back::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, .28) 48%, transparent 60%); background-size: 260% 100%; animation: glass-sheen 5s ease-in-out infinite; }
+@keyframes glass-sheen { 0%, 60% { background-position: 120% 0; } 100% { background-position: -40% 0; } }
+.ge-seal {
+  position: absolute; left: 50%; top: 58%; z-index: 4; width: 58px; height: 58px; margin: -29px 0 0 -29px; border-radius: 50%;
+  display: grid; place-items: center; font: 500 1.6rem/1 var(--serif); font-style: italic; color: #F3D9D2;
+  background: radial-gradient(circle at 35% 30%, #C25C6E, #8A2E40 60%, #5E1A2A); box-shadow: 0 6px 14px rgba(0, 0, 0, .45), inset 0 -3px 6px rgba(0, 0, 0, .3), inset 0 2px 4px rgba(255, 255, 255, .25);
+  transition: transform .6s cubic-bezier(.6, .05, .3, 1), opacity .5s;
+}
+.gift-env:hover .ge-seal, .gift-env:focus-visible .ge-seal { transform: scale(1.08); }
+.gift-env:focus-visible { outline: 2px solid var(--champagne); outline-offset: 10px; border-radius: 12px; }
+.gift-hint { margin: 0; font: 400 .66rem/1 var(--mono); letter-spacing: .32em; text-transform: uppercase; color: var(--champagne); opacity: .75; animation: hint-breathe 2.6s ease-in-out infinite; }
+@keyframes hint-breathe { 50% { opacity: .35; } }
+
+/* sealed: the card waits inside */
+#cover.sealed:not(.unsealing) .poster { opacity: 0 !important; transform: translateY(40px) scale(.6) !important; pointer-events: none; }
+/* opening: seal breaks, flap lifts, card rises */
+#cover.unsealing .ge-seal { transform: scale(1.3); opacity: 0; }
+#cover.unsealing .ge-flap { transform: rotateX(180deg); }
+#cover.unsealing .gift-env { animation: none; transition: transform 1.1s cubic-bezier(.6, .05, .3, 1) .55s, opacity .7s ease .75s; transform: translateY(42vh) scale(.9); opacity: 0; }
+#cover.unsealing .gift-hint { opacity: 0; animation: none; transition: opacity .3s; }
+#cover.unsealing .poster { animation: card-rise 1.4s cubic-bezier(.2, .8, .2, 1) .45s both; }
+@keyframes card-rise { from { opacity: 0; transform: translateY(26vh) scale(.62) rotate(-1deg); } to { opacity: 1; transform: rotate(-1deg); } }
+#cover.unsealed .gift { display: none; }
+#cover.unsealed .poster { animation: none; }
+
+/* ---------------- 2. glass navigation ---------------- */
+.glass-nav {
+  position: fixed; left: 50%; top: max(12px, env(safe-area-inset-top)); z-index: 60; transform: translateX(-50%);
+  display: flex; align-items: center; gap: 4px; padding: 5px; max-width: calc(100vw - 24px);
+  background: rgba(255, 253, 248, .62); border: 1px solid rgba(255, 255, 255, .7); border-radius: 999px;
+  backdrop-filter: blur(18px) saturate(1.4); -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  box-shadow: 0 10px 30px -12px rgba(70, 40, 40, .35), inset 0 1px 0 rgba(255, 255, 255, .8);
+  color: #3A2A2C; transition: background .5s, color .5s, border-color .5s;
+}
+.glass-nav[hidden] { display: none; }
+.glass-nav.on-wine { background: rgba(248, 243, 234, .1); border-color: var(--glass-line); color: var(--ivory); box-shadow: 0 10px 30px -12px rgba(0, 0, 0, .5), inset 0 1px 0 rgba(255, 255, 255, .15); }
+.gn-btn { width: 40px; height: 40px; border: 0; border-radius: 50%; background: transparent; color: inherit; font: 400 1.5rem/1 var(--serif); display: grid; place-items: center; cursor: pointer; transition: background .3s, transform .2s; }
+.gn-btn:hover:not(:disabled) { background: rgba(169, 101, 114, .14); }
+.gn-btn:active:not(:disabled) { transform: scale(.92); }
+.gn-btn:disabled { opacity: .3; cursor: default; }
+.gn-btn:focus-visible { outline: 2px solid var(--rose); outline-offset: 1px; }
+.gn-mid { display: grid; grid-template-columns: auto 1fr; align-items: baseline; column-gap: .55rem; row-gap: 4px; padding: 0 .6rem; min-width: 0; }
+.gn-no { font: 400 .62rem/1 var(--mono); letter-spacing: .14em; color: var(--rose); }
+.glass-nav.on-wine .gn-no { color: #E3A9B3; }
+.gn-name { font: 500 .98rem/1.1 var(--serif); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 42vw; }
+.gn-dots { grid-column: 1 / -1; display: flex; gap: 4px; }
+.gn-dots i { flex: 1; height: 2px; min-width: 10px; border-radius: 2px; background: currentColor; opacity: .18; transition: opacity .4s, background .4s; }
+.gn-dots i.on { opacity: 1; background: var(--rose); }
+.gn-music .eq { display: flex; gap: 2px; align-items: flex-end; height: 14px; }
+.gn-music .eq i { width: 2px; height: 4px; background: currentColor; border-radius: 1px; transition: height .3s; }
+.glass-nav.playing .gn-music .eq i { animation: eq-bounce .9s ease-in-out infinite; }
+.glass-nav.playing .gn-music .eq i:nth-child(2) { animation-delay: .2s; } .glass-nav.playing .gn-music .eq i:nth-child(3) { animation-delay: .4s; }
+@keyframes eq-bounce { 50% { height: 14px; } }
+/* the old music pill is replaced by the nav's music button once the story is open */
+body.has-nav .music { display: none !important; }
+@media (min-width: 760px) { .gn-name { max-width: 260px; } .glass-nav { padding: 6px; } }
+
+/* ---------------- 3. page 02: letter lines appear in turn ---------------- */
+.aged-letter.writing p { opacity: 0; transform: translateY(10px); filter: blur(3px); transition: opacity .9s ease, transform .9s cubic-bezier(.2, .8, .2, 1), filter .9s ease; transition-delay: calc(.35s + var(--li) * .55s); }
+.aged-letter.written p { opacity: 1; transform: none; filter: none; }
+
+/* ---------------- 4. page 04: swipeable frames on phones ---------------- */
+.frame-row { display: contents; }
+@media (max-width: 759px) {
+  .frame-row { grid-column: 1 / -1; display: flex; gap: 18px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 18px 16px 22px; margin: 0 -16px; scrollbar-width: none; }
+  .frame-row::-webkit-scrollbar { display: none; }
+  .frame-row .mini-polaroid { flex: 0 0 64%; scroll-snap-align: center; }
+  .frame-row::after { content: ""; flex: 0 0 1px; }
+}
+
+/* ---------------- 5. final page ---------------- */
+#closing.wine { --glow: none; overflow: hidden; }
+#closing.wine .particles { z-index: 0; }
+#closing.wine > *:not(.particles) { position: relative; z-index: 1; }
+#closing.wine .page-no, #closing.wine .label, #closing.wine .closing-date { color: var(--champagne); opacity: .8; }
+#closing.wine .closing-heading { color: var(--ivory); }
+#closing.wine .closing-photo { background: var(--ivory); box-shadow: 0 50px 80px -30px rgba(0, 0, 0, .8); }
+#closing.wine .closing-photo .cap, #closing.wine .closing-photo figcaption { color: #3A2A2C; }
+#closing.wine .wish-lead { color: var(--ivory); }
+#closing.wine .wish-name { color: #E8A2AE; text-shadow: 0 0 40px rgba(232, 162, 174, .35); }
+#closing.wine .wish-swash path { stroke: var(--champagne); }
+#closing.wine .closing-sign, #closing.wine .hand-sign, #closing.wine .hand-sign::after { color: #E8A2AE; }
+#closing.wine .botanical { color: var(--rose); opacity: .5; }
+#closing.wine .doodle.heart path { stroke: #E8A2AE; }
+.closing-heading .cw { display: inline-block; opacity: 0; transform: translateY(.4em); filter: blur(6px); transition: opacity 1.1s ease, transform 1.1s cubic-bezier(.2, .8, .2, 1), filter 1.1s ease; transition-delay: calc(var(--wi) * .16s); }
+.closing-heading.said .cw { opacity: 1; transform: none; filter: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .gift-env, .gift-hint, .ge-back::after { animation: none !important; }
+  .aged-letter.writing p, .closing-heading .cw { opacity: 1 !important; transform: none !important; filter: none !important; }
+}
+/* while the envelope is sealed, the prints behind sit soft and low */
+#cover .cover-wall { transition: filter 1.4s ease; }
+#cover.sealed:not(.unsealed) .cover-wall { filter: brightness(.55) blur(2.5px); }
+/* nav sizing: room for the chapter name on phones */
+.glass-nav { width: min(92vw, 380px); }
+.gn-mid { flex: 1; }
+.gn-name { max-width: none; }
+.gn-music .eq i:nth-child(1) { height: 6px; } .gn-music .eq i:nth-child(2) { height: 11px; } .gn-music .eq i:nth-child(3) { height: 8px; }
+/* docked player: only its header peeks up from the bottom edge */
+.music-card.is-open { transition: transform .6s cubic-bezier(.2, .8, .2, 1), opacity .4s; }
+.music-card.is-open.docked { transform: translateY(calc(100% - 44px)) rotate(0deg); }
+.music-card.docked .mc-head { cursor: pointer; }
+.music-card.docked .mc-label::after { content: " · tap to show"; opacity: .6; }
+.music-card.is-open.docked { bottom: 0 !important; transform: translateY(calc(100% - 44px)); }
+.ge-seal { top: 50%; }
+.ge-front { padding-bottom: 7%; }

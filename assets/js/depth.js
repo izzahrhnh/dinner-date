@@ -19,12 +19,10 @@
 
   document.documentElement.classList.add('has-depth');
   if (reduced) document.documentElement.classList.add('depth-still');
-  // the exhibition design keeps only the gallery walk from this file
-  const EXH = document.documentElement.classList.contains('exhibition');
 
   /* ---------------- COVER: prints in 3D space ---------------- */
   const cover = $('#cover'), wall = $('[data-cover-wall]'), poster = $('.poster');
-  if (wall && !EXH) {
+  if (wall) {
     const space = document.createElement('div');
     space.className = 'cover-space';
     const prints = $$('.print', wall);
@@ -157,7 +155,7 @@
   }
 
   /* ---------------- page titles fold up letter by letter ---------------- */
-  if (!reduced && !EXH) {
+  if (!reduced) {
     $$('.page-title').forEach(title => {
       const host = title.querySelector('.mark') || title;
       const text = host.textContent;
@@ -178,7 +176,7 @@
   }
 
   /* ---------------- tilt toward the cursor ---------------- */
-  if (finePointer && !reduced && !EXH) {
+  if (finePointer && !reduced) {
     const tiltables = () => $$('.archive-grid > .item:not(.strip), .group-shot, .mini-polaroid, .closing-photo, .aged-letter, .artwork.lit .art-img');
     const bind = el => {
       if (el.dataset.tilt) return; el.dataset.tilt = '1';
@@ -199,7 +197,7 @@
   }
 
   /* ---------------- scroll-linked depth for the intro letter & closing photo ---------------- */
-  if (!reduced && !EXH) {
+  if (!reduced) {
     const linked = $$('.aged-letter, .closing-photo');
     let tick = false;
     const update = () => {
