@@ -21,6 +21,14 @@ window.SCRAPBOOK = {
      removing them from this list). "things" = Little things about you, "secret" = the coded letter. */
   hiddenPages: ["things", "secret"],
 
+  /* The exhibition's identity (used on the entrance and in the navigation). */
+  exhibition: {
+    label: "A private exhibition",
+    title: "The Nurin Exhibition",
+    subtitle: "A private collection of memories, moments and little things about you.",
+    date: "25 November 2026",
+  },
+
   recipient: {
     firstName: "Nurin",
     lastName: "Mastura",

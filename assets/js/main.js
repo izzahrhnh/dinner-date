@@ -202,7 +202,8 @@
   const DEFAULT_SHAPE = { feature: .7, wide: .66, tall: 1.4, polaroid: 1.25, small: 1.25, note: .8 };
   const wideMQ = matchMedia('(min-width: 760px)');
   function packArchive() {
-    const wide = wideMQ.matches, cols = wide ? 12 : 6, gap = wide ? 18 : 14, unit = 8;
+    const exhibitionMode = document.documentElement.classList.contains('exhibition');
+    const wide = wideMQ.matches, cols = wide ? 12 : 6, gap = exhibitionMode ? (wide ? 36 : 18) : (wide ? 18 : 14), unit = 8;
     const gw = grid.clientWidth; if (!gw) return;
     const colW = (gw - gap * (cols - 1)) / cols;
     const px = span => span * colW + (span - 1) * gap;
@@ -216,8 +217,16 @@
       const shape = SHAPES[src] || DEFAULT_SHAPE[size] || 1;
       return { n, kind, size, shape, portrait: kind === 'note' || shape > 1.05 };
     });
+    const EXH = document.documentElement.classList.contains('exhibition');
     const heightFor = (it, span) => {
       const w = px(span);
+      if (EXH) {                                      // exhibition: clean prints with a label underneath
+        if (it.kind === 'strip') return (wide ? 250 : 190) + 64;
+        const cap = it.n.dataset.caption || '', lines = Math.max(1, Math.ceil(cap.length * 9.2 / Math.max(80, w)));
+        const label = 30 + lines * 23;
+        if (it.kind === 'note') return Math.max(150, Math.min(w * .7, 230)) + 30;
+        return w * it.shape + label;
+      }
       if (it.kind === 'strip') return wide ? 250 : 190;
       if (it.kind === 'note') return Math.min(w * .8, 240);
       if (it.size === 'polaroid') return (w - 14) * it.shape + 37;
@@ -233,7 +242,7 @@
     if (wide) {
       // laptops/iPads: a tight scrapbook "masonry" — mixed widths, each piece drops into the
       // lowest open spot, so there are no big empty gaps between photos and videos
-      const tops = new Array(cols).fill(1), vgap = 2, slack = 3;
+      const tops = new Array(cols).fill(1), vgap = exhibitionMode ? 6 : 2, slack = 3;
       const place = (it, c, span) => {
         const y = Math.max(...tops.slice(c, c + span));
         const h = Math.ceil(heightFor(it, span) / unit);
@@ -273,6 +282,19 @@
           p.it.n.style.gridRow = `${p.y} / span ${end - vgap - p.y}`;
           p.it.n.classList.add('stretched');
         }
+      });
+      return;
+    }
+    if (exhibitionMode) {
+      // phones: one exhibit at a time; portraits step left and right for a gentle rhythm
+      let row = 1, side = 0;
+      items.forEach(it => {
+        let col = 1, span = 6;
+        if (it.kind !== 'strip' && it.portrait && it.kind !== 'note') { span = 5; col = side++ % 2 ? 2 : 1; }
+        const h = Math.ceil(heightFor(it, span) / unit);
+        it.n.style.gridColumn = `${col} / span ${span}`;
+        it.n.style.gridRow = `${row} / span ${h}`;
+        row += h + 5;
       });
       return;
     }
@@ -320,6 +342,7 @@
     }
   }
   packArchive();
+  window.repackArchive = packArchive;
   wideMQ.addEventListener('change', packArchive);
   let lastW = grid.clientWidth;
   addEventListener('resize', () => { clearTimeout(packArchive.t); packArchive.t = setTimeout(() => { if (grid.clientWidth !== lastW) { lastW = grid.clientWidth; packArchive(); } }, 150); });

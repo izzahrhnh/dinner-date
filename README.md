@@ -48,3 +48,13 @@ The placeholder key is **FIVE**.
 ## Why plain HTML instead of Next.js
 
 This is a static site (HTML, CSS and JavaScript, no build step), so you can edit and upload files straight on GitHub and it works on GitHub Pages as is. The parts are still organised as reusable pieces: `content.js` (content), `assets/css/style.css` (design system), `assets/js/main.js` (sections and interactions), `assets/js/cipher.js` (the cipher).
+
+## The Nurin Exhibition (current design)
+
+The site is presented as a private photography exhibition. All personal text still comes from `content.js`; the exhibition adds:
+
+- `assets/css/exhibition.css` — the design system (ivory, charcoal, oxblood, brass; Cormorant Garamond, DM Sans, DM Mono) and every room's layout.
+- `assets/js/exhibition.js` — exhibit labels, room names, the navigation bar / mobile room menu, and the next-room links. It reads `content.js` and writes no personal text.
+- `exhibition` in `content.js` — the exhibition label, title, subtitle and date shown at the entrance.
+
+Rooms listed in `hiddenPages` are left out of the navigation. To go back to the previous look, remove the `exhibition` class on `<html>` and the two exhibition lines in `index.html`.
