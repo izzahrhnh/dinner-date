@@ -94,15 +94,15 @@
       <div class="floor" aria-hidden="true"></div>
       <div class="visitor" aria-hidden="true">
         <svg viewBox="0 0 120 300">
-          <defs><linearGradient id="vis-rim" x1="0" x2="1"><stop offset="0" stop-color="#5a3a2e"/><stop offset=".1" stop-color="#140e0c"/><stop offset=".85" stop-color="#140e0c"/><stop offset="1" stop-color="#6b4636"/></linearGradient></defs>
-          <g fill="url(#vis-rim)">
-            <g class="leg l"><path d="M50 232 L46 292 L56 292 L60 232 Z"/></g>
-            <g class="leg r"><path d="M62 232 L64 292 L74 292 L72 232 Z"/></g>
-            <path class="dress" d="M40 92 C30 120 24 180 22 240 C40 248 82 248 98 240 C96 180 90 120 80 92 Z"/>
-            <path class="arm l" d="M40 98 C32 130 30 160 34 186 L40 186 C40 160 42 132 46 104 Z"/>
-            <path class="arm r" d="M80 98 C88 130 90 160 86 186 L80 186 C80 160 78 132 74 104 Z"/>
-            <path class="hijab" d="M60 18 C44 18 36 32 36 48 C36 62 40 72 38 84 C34 96 30 108 32 122 C48 128 72 128 88 122 C90 108 86 96 82 84 C80 72 84 62 84 48 C84 32 76 18 60 18 Z"/>
-          </g>
+          <g class="leg l"><path d="M50 232 L47 288 L57 288 L60 232 Z" fill="#8A6A5C"/><path d="M44 286 h15 v7 h-17 z" fill="#5B4038"/></g>
+          <g class="leg r"><path d="M62 232 L64 288 L74 288 L72 232 Z" fill="#8A6A5C"/><path d="M62 286 h15 v7 h-17 z" fill="#5B4038"/></g>
+          <path class="dress" d="M40 92 C30 120 24 180 22 240 C40 248 82 248 98 240 C96 180 90 120 80 92 Z" fill="#EADFCF"/>
+          <path d="M60 100 C58 150 58 200 60 246" stroke="#D8C9B4" stroke-width="2" fill="none"/>
+          <path class="arm l" d="M40 98 C32 130 30 160 34 186 L41 186 C41 160 43 132 47 104 Z" fill="#DDD0BC"/>
+          <path class="arm r" d="M80 98 C88 130 90 160 86 186 L79 186 C79 160 77 132 73 104 Z" fill="#DDD0BC"/>
+          <path class="hijab" d="M60 18 C44 18 36 32 36 48 C36 62 40 72 38 84 C34 96 30 108 32 122 C48 128 72 128 88 122 C90 108 86 96 82 84 C80 72 84 62 84 48 C84 32 76 18 60 18 Z" fill="#D49A9A"/>
+          <path d="M44 40 C48 28 56 24 62 24" stroke="#E7B6B2" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <path d="M40 110 C52 116 68 116 80 110" stroke="#C08585" stroke-width="2" fill="none"/>
         </svg>
         <span class="visitor-shadow"></span>
       </div>`);
