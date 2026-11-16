@@ -65,59 +65,87 @@
     if (poster) poster.insertAdjacentHTML('beforeend', '<span class="glare" aria-hidden="true"></span>');
   }
 
-  /* ---------------- THE RING ---------------- */
+  /* ---------------- THE WHEEL ----------------
+     A big, slow wheel of photos turning around a point far below the screen.
+     Only a few are in view at once; the one at the top is in focus, with its
+     caption written underneath. Scroll (or drag) to turn it. */
   const R = S.ring;
   const ringSec = $('#ring');
   if (ringSec && R && (R.photos || []).length) {
     const rt = $('[data-ring-title]'); (rt.querySelector('.mark') || rt).textContent = R.title || '';
     $('[data-ring-lede]').textContent = R.lede || '';
-    const core = $('[data-ring-core]');
-    core.querySelector('.rc-script').textContent = (R.core || [])[0] || '';
-    core.querySelector('.rc-small').textContent = (R.core || [])[1] || '';
-    const stage = $('[data-ring-stage]'), track = $('[data-ring-track]');
-    stage.parentElement.prepend(core);
-    const n = R.photos.length, step = 360 / n;
+    const capOf = {}; (S.archive || []).forEach(a => { if (a.src) capOf[a.src] = a.caption; }); Object.assign(capOf, R.notes || {});
+    const stage = $('[data-ring-stage]'), track = $('[data-ring-track]'), sticky = $('.ring-sticky', ringSec);
+    const core = $('[data-ring-core]'); core.remove();
+    sticky.insertAdjacentHTML('beforeend', `<div class="wheel-caption" aria-live="polite"><p class="wc-text"></p><p class="wc-count"></p></div>
+      <div class="wheel-dial" aria-hidden="true"><span class="wd-needle"></span><span class="wd-words">${(R.core || []).join(' ')}</span></div>`);
+    const capEl = $('.wc-text', sticky), countEl = $('.wc-count', sticky), needle = $('.wd-needle', sticky);
+    const n = R.photos.length;
     const cards = R.photos.map((src, i) => {
       const card = document.createElement('figure');
-      card.className = 'ring-card';
-      card.innerHTML = `<div class="rc-face"><img alt="" loading="lazy" decoding="async"></div><div class="rc-back"><span>♡</span></div>`;
-      card.querySelector('img').src = src;
+      card.className = 'wheel-card';
+      card.innerHTML = '<img alt="" decoding="async">';
+      const img = card.querySelector('img'); img.src = src; if (i > 3) img.loading = 'lazy';
       stage.append(card);
-      card.shade = card.querySelector('.rc-face');
       return card;
     });
-    let radius = 0;
+    let radius = 600, step = .3;
     const layout = () => {
-      const w = cards[0].offsetWidth || 160;
-      radius = Math.round((w / 2) / Math.tan(Math.PI / n) + w * .18);
-      cards.forEach((c, i) => { c.style.transform = `rotateY(${i * step}deg) translateZ(${radius}px)`; });
-      stage.style.setProperty('--radius', `${radius}px`);
+      const cw = cards[0].offsetWidth, ch = cards[0].offsetHeight;
+      const vh = sticky.clientHeight;
+      if (!cw || !vh) return false;                    // still hidden (book not opened yet)
+      radius = Math.max(vh * 1.05, innerWidth * .62);
+      step = (cw * 1.7) / radius;                      // generous gaps between photos
+      const top = Math.max(vh * .14, 88);
+      stage.style.top = `${top + ch / 2 + radius}px`;
+      cards.forEach((c, i) => { c.style.transform = `rotate(${i * step}rad) translateY(${-radius}px)`; });
+      track.style.height = `${Math.max(2, n * .55) * 100}svh`;
+      return true;
     };
-    layout(); addEventListener('resize', layout);
+    addEventListener('resize', layout);
+    (document.readyState === 'complete' ? Promise.resolve() : new Promise(r => addEventListener('load', r, { once: true }))).then(layout);
+    layout();
 
-    if (reduced) { ringSec.classList.add('flat'); }
+    let drag = 0, dragV = 0, angle = 0, dragging = false, lastX = 0, visible = false, active = -1;
+    sticky.addEventListener('pointerdown', e => { if (e.pointerType === 'mouse' && e.button) return; dragging = true; lastX = e.clientX; dragV = 0; sticky.classList.add('grabbing'); });
+    addEventListener('pointermove', e => { if (!dragging) return; const dx = e.clientX - lastX; lastX = e.clientX; drag -= dx / radius; dragV = -dx / radius; }, { passive: true });
+    const end = () => { if (!dragging) return; dragging = false; sticky.classList.remove('grabbing'); };
+    addEventListener('pointerup', end); addEventListener('pointercancel', end);
+
+    const show = i => {
+      if (i === active) return; active = i;
+      capEl.classList.remove('on');
+      setTimeout(() => { capEl.textContent = capOf[R.photos[i]] || ''; countEl.textContent = `${String(i + 1).padStart(2, '0')}  /  ${String(n).padStart(2, '0')}`; capEl.classList.add('on'); }, 180);
+    };
+    const paint = () => {
+      stage.style.transform = `rotate(${-angle}rad)`;
+      cards.forEach((c, i) => {
+        const d = Math.abs(i * step - angle) / step;      // how many places from the top
+        const near = Math.max(0, 1 - d);
+        c.style.setProperty('--s', (.84 + .16 * near).toFixed(3));
+        c.style.opacity = Math.max(0, 1 - Math.max(0, d - .6) * .32).toFixed(3);
+        c.style.setProperty('--dim', (.55 + .45 * near).toFixed(3));
+        c.classList.toggle('focus', d < .5);
+      });
+      const i = clamp(Math.round(angle / step), 0, n - 1); show(i);
+      needle.style.transform = `rotate(${-50 + (angle / ((n - 1) * step)) * 100}deg)`;
+    };
+    if (reduced) { new IntersectionObserver(([en]) => { if (en.isIntersecting && layout()) paint(); }).observe(track); }
     else {
-      let drag = 0, dragV = 0, angle = 0, dragging = false, lastX = 0, visible = false;
-      const sticky = $('.ring-sticky', ringSec);
-      sticky.addEventListener('pointerdown', e => { dragging = true; lastX = e.clientX; dragV = 0; sticky.setPointerCapture(e.pointerId); sticky.classList.add('grabbing'); });
-      sticky.addEventListener('pointermove', e => { if (!dragging) return; const dx = e.clientX - lastX; lastX = e.clientX; drag += dx * .25; dragV = dx * .25; });
-      const end = () => { dragging = false; sticky.classList.remove('grabbing'); };
-      sticky.addEventListener('pointerup', end); sticky.addEventListener('pointercancel', end);
-      new IntersectionObserver(([en]) => { visible = en.isIntersecting; if (visible) requestAnimationFrame(spin); }).observe(track);
+      new IntersectionObserver(([en]) => { visible = en.isIntersecting; if (visible) { layout(); requestAnimationFrame(spin); } }).observe(track);
       function spin() {
         if (!visible) return;
         const r = track.getBoundingClientRect();
         const p = clamp(-r.top / Math.max(1, r.height - innerHeight), 0, 1);
-        if (!dragging) { drag += dragV; dragV *= .94; }
-        const target = -p * 300 + drag;
-        angle = lerp(angle, target, .1);
-        stage.style.transform = `translateZ(${-radius}px) rotateX(-7deg) rotateY(${angle.toFixed(2)}deg)`;
-        // cards facing away get darker, like they're turning into shadow
-        cards.forEach((c, i) => {
-          const a = ((i * step + angle) % 360 + 360) % 360;
-          const facing = Math.cos(a * Math.PI / 180);
-          c.shade.style.filter = `brightness(${(.42 + .58 * Math.max(0, facing)).toFixed(3)})`;
-        });
+        if (!dragging) { drag += dragV; dragV *= .92; }
+        const max = (n - 1) * step;
+        drag = clamp(drag, -p * max - step * .4, (1 - p) * max + step * .4);
+        // each photo rests at the top for a while before the wheel turns to the next
+        const raw = p * (n - 1), k = Math.floor(raw), f = raw - k;
+        const e = f < .3 ? 0 : f > .7 ? 1 : (u => u * u * (3 - 2 * u))((f - .3) / .4);
+        const target = Math.min(n - 1, k + e) * step + drag;
+        angle = lerp(angle, target, .08);
+        paint();
         requestAnimationFrame(spin);
       }
     }
@@ -146,7 +174,7 @@
 
   /* ---------------- tilt toward the cursor ---------------- */
   if (finePointer && !reduced) {
-    const tiltables = () => $$('.archive-grid > .item:not(.strip), .group-shot, .mini-polaroid, .closing-photo, .aged-letter, .ring-sticky .ring-card');
+    const tiltables = () => $$('.archive-grid > .item:not(.strip), .group-shot, .mini-polaroid, .closing-photo, .aged-letter, .wheel-card.focus');
     const bind = el => {
       if (el.dataset.tilt) return; el.dataset.tilt = '1';
       el.addEventListener('pointermove', e => {

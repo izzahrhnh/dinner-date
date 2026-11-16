@@ -147,8 +147,15 @@ window.SCRAPBOOK = {
      ---------------------------------------------------------------- */
   ring: {
     title: "All the way around",
-    lede: "Scroll, or drag the photos, to spin through the years.",
-    core: ["twenty-two", "years of you"],
+    lede: "Scroll slowly. Every photo has a little note.",
+    core: ["22 years of you"],
+    // notes for photos that aren't in the archive (the rest reuse their archive caption)
+    notes: {
+      "assets/photos/photobooth-pink-1.jpg": "five hearts, one photobooth",
+      "assets/photos/osaka-glico-sq.jpg": "rainy days in Osaka",
+      "assets/photos/nara-deer-sq.jpg": "you and the Nara deer",
+      "assets/photos/red-curtain-five.jpg": "the five of us, always",
+    },
     photos: [
       "assets/photos/photobooth-pink-1.jpg",
       "assets/photos/beach-selfie.jpg",

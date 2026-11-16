@@ -26,32 +26,45 @@
 .has-depth .poster .hero { transform: translateZ(40px); }
 .has-depth .poster .hb { transform: translateZ(26px); }
 
-/* ---------------- the ring ---------------- */
+/* ---------------- the wheel ---------------- */
 .ring { padding-bottom: 0; overflow: clip; }
-.ring-track { position: relative; height: 280vh; margin: 0 -16px; }
-.ring-sticky { position: sticky; top: 0; height: 100svh; display: grid; place-items: center; perspective: 1300px; perspective-origin: 50% 42%; cursor: grab; touch-action: pan-y; user-select: none; overflow: hidden; }
+.ring-track { position: relative; height: 700svh; margin: 0 -16px; }
+.ring-sticky { position: sticky; top: 0; height: 100svh; overflow: hidden; cursor: grab; touch-action: pan-y; user-select: none; }
 .ring-sticky.grabbing { cursor: grabbing; }
-.ring-stage { position: relative; width: 0; height: 0; transform-style: preserve-3d; will-change: transform; }
-.ring-card {
-  position: absolute; left: calc(var(--cw) / -2); top: calc(var(--cw) * -.62); width: var(--cw); height: calc(var(--cw) * 1.24);
-  margin: 0; transform-style: preserve-3d; --cw: clamp(130px, 34vw, 230px);
+.ring-stage { position: absolute; left: 50%; top: 120svh; width: 0; height: 0; will-change: transform; }
+.wheel-card {
+  --cw: clamp(190px, 56vw, 300px);
+  position: absolute; left: calc(var(--cw) / -2); top: calc(var(--cw) * -.64); width: var(--cw); height: calc(var(--cw) * 1.28); margin: 0;
+  background: var(--white); padding: 10px 10px 34px; box-shadow: 0 30px 50px -24px rgba(0, 0, 0, .9);
+  transform-origin: 50% 50%;
 }
-.rc-face, .rc-back { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
-.rc-face { background: var(--white); padding: 8px 8px 30px; box-shadow: 0 24px 40px -18px rgba(0, 0, 0, .85); }
-.rc-face img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
-.rc-back { transform: rotateY(180deg); background: #E6DBC9; display: grid; place-items: center; box-shadow: 0 24px 40px -18px rgba(0, 0, 0, .85); }
-.rc-back span { font: 400 2.4rem/1 var(--hand); color: var(--marker); opacity: .7; }
-.ring-core { position: absolute; left: 0; top: 0; margin: 0; width: 0; display: grid; place-items: center; pointer-events: none; }
-.ring-core span { display: block; white-space: nowrap; text-align: center; }
-.rc-script { font: 400 clamp(3rem, 12vw, 6.5rem)/.9 "Pinyon Script", "Snell Roundhand", cursive; color: var(--marker); text-shadow: 0 6px 30px rgba(0,0,0,.6); transform: translateY(-.3em); }
-.rc-small { font: 400 .72rem/1 var(--mono); letter-spacing: .34em; text-transform: uppercase; color: var(--on-night-soft); margin-top: .6rem; }
-.ring-hint { position: absolute; bottom: 7svh; left: 0; right: 0; margin: 0; text-align: center; font: 400 .66rem/1 var(--mono); letter-spacing: .3em; text-transform: uppercase; color: var(--on-night-soft); opacity: .7; }
+.wheel-card img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; filter: brightness(var(--dim, 1)) saturate(calc(var(--dim, 1) * .9 + .1)); transform: scale(var(--s, 1)); transform-origin: 50% 60%; }
+.wheel-card { scale: var(--s, 1); transition: box-shadow .4s; }
+.wheel-card.focus { box-shadow: 0 40px 70px -26px rgba(0, 0, 0, .95), 0 0 0 1px rgba(255, 255, 255, .04); }
+.wheel-card img { transform: none; }
+
+.wheel-caption { position: absolute; left: 0; right: 0; bottom: 19svh; text-align: center; padding: 0 16px; pointer-events: none; }
+.wc-text { margin: 0 auto; max-width: 28ch; min-height: 1.2em; font: 500 clamp(1.5rem, 5.4vw, 2.2rem)/1.15 var(--hand); color: var(--on-night); opacity: 0; transform: translateY(8px); transition: opacity .5s var(--ease), transform .6s var(--ease); }
+.wc-text.on { opacity: 1; transform: none; }
+.wc-count { margin: .7rem 0 0; font: 400 .68rem/1 var(--mono); letter-spacing: .3em; color: var(--on-night-soft); white-space: pre; }
+
+.wheel-dial { position: absolute; left: 50%; bottom: 3.5svh; width: 150px; height: 75px; margin-left: -75px; overflow: hidden; pointer-events: none; }
+.wheel-dial::before { content: ""; position: absolute; left: 0; top: 0; width: 150px; height: 150px; border-radius: 50%; border: 1px solid rgba(241, 228, 211, .22); background: radial-gradient(circle, rgba(241,228,211,.06), transparent 65%); }
+.wd-needle { position: absolute; left: 50%; bottom: 0; width: 1px; height: 62px; margin-left: -.5px; background: var(--marker); transform-origin: 50% 100%; }
+.wd-needle::after { content: ""; position: absolute; top: -3px; left: -3px; width: 7px; height: 7px; border-radius: 50%; background: var(--marker); }
+.wd-words { position: absolute; left: 0; right: 0; bottom: 6px; text-align: center; font: 400 .52rem/1 var(--mono); letter-spacing: .24em; text-transform: uppercase; color: var(--on-night-soft); }
+.ring-hint { display: none; }
+
+@media (min-width: 900px) {
+  .wheel-card { --cw: clamp(240px, 22vw, 320px); }
+  .wheel-caption { bottom: 16svh; }
+}
 /* reduced motion: a simple row of prints to swipe through */
-.ring.flat .ring-track { height: auto; }
-.ring.flat .ring-sticky { position: relative; height: auto; perspective: none; overflow-x: auto; display: block; padding: 2rem 16px; }
-.ring.flat .ring-stage { width: auto; height: auto; display: flex; gap: 16px; transform: none !important; }
-.ring.flat .ring-card { position: relative; left: auto; top: auto; flex: 0 0 auto; transform: none !important; }
-.ring.flat .rc-back, .ring.flat .ring-core, .ring.flat .ring-hint { display: none; }
+.ring.flat .ring-track, .depth-still .ring-track { height: auto; }
+.depth-still .ring-sticky { position: relative; height: auto; overflow-x: auto; padding: 2rem 16px 6rem; }
+.depth-still .ring-stage { position: static; width: auto; height: auto; display: flex; gap: 16px; transform: none !important; }
+.depth-still .wheel-card { position: relative; left: auto; top: auto; flex: 0 0 auto; transform: none !important; opacity: 1 !important; }
+.depth-still .wheel-dial { display: none; }
 
 /* ---------------- titles fold up letter by letter ---------------- */
 .page-title.fold .fw { display: inline-block; white-space: nowrap; perspective: 600px; }
@@ -92,9 +105,5 @@
 html.has-depth body { overflow-x: clip; overflow-y: visible; }
 html.has-depth { overflow-x: clip; }
 
-/* ring: the words float above the carousel */
-.ring-core { position: absolute; left: 0; right: 0; top: 13svh; width: auto; z-index: 2; display: block; text-align: center; }
-.rc-script { transform: none; }
-.ring-sticky { perspective-origin: 50% 30%; }
-.ring-stage { top: 6svh; }
-.ring-card { --cw: clamp(130px, 30vw, 250px); }
+.ring-track { margin-left: calc(50% - 50vw); margin-right: 0; width: 100vw; }
+.ring > .ring-track { max-width: none; width: 100vw; margin-left: calc(var(--gutter) * -1); margin-right: 0; }
