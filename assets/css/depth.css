@@ -1,0 +1,100 @@
+/* ==================================================================
+   DEPTH — 3D layer (pairs with assets/js/depth.js)
+   Remove the two <link>/<script> lines for depth in index.html to
+   switch the whole 3D layer off.
+   ================================================================== */
+
+/* ---------------- cover: prints floating in space ---------------- */
+.cover-wall.is-3d { display: block; inset: 0; perspective: 1100px; perspective-origin: 50% 45%; overflow: hidden; }
+.cover-space { position: absolute; inset: 0; transform-style: preserve-3d; will-change: transform; }
+.cover-wall.is-3d .print {
+  position: absolute; left: var(--x); top: var(--y); width: var(--w); height: calc(var(--w) * var(--ar)); margin: 0; padding: 8px 8px 26px;
+  grid-area: auto; transform: translate(-50%, -50%) translateZ(var(--z)) rotate(var(--r)); translate: none !important;
+  box-shadow: 0 30px 50px -20px rgba(0, 0, 0, .8);
+}
+.cover-wall.is-3d .print img { filter: grayscale(.25) sepia(.15) brightness(.9); }
+.cover::before { background: radial-gradient(ellipse 50% 60% at 50% 50%, rgba(20,14,12,.35), rgba(20,14,12,.82) 92%); }
+
+/* the card tilts in 3D with a moving glare */
+.has-depth .cover.ready .poster {
+  transform: perspective(1200px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) rotate(-1deg);
+  transition: opacity 1.4s var(--ease) .3s, transform .25s linear;
+  transform-style: preserve-3d;
+}
+.poster .glare { position: absolute; inset: 0; pointer-events: none; z-index: 5; mix-blend-mode: soft-light;
+  background: radial-gradient(60% 45% at var(--gx, 50%) var(--gy, 30%), rgba(255, 255, 255, .55), transparent 70%); }
+.has-depth .poster .hero { transform: translateZ(40px); }
+.has-depth .poster .hb { transform: translateZ(26px); }
+
+/* ---------------- the ring ---------------- */
+.ring { padding-bottom: 0; overflow: clip; }
+.ring-track { position: relative; height: 280vh; margin: 0 -16px; }
+.ring-sticky { position: sticky; top: 0; height: 100svh; display: grid; place-items: center; perspective: 1300px; perspective-origin: 50% 42%; cursor: grab; touch-action: pan-y; user-select: none; overflow: hidden; }
+.ring-sticky.grabbing { cursor: grabbing; }
+.ring-stage { position: relative; width: 0; height: 0; transform-style: preserve-3d; will-change: transform; }
+.ring-card {
+  position: absolute; left: calc(var(--cw) / -2); top: calc(var(--cw) * -.62); width: var(--cw); height: calc(var(--cw) * 1.24);
+  margin: 0; transform-style: preserve-3d; --cw: clamp(130px, 34vw, 230px);
+}
+.rc-face, .rc-back { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.rc-face { background: var(--white); padding: 8px 8px 30px; box-shadow: 0 24px 40px -18px rgba(0, 0, 0, .85); }
+.rc-face img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+.rc-back { transform: rotateY(180deg); background: #E6DBC9; display: grid; place-items: center; box-shadow: 0 24px 40px -18px rgba(0, 0, 0, .85); }
+.rc-back span { font: 400 2.4rem/1 var(--hand); color: var(--marker); opacity: .7; }
+.ring-core { position: absolute; left: 0; top: 0; margin: 0; width: 0; display: grid; place-items: center; pointer-events: none; }
+.ring-core span { display: block; white-space: nowrap; text-align: center; }
+.rc-script { font: 400 clamp(3rem, 12vw, 6.5rem)/.9 "Pinyon Script", "Snell Roundhand", cursive; color: var(--marker); text-shadow: 0 6px 30px rgba(0,0,0,.6); transform: translateY(-.3em); }
+.rc-small { font: 400 .72rem/1 var(--mono); letter-spacing: .34em; text-transform: uppercase; color: var(--on-night-soft); margin-top: .6rem; }
+.ring-hint { position: absolute; bottom: 7svh; left: 0; right: 0; margin: 0; text-align: center; font: 400 .66rem/1 var(--mono); letter-spacing: .3em; text-transform: uppercase; color: var(--on-night-soft); opacity: .7; }
+/* reduced motion: a simple row of prints to swipe through */
+.ring.flat .ring-track { height: auto; }
+.ring.flat .ring-sticky { position: relative; height: auto; perspective: none; overflow-x: auto; display: block; padding: 2rem 16px; }
+.ring.flat .ring-stage { width: auto; height: auto; display: flex; gap: 16px; transform: none !important; }
+.ring.flat .ring-card { position: relative; left: auto; top: auto; flex: 0 0 auto; transform: none !important; }
+.ring.flat .rc-back, .ring.flat .ring-core, .ring.flat .ring-hint { display: none; }
+
+/* ---------------- titles fold up letter by letter ---------------- */
+.page-title.fold .fw { display: inline-block; white-space: nowrap; perspective: 600px; }
+.page-title.fold .fl { display: inline-block; transform-origin: 50% 100%; transform: rotateX(-95deg) translateY(.2em); opacity: 0;
+  transition: transform .9s cubic-bezier(.2, .8, .2, 1), opacity .5s ease; transition-delay: calc(var(--k) * 28ms); }
+.page-title.unfold .fl { transform: none; opacity: 1; }
+
+/* ---------------- archive: pieces rise up out of the table ---------------- */
+.has-depth .archive-grid { perspective: 1400px; }
+.has-depth .archive-grid > .reveal-photo {
+  transform: rotateX(32deg) translateY(70px) translateZ(-120px) rotate(var(--rot, 0deg)); transform-origin: 50% 100%;
+}
+.has-depth .archive-grid > .reveal-photo.in { transform: rotateX(var(--tx, 0deg)) rotateY(var(--ty, 0deg)) rotate(var(--rot, 0deg)); }
+.has-depth .archive-grid > .reveal-photo.in.tilting { transition: transform .2s ease-out, opacity 1.2s var(--ease); z-index: 5; }
+
+/* tilting pieces get a light sheen that follows the cursor */
+.tilting::after { content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 8; mix-blend-mode: soft-light;
+  background: radial-gradient(50% 40% at var(--sx, 50%) var(--sy, 50%), rgba(255, 255, 255, .5), transparent 70%); }
+
+/* page 04 & closing pieces tilt too */
+.has-depth .five-frames { perspective: 1200px; }
+.has-depth .group-shot.in, .has-depth .mini-polaroid.in { transform: rotateX(var(--tx, 0deg)) rotateY(var(--ty, 0deg)) rotate(var(--rot, 0deg)); }
+.has-depth .group-shot.tilting, .has-depth .mini-polaroid.tilting { transition: transform .2s ease-out; z-index: 6; }
+.has-depth .five-notes { perspective: 1200px; }
+.has-depth .five-notes .reveal { transform: rotateY(-38deg) translateZ(-60px); transform-origin: 0 50%; }
+.has-depth .five-notes .reveal.in { transform: none; }
+
+/* intro letter & closing photo lean back while they come in */
+.has-depth .aged-letter, .has-depth .closing-photo { transform: perspective(1100px) rotateX(calc(var(--enter, 0) * 26deg + var(--tx, 0deg))) rotateY(var(--ty, 0deg)) translateY(calc(var(--enter, 0) * 40px)); transform-origin: 50% 100%; }
+
+/* film bands bend away like a real strip of film */
+.has-depth .film-band { transform: perspective(700px) rotateX(24deg) rotateZ(-2.5deg) scale(1.08); }
+
+/* the stillness option */
+.depth-still .page-title.fold .fl, .depth-still .archive-grid > .reveal-photo { transform: none !important; opacity: 1 !important; }
+
+/* sticky needs the page itself to scroll, so clip sideways overflow instead of hiding it */
+html.has-depth body { overflow-x: clip; overflow-y: visible; }
+html.has-depth { overflow-x: clip; }
+
+/* ring: the words float above the carousel */
+.ring-core { position: absolute; left: 0; right: 0; top: 13svh; width: auto; z-index: 2; display: block; text-align: center; }
+.rc-script { transform: none; }
+.ring-sticky { perspective-origin: 50% 30%; }
+.ring-stage { top: 6svh; }
+.ring-card { --cw: clamp(130px, 30vw, 250px); }

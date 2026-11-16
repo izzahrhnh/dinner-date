@@ -722,7 +722,6 @@
       ticking = false;
       const y = scrollY, vh = innerHeight;
       if (!reduced.matches) {
-        if (y < vh * 1.2) coverPhotos.forEach((p, i) => { p.style.translate = `0 ${y * (.05 + (i % 5) * .03)}px`; });
         bands.forEach((b, i) => {
           const r = b.parentElement.getBoundingClientRect();
           if (r.bottom > 0 && r.top < vh) b.style.transform = `translateX(${(i % 2 ? -1 : 1) * (r.top - vh) * .35 - 300}px)`;

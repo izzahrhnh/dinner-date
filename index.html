@@ -12,10 +12,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Caveat:wght@400;500;600&family=Pinyon+Script&family=Abril+Fatface&family=Archivo+Black&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/depth.css">
   <script src="content.js" defer></script>
   <script src="assets/js/sizes.js" defer></script>
   <script src="assets/js/cipher.js" defer></script>
   <script src="assets/js/main.js" defer></script>
+  <script src="assets/js/depth.js" defer></script>
 </head>
 <body class="is-closed">
   <svg class="grain" aria-hidden="true"><filter id="grain-f"><feTurbulence type="fractalNoise" baseFrequency=".75" numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(#grain-f)"/></svg>
@@ -74,6 +76,21 @@
       <h2 class="page-title" id="archive-h">The memory archive</h2>
       <p class="page-lede">Tap any photograph to see it closer.</p>
       <div class="archive-grid" data-archive></div>
+    </section>
+
+    <!-- THE RING — a spinning carousel of photos, turned by scrolling or dragging -->
+    <section class="page ring" id="ring" data-tone="cream" aria-labelledby="ring-h">
+      <p class="page-no">Page</p>
+      <h2 class="page-title" id="ring-h" data-ring-title></h2>
+      <p class="page-lede" data-ring-lede></p>
+      <div class="ring-track" data-ring-track>
+        <div class="ring-sticky">
+          <div class="ring-stage" data-ring-stage>
+            <p class="ring-core" data-ring-core aria-hidden="true"><span class="rc-script"></span><span class="rc-small"></span></p>
+          </div>
+          <p class="ring-hint" aria-hidden="true">scroll or drag to spin</p>
+        </div>
+      </div>
     </section>
 
     <!-- PAGE 04 -->

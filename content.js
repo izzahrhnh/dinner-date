@@ -143,6 +143,31 @@ window.SCRAPBOOK = {
   ],
 
   /* ----------------------------------------------------------------
+     THE RING — photos on a 3D carousel that spins as she scrolls
+     ---------------------------------------------------------------- */
+  ring: {
+    title: "All the way around",
+    lede: "Scroll, or drag the photos, to spin through the years.",
+    core: ["twenty-two", "years of you"],
+    photos: [
+      "assets/photos/photobooth-pink-1.jpg",
+      "assets/photos/beach-selfie.jpg",
+      "assets/photos/concert-night.jpg",
+      "assets/photos/osaka-glico-sq.jpg",
+      "assets/photos/mirror-roses.jpg",
+      "assets/photos/sleepover-selfie.jpg",
+      "assets/photos/japan-crosswalk.jpg",
+      "assets/photos/cafe-orange.jpg",
+      "assets/photos/makcik-bawang-three.jpg",
+      "assets/photos/seaside-two.jpg",
+      "assets/photos/nara-deer-sq.jpg",
+      "assets/photos/garden-selfie.jpg",
+      "assets/photos/lift-selfie.jpg",
+      "assets/photos/red-curtain-five.jpg",
+    ],
+  },
+
+  /* ----------------------------------------------------------------
      PAGE 04 — FIVE OF US, IN LITTLE FRAMES
      ---------------------------------------------------------------- */
   fiveOfUs: {
