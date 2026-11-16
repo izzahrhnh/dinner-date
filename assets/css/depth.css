@@ -176,3 +176,32 @@ html.has-depth { overflow-x: clip; }
 .floor { background:
   linear-gradient(rgba(255,255,255,.22), transparent 40%),
   repeating-linear-gradient(180deg, transparent 0 22px, rgba(120, 84, 50, .16) 22px 23px, transparent 23px 52px, rgba(120, 84, 50, .14) 52px 53px); }
+
+/* =====================================================================
+   BRIGHT GALLERY THEME — the whole site in museum daylight
+   (delete this block to go back to the dark film look)
+   ===================================================================== */
+:root {
+  --night: #F3EEE6;        /* gallery wall */
+  --night-2: #EEE7DC;
+  --night-3: #F7F3EC;
+  --on-night: #2F2622;     /* text on the walls */
+  --on-night-soft: #8C7B70;
+}
+.page { --glow: radial-gradient(70% 45% at 50% 0%, rgba(255, 250, 240, .9), transparent 70%), radial-gradient(60% 40% at 100% 100%, rgba(212, 154, 154, .10), transparent 70%); }
+.grain { opacity: .06; mix-blend-mode: multiply; }
+.cover::before { background: radial-gradient(ellipse 52% 62% at 50% 50%, rgba(243, 238, 230, .2), rgba(243, 238, 230, .78) 92%); }
+.cover-wall.is-3d .print img { filter: saturate(.85) brightness(1.02); }
+.cover-wall.is-3d .print { background: #FFFFFF; box-shadow: 0 26px 40px -22px rgba(70, 48, 30, .45); }
+.poster { box-shadow: 0 34px 60px -26px rgba(70, 48, 30, .5), 0 2px 4px rgba(70, 48, 30, .12); background: #FFFDF8; }
+
+/* photos hung like prints: soft daylight shadows instead of dark ones */
+.has-depth .archive-grid .item:not(.note):not(.strip) .photo,
+.has-depth .archive-grid .item:not(.note):not(.strip) .vid { box-shadow: 0 16px 26px -16px rgba(70, 48, 30, .45); }
+.group-shot, .mini-polaroid, .closing-photo, .aged-letter, .note-paper { --shadow: 0 1px 1px rgba(70,48,30,.12), 0 16px 28px -14px rgba(70,48,30,.4); }
+:root { --shadow: 0 1px 1px rgba(70, 48, 30, .12), 0 16px 28px -14px rgba(70, 48, 30, .4); --shadow-lg: 0 2px 2px rgba(70, 48, 30, .12), 0 26px 48px -20px rgba(70, 48, 30, .45); --white: #FFFFFF; }
+
+/* film strips stay as dark film — they read as real negatives on the white wall */
+.film-band { background: #2A211D; }
+.music { background: rgba(255, 253, 248, .92); color: #6E5E54; border-color: rgba(70, 48, 30, .18); box-shadow: 0 6px 16px -8px rgba(70,48,30,.35); }
+.page-title .mark::after { opacity: .9; }
