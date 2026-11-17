@@ -352,7 +352,7 @@
   people.forEach((p, i) => {
     const n = el('article', `note-paper n${i} reveal`);
     n.style.setProperty('--rot', `${[-.8, .7, -.5, .9][i]}deg`);
-    n.append(el('span', 'mini-label', `Note 0${i + 1}`), el('p', null, (five.messages || [])[i] || ''), el('span', 'from', `— ${p.name}`));
+    n.append(el('p', null, (five.messages || [])[i] || ''), el('span', 'from', `— ${p.name}`));
     if (i % 2) n.append(el('span', 'washi'));
     notes.append(n);
   });

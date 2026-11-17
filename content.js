@@ -29,8 +29,8 @@ window.SCRAPBOOK = {
   /* ✏️ The four of you. These names sign the notes on page 04.
      (You can add photo: "assets/photos/…" to each to show a little polaroid of them.) */
   contributors: [
-    { name: "Izzah" },
     { name: "Afikah" },
+    { name: "Izzah" },
     { name: "Hazi" },
     { name: "Wahieda" },
   ],
@@ -161,8 +161,8 @@ window.SCRAPBOOK = {
     ],
     // ✏️ One short birthday message from each of you, in the same order as contributors above.
     messages: [
-      "Happy 22nd birthday Nurinnn!!!! Wishing you well every now and then, keep being you and semoga sentiasa diberkati Tuhan dalam setiap perlakuanmu…. May your 22nd bday be the memories that you'll cherish foreverrr.",
       "Happy birthday to my best friend, my roommate, my travel partner and my concert buddy! Thank you for always being there for me through all my ups and downs. Good luck with your future endeavors as a data analyst!! Go kill it, I know you can do it! Even if we're apart after graduation, please remember that I'm always just one call away. Again, I love you always and in all ways and thank you for staying 🤍",
+      "Happy 22nd birthday Nurinnn!!!! Wishing you well every now and then, keep being you and semoga sentiasa diberkati Tuhan dalam setiap perlakuanmu…. May your 22nd bday be the memories that you'll cherish foreverrr.",
       "[Hazi — a few sentences to Nurin, in your own words.]",
       "[Wahieda — a few sentences to Nurin, in your own words.]",
     ],
