@@ -79,7 +79,8 @@
       if (item.classList.contains('note')) { mems.push({ note: item.querySelector('.note-card')?.textContent || '', shape: .8 }); return; }
       if (item.classList.contains('strip')) {
         const cap = item.querySelector('.cap')?.textContent || '';
-        $$('.s-frame', item).forEach(btn => { const src = btn.querySelector('img')?.getAttribute('src'); mems.push({ src, btn, cap, shape: SHAPES[src] || 1.33 }); });
+        // only the first photobooth frame goes on the globe (the frames look alike)
+        $$('.s-frame', item).slice(0, 1).forEach(btn => { const src = btn.querySelector('img')?.getAttribute('src'); mems.push({ src, btn, cap, shape: SHAPES[src] || 1.33 }); });
         return;
       }
       const btn = item.querySelector('.item-btn'), src = item.querySelector('img')?.getAttribute('src');
