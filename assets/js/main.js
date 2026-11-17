@@ -578,6 +578,12 @@
     n.append(el('p', null, (C.messages || [])[i] || ''), el('span', 'from', p.name));
     cn.append(n);
   });
+  if (C.extraWish) {
+    const w = el('div', 'extra-wish reveal');
+    w.append(el('p', 'ew-text', C.extraWish));
+    if (C.extraWishFrom) w.append(el('p', 'ew-from', C.extraWishFrom));
+    $('[data-closing-collective]').before(w);
+  }
   // "Happy birthday, Nuwinnn!" → a serif line, then the name in big handwriting with a drawn swash
   const coll = $('[data-closing-collective]'), txt = C.collective || '', cut = txt.indexOf(',');
   if (cut > 0) {

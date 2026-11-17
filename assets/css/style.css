@@ -715,3 +715,8 @@ body { background: var(--night); color: var(--on-night); }
 .hero { --h: min(34svh, 300px); margin-top: 1.6rem; }
 .hand-note.left { top: auto; bottom: 4%; left: 2%; transform: rotate(-10deg); }
 @media (min-width: 900px) { .hero { --h: min(40svh, 330px); } .hand-note.left { left: 6%; } }
+/* the date sits exactly in the middle under "from us" (the letter-spacing adds space on the right only) */
+.closing .closing-date { display: block; width: 100%; max-width: none; margin-left: auto; margin-right: auto; text-align: center; text-indent: .3em; }
+.extra-wish { max-width: 30rem; margin: 3.4rem auto 0; text-align: center; }
+.ew-text { margin: 0; font: italic 400 clamp(1.15rem, 3.6vw, 1.45rem)/1.5 var(--serif); color: #F3E7DC; }
+.ew-from { margin: .8rem 0 0; font: 500 1.15rem/1 var(--hand); color: #E8A2AE; }

@@ -219,6 +219,9 @@ window.SCRAPBOOK = {
     collective: "Happy birthday, Nuwinnn!",
     signature: "from us",
     date: "25 · 11 · 2026",
+    // a small extra wish shown above the big "Happy birthday" (delete these two lines to remove it)
+    extraWish: "Twenty-two looks good on you. May this year bring you new places, loud concerts, quiet good days, and friends who keep showing up exactly like these four.",
+    extraWishFrom: "a little wish from Claude",
   },
 
   /* ----------------------------------------------------------------
