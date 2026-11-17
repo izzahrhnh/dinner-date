@@ -100,7 +100,7 @@
     const BANDS = [-58, -30, 0, 30, 58];
     const layout = () => {
       const w = orbHost.clientWidth; if (!w) return;
-      radius = Math.min(w * (w < 600 ? .44 : .4), innerHeight * .34, 330);
+      radius = Math.min(w * (w < 600 ? .44 : .36), innerHeight * (w < 600 ? .34 : .4), 420);
       const bandH = radius * (28 * Math.PI / 180);      // height of one row on the surface
       // share the memories between rows by how much room each row has
       const room = BANDS.map(l => Math.cos(l * Math.PI / 180)), total = room.reduce((a, b) => a + b, 0);
@@ -129,15 +129,29 @@
     layout(); addEventListener('resize', layout);
 
     let rx = -10, ry = 0, vx = 0, vy = reduced ? 0 : .12, dragging = false, moved = 0, lx = 0, ly = 0, visible = false, front = null;
+    // zoom: pinch with two fingers, pinch on a laptop trackpad (ctrl + wheel), or the + / − buttons
+    let zoom = 1, zoomTarget = 1;
+    const ZMIN = .6, ZMAX = 2.4;
+    const setZoom = z => { zoomTarget = clamp(z, ZMIN, ZMAX); if (!visible || reduced) { zoom = zoomTarget; paint(); } };
     const scene = $('.orb-scene', orbHost);
     scene.style.touchAction = 'pan-y';                 // up/down still scrolls the page on phones
-    scene.addEventListener('pointerdown', e => { dragging = true; moved = 0; lx = e.clientX; ly = e.clientY; vx = vy = 0; scene.setPointerCapture(e.pointerId); scene.classList.add('grabbing'); });
+    const pts = new Map(); let pinch0 = 0, zoom0 = 1;
+    const dist = () => { const [a, b] = [...pts.values()]; return Math.hypot(a.x - b.x, a.y - b.y); };
+    scene.addEventListener('pointerdown', e => {
+      pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      try { scene.setPointerCapture(e.pointerId); } catch {}
+      if (pts.size === 2) { pinch0 = dist(); zoom0 = zoomTarget; dragging = false; moved = 99; return; }
+      dragging = true; moved = 0; lx = e.clientX; ly = e.clientY; vx = vy = 0; scene.classList.add('grabbing');
+    });
     scene.addEventListener('pointermove', e => {
+      if (pts.has(e.pointerId)) pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      if (pts.size === 2 && pinch0) { setZoom(zoom0 * dist() / pinch0); return; }
       if (!dragging) return;
       const dx = e.clientX - lx, dy = e.clientY - ly; lx = e.clientX; ly = e.clientY; moved += Math.abs(dx) + Math.abs(dy);
-      vy = dx * .3; vx = -dy * .3; ry += vy; rx = clamp(rx + vx, -32, 32); paint();
+      vy = dx * .3 / zoom; vx = -dy * .3 / zoom; ry += vy; rx = clamp(rx + vx, -32, 32); paint();
     });
     const up = e => {
+      pts.delete(e.pointerId); if (pts.size < 2) pinch0 = 0;
       // pointer capture sends the click to the globe, so find the tapped memory ourselves
       if (dragging && moved < 8 && e.type === 'pointerup') {
         const hit = document.elementsFromPoint(e.clientX, e.clientY).find(n => n.classList?.contains('orb-tile'));
@@ -147,10 +161,21 @@
       if (!reduced && Math.abs(vy) < .12) vy = .12 * Math.sign(vy || 1);
     };
     scene.addEventListener('pointerup', up); scene.addEventListener('pointercancel', up);
+    // trackpad pinch arrives as ctrl + wheel; a plain wheel still scrolls the page
+    scene.addEventListener('wheel', e => { if (!e.ctrlKey) return; e.preventDefault(); setZoom(zoomTarget * Math.exp(-e.deltaY * .01)); }, { passive: false });
+    // Safari's own pinch events on Mac trackpads
+    let gz = 1;
+    scene.addEventListener('gesturestart', e => { e.preventDefault(); gz = zoomTarget; });
+    scene.addEventListener('gesturechange', e => { e.preventDefault(); setZoom(gz * e.scale); });
+    orbHost.insertAdjacentHTML('beforeend', '<div class="orb-zoom-ctl" role="group" aria-label="Zoom the globe"><button type="button" data-z="-1" aria-label="Zoom out">−</button><button type="button" data-z="0" aria-label="Reset size"><span></span></button><button type="button" data-z="1" aria-label="Zoom in">+</button></div>');
+    const zLabel = $('.orb-zoom-ctl span', orbHost);
+    $$('.orb-zoom-ctl button', orbHost).forEach(b => b.addEventListener('click', () => { const s = +b.dataset.z; setZoom(s === 0 ? 1 : zoomTarget * (s > 0 ? 1.25 : .8)); }));
     tiles.forEach(o => o.t.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && o.m.btn) { e.preventDefault(); o.m.btn.click(); } }));
 
     function paint() {
-      ball.style.transform = `translateZ(${-radius}px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+      zoom += (zoomTarget - zoom) * (reduced ? 1 : .18);
+      if (zLabel) zLabel.textContent = `${Math.round(zoomTarget * 100)}%`;
+      ball.style.transform = `scale3d(${zoom.toFixed(3)}, ${zoom.toFixed(3)}, ${zoom.toFixed(3)}) translateZ(${-radius}px) rotateX(${rx}deg) rotateY(${ry}deg)`;
       let best = null, bestD = -2;
       tiles.forEach(o => {
         const facing = Math.cos((o.lon + ry) * Math.PI / 180) * Math.cos((-o.lat + rx) * Math.PI / 180);

@@ -246,3 +246,15 @@ html.has-depth { overflow-x: clip; }
 .view-toggle button[aria-pressed="true"] { background: var(--marker, #9A4352); color: #FFF; }
 .view-toggle button:focus-visible { outline: 2px solid var(--marker, #9A4352); outline-offset: 2px; }
 .orb-wrap[hidden] { display: none !important; }
+/* globe zoom controls */
+.orb-zoom-ctl { position: absolute; right: 0; top: 2.2rem; z-index: 3; display: flex; align-items: center; gap: 2px; padding: 3px; border-radius: 999px; background: rgba(255,255,255,.75); border: 1px solid rgba(70,48,30,.14); box-shadow: 0 6px 16px -10px rgba(70,48,30,.35); }
+.orb-zoom-ctl button { min-width: 40px; height: 40px; border: 0; border-radius: 999px; background: transparent; color: #4d3633; font: 400 1.3rem/1 var(--sans); cursor: pointer; }
+.orb-zoom-ctl button[data-z="0"] { min-width: 54px; font: 400 .7rem/1 var(--mono); letter-spacing: .06em; color: #8C7B70; }
+.orb-zoom-ctl button:hover { background: rgba(154, 67, 82, .1); }
+.orb-zoom-ctl button:focus-visible { outline: 2px solid var(--marker, #9A4352); outline-offset: 1px; }
+.orb-wrap { overflow: visible; }
+@media (min-width: 600px) { .orb-wrap { height: min(86svh, 860px); } }
+@media (max-width: 599px) { .orb-zoom-ctl { top: auto; bottom: 3.2rem; right: 50%; transform: translateX(50%); } }
+.orb-cap { z-index: 2; }
+.oc-text { padding: .2rem .9rem .35rem; border-radius: 999px; background: rgba(250, 246, 240, .82); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+.oc-text:empty { display: none; }
