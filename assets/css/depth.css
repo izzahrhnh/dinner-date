@@ -234,3 +234,15 @@ html.has-depth { overflow-x: clip; }
 .oz-close { position: absolute; top: 4%; right: 4%; width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(70,48,30,.2); background: #FFF; font-size: 1.5rem; line-height: 1; cursor: pointer; color: var(--ink, #3B2725); }
 @media (prefers-reduced-motion: reduce) { .oc-text, .orb-zoom, .orb-zoom figure { transition: none; } }
 @media (max-width: 599px) { .orb-wrap { height: calc(var(--r, 170px) * 2 + 150px); } }
+/* the archive grid stays in the page (it powers the viewer) but the globe shows it */
+.archive-grid.globe-source { display: none !important; }
+.orb-tile.is-note { display: grid; place-items: center; padding: 8%; background: #FBF4EC; color: #4d3633; font-family: var(--hand); line-height: 1.15; text-align: center; cursor: default; }
+.orb-tile.is-video::after { content: ""; position: absolute; left: 50%; top: 50%; width: 0; height: 0; margin: -7px 0 0 -4px; border-left: 12px solid rgba(255,255,255,.95); border-top: 7px solid transparent; border-bottom: 7px solid transparent; filter: drop-shadow(0 1px 3px rgba(0,0,0,.5)); }
+.archive .orb-wrap { margin-top: 2rem; }
+/* globe / grid switch */
+.view-toggle { display: inline-flex; gap: 4px; margin-top: 1.4rem; padding: 4px; border-radius: 999px; background: rgba(255,255,255,.7); border: 1px solid rgba(70,48,30,.14); box-shadow: 0 6px 16px -10px rgba(70,48,30,.35); }
+.view-toggle button { display: inline-flex; align-items: center; gap: .45rem; min-height: 40px; padding: 0 1.1rem; border: 0; border-radius: 999px; background: transparent; color: #6E5E54; font: 500 .82rem/1 var(--sans); cursor: pointer; transition: background .3s, color .3s; }
+.view-toggle button svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.4; }
+.view-toggle button[aria-pressed="true"] { background: var(--marker, #9A4352); color: #FFF; }
+.view-toggle button:focus-visible { outline: 2px solid var(--marker, #9A4352); outline-offset: 2px; }
+.orb-wrap[hidden] { display: none !important; }

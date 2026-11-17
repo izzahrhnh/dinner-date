@@ -65,48 +65,72 @@
     if (poster) poster.insertAdjacentHTML('beforeend', '<span class="glare" aria-hidden="true"></span>');
   }
 
-  /* ---------------- THE LITTLE WORLD: a globe of photos ----------------
-     Photos tile a sphere in latitude bands. It turns slowly on its own;
-     drag (mouse or finger) to spin it, with a little momentum. The photo
-     facing her shows its caption underneath; tap one to see it closer. */
-  const R = S.ring || {};
-  const orbHost = $('[data-orb]');
-  if (orbHost) {
-    const rt = $('[data-ring-title]'); if (rt) (rt.querySelector('.mark') || rt).textContent = R.title || '';
-    const rl = $('[data-ring-lede]'); if (rl) rl.textContent = R.lede || '';
-    const capOf = {}; (S.archive || []).forEach(a => { if (a.src) capOf[a.src] = a.caption; }); Object.assign(capOf, R.notes || {});
-    const pool = [...new Set([...(R.photos || []), ...(S.archive || []).filter(a => a.type === 'photo').map(a => a.src)])];
-    const ball = $('[data-orb-ball]', orbHost), capEl = $('.oc-text', orbHost), zoom = $('[data-orb-zoom]', orbHost);
-    const LATS = [-60, -40, -20, 0, 20, 40, 60], BASE = 12;
-    const tiles = [];
-    let k = 0;
-    LATS.forEach(lat => {
-      const n = Math.max(5, Math.round(BASE * Math.cos(lat * Math.PI / 180)));
-      for (let i = 0; i < n; i++) {
-        const lon = (360 / n) * i + (lat / 20) * 9;      // stagger rows like bricks
-        const src = pool[k++ % pool.length];
-        const t = document.createElement('button'); t.type = 'button'; t.className = 'orb-tile';
-        t.setAttribute('aria-label', capOf[src] || 'photo');
-        t.innerHTML = '<img alt="" loading="lazy" decoding="async">'; t.querySelector('img').src = src;
-        ball.append(t); tiles.push({ t, lat, lon, n, src });
+  /* ---------------- THE LITTLE WORLD: the memory archive as a globe ----------------
+     Every photo, video, film-strip frame and note from the archive is placed
+     on a sphere, each at its own shape and size, in uneven rows. It turns
+     slowly; drag to spin. Tapping a photo or video opens the usual viewer. */
+  const orbHost = $('[data-orb]'), source = $('[data-archive]');
+  if (orbHost && source) {
+    const SHAPES = window.PHOTO_SHAPES || {};
+    const ball = $('[data-orb-ball]', orbHost), capEl = $('.oc-text', orbHost);
+    // collect the memories from the (hidden) archive, in order
+    const mems = [];
+    [...source.children].forEach(item => {
+      if (item.classList.contains('note')) { mems.push({ note: item.querySelector('.note-card')?.textContent || '', shape: .8 }); return; }
+      if (item.classList.contains('strip')) {
+        const cap = item.querySelector('.cap')?.textContent || '';
+        $$('.s-frame', item).forEach(btn => { const src = btn.querySelector('img')?.getAttribute('src'); mems.push({ src, btn, cap, shape: SHAPES[src] || 1.33 }); });
+        return;
       }
+      const btn = item.querySelector('.item-btn'), src = item.querySelector('img')?.getAttribute('src');
+      mems.push({ src, btn, cap: item.querySelector('.cap')?.textContent || '', video: !!item.querySelector('.vid'), shape: SHAPES[src] || 1 });
     });
+    let seed = 3; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+    const tiles = mems.map(m => {
+      const t = document.createElement('button'); t.type = 'button';
+      t.className = `orb-tile${m.note ? ' is-note' : ''}${m.video ? ' is-video' : ''}`;
+      if (m.note) { t.textContent = m.note; t.setAttribute('aria-label', m.note); t.tabIndex = -1; }
+      else { t.innerHTML = '<img alt="" loading="lazy" decoding="async">'; t.querySelector('img').src = m.src; t.setAttribute('aria-label', `${m.video ? 'Play video' : 'Open photo'}${m.cap ? `: ${m.cap}` : ''}`); }
+      ball.append(t);
+      // each memory keeps its own proportions; sizes vary a little for a hand-placed feel
+      return { m, t, size: .74 + rnd() * .34, nudge: (rnd() - .5) * .3 };
+    });
+
     let radius = 260;
+    const BANDS = [-58, -30, 0, 30, 58];
     const layout = () => {
       const w = orbHost.clientWidth; if (!w) return;
       radius = Math.min(w * (w < 600 ? .44 : .4), innerHeight * .34, 330);
-      const rowArc = radius * (20 * Math.PI / 180);
-      tiles.forEach(o => {
-        const tw = (2 * Math.PI * radius * Math.cos(o.lat * Math.PI / 180)) / o.n * .9, th = rowArc * .88;
-        Object.assign(o.t.style, { width: `${tw}px`, height: `${th}px`, marginLeft: `${-tw / 2}px`, marginTop: `${-th / 2}px`,
-          transform: `rotateY(${o.lon}deg) rotateX(${-o.lat}deg) translateZ(${radius}px)` });
+      const bandH = radius * (28 * Math.PI / 180);      // height of one row on the surface
+      // share the memories between rows by how much room each row has
+      const room = BANDS.map(l => Math.cos(l * Math.PI / 180)), total = room.reduce((a, b) => a + b, 0);
+      let k = 0;
+      BANDS.forEach((lat, r) => {
+        const count = r === BANDS.length - 1 ? tiles.length - k : Math.round(tiles.length * room[r] / total);
+        const row = tiles.slice(k, k + count); k += count;
+        const circ = 2 * Math.PI * radius * Math.cos(lat * Math.PI / 180);
+        const sizes = row.map(o => { const h = bandH * .86 * o.size; return { h, w: h / o.m.shape }; });
+        const used = sizes.reduce((a, s) => a + s.w, 0);
+        const fit = Math.min(1.25, (circ * .9) / used);  // shrink or grow the row to wrap the globe
+        let lon = (r * 37) % 360;
+        const gap = (circ - used * fit) / Math.max(1, row.length);
+        row.forEach((o, i) => {
+          const tw = sizes[i].w * fit, th = sizes[i].h * fit;
+          const span = (tw / circ) * 360;
+          const c = lon + span / 2, la = lat + o.nudge * 10;
+          Object.assign(o.t.style, { width: `${tw}px`, height: `${th}px`, marginLeft: `${-tw / 2}px`, marginTop: `${-th / 2}px`,
+            transform: `rotateY(${c}deg) rotateX(${-la}deg) translateZ(${radius}px)`, fontSize: `${Math.max(9, th * .11)}px` });
+          o.lon = c; o.lat = la;
+          lon += span + (gap / circ) * 360;
+        });
       });
       orbHost.style.setProperty('--r', `${radius}px`);
     };
     layout(); addEventListener('resize', layout);
 
-    let rx = -12, ry = 0, vx = 0, vy = reduced ? 0 : .12, dragging = false, moved = 0, lx = 0, ly = 0, visible = false, front = null;
+    let rx = -10, ry = 0, vx = 0, vy = reduced ? 0 : .12, dragging = false, moved = 0, lx = 0, ly = 0, visible = false, front = null;
     const scene = $('.orb-scene', orbHost);
+    scene.style.touchAction = 'pan-y';                 // up/down still scrolls the page on phones
     scene.addEventListener('pointerdown', e => { dragging = true; moved = 0; lx = e.clientX; ly = e.clientY; vx = vy = 0; scene.setPointerCapture(e.pointerId); scene.classList.add('grabbing'); });
     scene.addEventListener('pointermove', e => {
       if (!dragging) return;
@@ -114,30 +138,29 @@
       vy = dx * .3; vx = -dy * .3; ry += vy; rx = clamp(rx + vx, -32, 32); paint();
     });
     const up = e => {
-      // pointer capture sends the click to the globe, so find the tapped photo ourselves
+      // pointer capture sends the click to the globe, so find the tapped memory ourselves
       if (dragging && moved < 8 && e.type === 'pointerup') {
         const hit = document.elementsFromPoint(e.clientX, e.clientY).find(n => n.classList?.contains('orb-tile'));
-        const o = hit && tiles.find(x => x.t === hit); if (o) openZoom(o);
+        const o = hit && tiles.find(x => x.t === hit); if (o && o.m.btn) o.m.btn.click();
       }
-      dragging = false; scene.classList.remove('grabbing'); if (!reduced && Math.abs(vy) < .12) vy = .12 * Math.sign(vy || 1); };
+      dragging = false; scene.classList.remove('grabbing');
+      if (!reduced && Math.abs(vy) < .12) vy = .12 * Math.sign(vy || 1);
+    };
     scene.addEventListener('pointerup', up); scene.addEventListener('pointercancel', up);
-    // vertical swipes on phones still scroll the page; horizontal ones spin the globe
-    scene.style.touchAction = 'pan-y';
+    tiles.forEach(o => o.t.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && o.m.btn) { e.preventDefault(); o.m.btn.click(); } }));
 
     function paint() {
       ball.style.transform = `translateZ(${-radius}px) rotateX(${rx}deg) rotateY(${ry}deg)`;
-      // which photo faces her most
       let best = null, bestD = -2;
       tiles.forEach(o => {
-        const a = (o.lon + ry) * Math.PI / 180, b = (-o.lat + rx) * Math.PI / 180;
-        const facing = Math.cos(a) * Math.cos(b);
+        const facing = Math.cos((o.lon + ry) * Math.PI / 180) * Math.cos((-o.lat + rx) * Math.PI / 180);
         o.t.style.opacity = (.35 + .65 * Math.max(0, facing)).toFixed(3);
         if (facing > bestD) { bestD = facing; best = o; }
       });
-      if (best !== front) {
+      if (best && best !== front) {
         front?.t.classList.remove('front'); front = best; best.t.classList.add('front');
         capEl.classList.remove('on');
-        clearTimeout(paint.t); paint.t = setTimeout(() => { capEl.textContent = capOf[best.src] || ''; capEl.classList.add('on'); }, 160);
+        clearTimeout(paint.t); paint.t = setTimeout(() => { capEl.textContent = best.m.note ? '' : (best.m.cap || ''); capEl.classList.add('on'); }, 160);
       }
     }
     function spin() {
@@ -147,18 +170,24 @@
     }
     new IntersectionObserver(([en]) => { visible = en.isIntersecting; if (visible) { layout(); requestAnimationFrame(spin); } }).observe(orbHost);
     paint();
+  }
 
-    // tap a photo to see it closer
-    function openZoom(o) {
-      const img = $('img', zoom); img.src = o.src; img.alt = capOf[o.src] || '';
-      $('figcaption', zoom).textContent = capOf[o.src] || '';
-      zoom.hidden = false; requestAnimationFrame(() => zoom.classList.add('open')); $('.oz-close', zoom).focus({ preventScroll: true });
-    }
-    // keyboard: Enter/Space on a focused photo
-    tiles.forEach(o => o.t.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openZoom(o); } }));
-    const closeZoom = () => { zoom.classList.remove('open'); setTimeout(() => { zoom.hidden = true; }, 300); };
-    zoom.addEventListener('click', e => { if (e.target === zoom || e.target.closest('.oz-close')) closeZoom(); });
-    addEventListener('keydown', e => { if (e.key === 'Escape' && !zoom.hidden) closeZoom(); });
+  /* ---------------- globe / grid switch ---------------- */
+  const toggle = $('.view-toggle'), gridEl = $('[data-archive]'), orbEl = $('[data-orb]');
+  if (toggle && gridEl && orbEl) {
+    const KEY = 'nurin-archive-view';
+    const setView = (v, remember) => {
+      const grid = v === 'grid';
+      orbEl.hidden = grid;
+      gridEl.classList.toggle('globe-source', !grid);
+      $$('[data-view]', toggle).forEach(b => b.setAttribute('aria-pressed', String(b.dataset.view === v)));
+      $('#archive')?.classList.toggle('is-grid', grid);
+      if (grid) requestAnimationFrame(() => { window.repackArchive?.(); dispatchEvent(new Event('resize')); });
+      if (remember) { try { localStorage.setItem(KEY, v); } catch {} }
+    };
+    let saved = null; try { saved = localStorage.getItem(KEY); } catch {}
+    setView(saved === 'grid' ? 'grid' : 'globe', false);
+    $$('[data-view]', toggle).forEach(b => b.addEventListener('click', () => setView(b.dataset.view, true)));
   }
 
   /* ---------------- page titles fold up letter by letter ---------------- */

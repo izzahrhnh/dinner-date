@@ -143,39 +143,6 @@ window.SCRAPBOOK = {
   ],
 
   /* ----------------------------------------------------------------
-     THE LITTLE WORLD — a globe made of photos that spins and can be dragged
-     (these photos come first; the rest of the archive's photos fill the globe)
-     ---------------------------------------------------------------- */
-  ring: {
-    title: "Your little world",
-    lede: "Every memory, all in one place. Drag it to spin, tap a photo to see it closer.",
-    core: ["22 years of you"],
-    // notes for photos that aren't in the archive (the rest reuse their archive caption)
-    notes: {
-      "assets/photos/photobooth-pink-1.jpg": "five hearts, one photobooth",
-      "assets/photos/osaka-glico-sq.jpg": "rainy days in Osaka",
-      "assets/photos/nara-deer-sq.jpg": "you and the Nara deer",
-      "assets/photos/red-curtain-five.jpg": "the five of us, always",
-    },
-    photos: [
-      "assets/photos/photobooth-pink-1.jpg",
-      "assets/photos/beach-selfie.jpg",
-      "assets/photos/concert-night.jpg",
-      "assets/photos/osaka-glico-sq.jpg",
-      "assets/photos/mirror-roses.jpg",
-      "assets/photos/sleepover-selfie.jpg",
-      "assets/photos/japan-crosswalk.jpg",
-      "assets/photos/cafe-orange.jpg",
-      "assets/photos/makcik-bawang-three.jpg",
-      "assets/photos/seaside-two.jpg",
-      "assets/photos/nara-deer-sq.jpg",
-      "assets/photos/garden-selfie.jpg",
-      "assets/photos/lift-selfie.jpg",
-      "assets/photos/red-curtain-five.jpg",
-    ],
-  },
-
-  /* ----------------------------------------------------------------
      PAGE 04 — FIVE OF US, IN LITTLE FRAMES
      ---------------------------------------------------------------- */
   fiveOfUs: {

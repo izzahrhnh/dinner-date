@@ -76,22 +76,20 @@
     <section class="page archive" id="archive" data-tone="white" aria-labelledby="archive-h">
       <p class="page-no">Page 03</p>
       <h2 class="page-title" id="archive-h">The memory archive</h2>
-      <p class="page-lede">Tap any photograph to see it closer.</p>
-      <div class="archive-grid" data-archive></div>
-    </section>
-
-    <!-- THE RING — a spinning carousel of photos, turned by scrolling or dragging -->
-    <section class="page ring" id="ring" data-tone="cream" aria-labelledby="ring-h">
-      <p class="page-no">Page</p>
-      <h2 class="page-title" id="ring-h" data-ring-title></h2>
-      <p class="page-lede" data-ring-lede></p>
+      <p class="page-lede">Every memory, all in one little world. Spin the globe or switch to the grid, and tap any memory to see it closer.</p>
+      <div class="view-toggle" role="group" aria-label="How to show the memories">
+        <button type="button" data-view="globe" aria-pressed="true"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7.5"/><ellipse cx="10" cy="10" rx="3.4" ry="7.5"/><path d="M2.5 10h15"/></svg>Globe</button>
+        <button type="button" data-view="grid" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="2.5" width="8" height="9"/><rect x="12.5" y="2.5" width="5" height="5"/><rect x="12.5" y="9.5" width="5" height="8"/><rect x="2.5" y="13.5" width="8" height="4"/></svg>Grid</button>
+      </div>
       <div class="orb-wrap" data-orb>
         <div class="orb-scene"><div class="orb" data-orb-ball></div></div>
         <p class="orb-cap" aria-live="polite"><span class="oc-text"></span></p>
-        <p class="orb-hint" aria-hidden="true">drag to spin · tap a photo</p>
-        <div class="orb-zoom" data-orb-zoom hidden><figure><img alt=""><figcaption></figcaption></figure><button type="button" class="oz-close" aria-label="Close">×</button></div>
+        <p class="orb-hint" aria-hidden="true">drag to spin · tap a memory</p>
       </div>
+      <!-- the grid view (also powers the photo viewer) -->
+      <div class="archive-grid globe-source" data-archive></div>
     </section>
+
 
     <!-- PAGE 04 -->
     <section class="page five" id="five" data-tone="cream" aria-labelledby="five-h">

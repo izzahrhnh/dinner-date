@@ -320,6 +320,7 @@
     }
   }
   packArchive();
+  window.repackArchive = packArchive;
   wideMQ.addEventListener('change', packArchive);
   let lastW = grid.clientWidth;
   addEventListener('resize', () => { clearTimeout(packArchive.t); packArchive.t = setTimeout(() => { if (grid.clientWidth !== lastW) { lastW = grid.clientWidth; packArchive(); } }, 150); });
