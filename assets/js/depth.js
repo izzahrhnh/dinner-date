@@ -83,14 +83,21 @@
         return;
       }
       const btn = item.querySelector('.item-btn'), src = item.querySelector('img')?.getAttribute('src');
-      mems.push({ src, btn, cap: item.querySelector('.cap')?.textContent || '', video: !!item.querySelector('.vid'), shape: SHAPES[src] || 1 });
+      mems.push({ src, btn, cap: item.querySelector('.cap')?.textContent || '', video: !!item.querySelector('.vid'), clip: item.querySelector('.vid-live')?.dataset.src, shape: SHAPES[src] || 1 });
     });
     let seed = 3; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
     const tiles = mems.map(m => {
       const t = document.createElement('button'); t.type = 'button';
       t.className = `orb-tile${m.note ? ' is-note' : ''}${m.video ? ' is-video' : ''}`;
       if (m.note) { t.textContent = m.note; t.setAttribute('aria-label', m.note); t.tabIndex = -1; }
-      else { t.innerHTML = '<img alt="" loading="lazy" decoding="async">'; t.querySelector('img').src = m.src; t.setAttribute('aria-label', `${m.video ? 'Play video' : 'Open photo'}${m.cap ? `: ${m.cap}` : ''}`); }
+      else { t.innerHTML = '<img alt="" loading="lazy" decoding="async">'; t.querySelector('img').src = m.src; t.setAttribute('aria-label', `${m.video ? 'Play video' : 'Open photo'}${m.cap ? `: ${m.cap}` : ''}`);
+        if (m.clip && !reduced) {                       // videos play silently on the globe while they face her
+          const v = document.createElement('video'); v.className = 'orb-clip';
+          v.muted = true; v.loop = true; v.playsInline = true; v.preload = 'none'; v.poster = m.src;
+          v.setAttribute('muted', ''); v.setAttribute('playsinline', ''); v.setAttribute('aria-hidden', 'true');
+          v.dataset.src = m.clip; t.append(v); m.v = v;
+          v.addEventListener('playing', () => t.classList.add('live')); v.addEventListener('pause', () => t.classList.remove('live'));
+        } }
       ball.append(t);
       // each memory keeps its own proportions; sizes vary a little for a hand-placed feel
       return { m, t, size: .74 + rnd() * .34, nudge: (rnd() - .5) * .3 };
@@ -180,6 +187,12 @@
       tiles.forEach(o => {
         const facing = Math.cos((o.lon + ry) * Math.PI / 180) * Math.cos((-o.lat + rx) * Math.PI / 180);
         o.t.style.opacity = (.35 + .65 * Math.max(0, facing)).toFixed(3);
+        const v = o.m.v;
+        if (v) {
+          const show = visible && facing > .25 && !document.body.classList.contains('lb-open');
+          if (show && v.paused) { if (!v.src) v.src = v.dataset.src; v.play().catch(() => {}); }
+          else if (!show && !v.paused) v.pause();
+        }
         if (facing > bestD) { bestD = facing; best = o; }
       });
       if (best && best !== front) {
@@ -193,7 +206,7 @@
       if (!dragging) { ry += vy; rx = clamp(rx + vx, -32, 32); vx *= .92; if (Math.abs(vy) > .12) vy *= .95; }
       paint(); requestAnimationFrame(spin);
     }
-    new IntersectionObserver(([en]) => { visible = en.isIntersecting; if (visible) { layout(); requestAnimationFrame(spin); } }).observe(orbHost);
+    new IntersectionObserver(([en]) => { visible = en.isIntersecting; if (visible) { layout(); requestAnimationFrame(spin); } else tiles.forEach(o => o.m.v?.pause()); }).observe(orbHost);
     paint();
   }
 
