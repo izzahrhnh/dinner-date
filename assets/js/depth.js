@@ -65,93 +65,100 @@
     if (poster) poster.insertAdjacentHTML('beforeend', '<span class="glare" aria-hidden="true"></span>');
   }
 
-  /* ---------------- THE GALLERY WALK ----------------
-     Her photos hang on a gallery wall under spotlights, each with a small
-     museum label. A girl walks along in front of them as you scroll, and
-     stops to look at each one. */
-  const R = S.ring;
-  const ringSec = $('#ring');
-  if (ringSec && R && (R.photos || []).length) {
-    const rt = $('[data-ring-title]'); (rt.querySelector('.mark') || rt).textContent = R.title || '';
-    $('[data-ring-lede]').textContent = R.lede || '';
+  /* ---------------- THE LITTLE WORLD: a globe of photos ----------------
+     Photos tile a sphere in latitude bands. It turns slowly on its own;
+     drag (mouse or finger) to spin it, with a little momentum. The photo
+     facing her shows its caption underneath; tap one to see it closer. */
+  const R = S.ring || {};
+  const orbHost = $('[data-orb]');
+  if (orbHost) {
+    const rt = $('[data-ring-title]'); if (rt) (rt.querySelector('.mark') || rt).textContent = R.title || '';
+    const rl = $('[data-ring-lede]'); if (rl) rl.textContent = R.lede || '';
     const capOf = {}; (S.archive || []).forEach(a => { if (a.src) capOf[a.src] = a.caption; }); Object.assign(capOf, R.notes || {});
-    const track = $('[data-ring-track]'), sticky = $('.ring-sticky', ringSec), stage = $('[data-ring-stage]');
-    $('[data-ring-core]')?.remove();
-    sticky.classList.add('gallery-room');
-    stage.className = 'gallery-wall';
-    const n = R.photos.length;
-    const pieces = R.photos.map((src, i) => {
-      const art = document.createElement('figure');
-      art.className = 'artwork';
-      art.innerHTML = `<span class="spot" aria-hidden="true"></span><div class="art-img"><img alt="" decoding="async"></div>
-        <figcaption class="placard"><span class="pl-no">No. ${String(i + 1).padStart(2, '0')}</span><span class="pl-title"></span><span class="pl-meta">photograph · from the five of us</span></figcaption>`;
-      const img = art.querySelector('img'); img.src = src; if (i > 2) img.loading = 'lazy';
-      art.querySelector('.pl-title').textContent = capOf[src] || '';
-      stage.append(art);
-      return art;
+    const pool = [...new Set([...(R.photos || []), ...(S.archive || []).filter(a => a.type === 'photo').map(a => a.src)])];
+    const ball = $('[data-orb-ball]', orbHost), capEl = $('.oc-text', orbHost), zoom = $('[data-orb-zoom]', orbHost);
+    const LATS = [-60, -40, -20, 0, 20, 40, 60], BASE = 12;
+    const tiles = [];
+    let k = 0;
+    LATS.forEach(lat => {
+      const n = Math.max(5, Math.round(BASE * Math.cos(lat * Math.PI / 180)));
+      for (let i = 0; i < n; i++) {
+        const lon = (360 / n) * i + (lat / 20) * 9;      // stagger rows like bricks
+        const src = pool[k++ % pool.length];
+        const t = document.createElement('button'); t.type = 'button'; t.className = 'orb-tile';
+        t.setAttribute('aria-label', capOf[src] || 'photo');
+        t.innerHTML = '<img alt="" loading="lazy" decoding="async">'; t.querySelector('img').src = src;
+        ball.append(t); tiles.push({ t, lat, lon, n, src });
+      }
     });
-    sticky.insertAdjacentHTML('beforeend', `
-      <div class="floor" aria-hidden="true"></div>
-      <div class="visitor" aria-hidden="true">
-        <svg viewBox="0 0 120 300">
-          <g class="leg l"><path d="M50 232 L47 288 L57 288 L60 232 Z" fill="#8A6A5C"/><path d="M44 286 h15 v7 h-17 z" fill="#5B4038"/></g>
-          <g class="leg r"><path d="M62 232 L64 288 L74 288 L72 232 Z" fill="#8A6A5C"/><path d="M62 286 h15 v7 h-17 z" fill="#5B4038"/></g>
-          <path class="dress" d="M40 92 C30 120 24 180 22 240 C40 248 82 248 98 240 C96 180 90 120 80 92 Z" fill="#EADFCF"/>
-          <path d="M60 100 C58 150 58 200 60 246" stroke="#D8C9B4" stroke-width="2" fill="none"/>
-          <path class="arm l" d="M40 98 C32 130 30 160 34 186 L41 186 C41 160 43 132 47 104 Z" fill="#DDD0BC"/>
-          <path class="arm r" d="M80 98 C88 130 90 160 86 186 L79 186 C79 160 77 132 73 104 Z" fill="#DDD0BC"/>
-          <path class="hijab" d="M60 18 C44 18 36 32 36 48 C36 62 40 72 38 84 C34 96 30 108 32 122 C48 128 72 128 88 122 C90 108 86 96 82 84 C80 72 84 62 84 48 C84 32 76 18 60 18 Z" fill="#D49A9A"/>
-          <path d="M44 40 C48 28 56 24 62 24" stroke="#E7B6B2" stroke-width="3" fill="none" stroke-linecap="round"/>
-          <path d="M40 110 C52 116 68 116 80 110" stroke="#C08585" stroke-width="2" fill="none"/>
-        </svg>
-        <span class="visitor-shadow"></span>
-      </div>`);
-    const visitor = $('.visitor', sticky);
-
-    let gap = 400, first = 0;
+    let radius = 260;
     const layout = () => {
-      const w = sticky.clientWidth; if (!w) return false;
-      const aw = pieces[0].offsetWidth;
-      gap = Math.max(aw * 1.9, w * .52);               // lots of wall between pictures
-      first = w / 2;
-      pieces.forEach((p, i) => { p.style.left = `${first + i * gap - aw / 2}px`; });
-      stage.style.width = `${first * 2 + (n - 1) * gap}px`;
-      track.style.height = `${Math.max(2.5, n * .7) * 100}svh`;
-      return true;
+      const w = orbHost.clientWidth; if (!w) return;
+      radius = Math.min(w * (w < 600 ? .44 : .4), innerHeight * .34, 330);
+      const rowArc = radius * (20 * Math.PI / 180);
+      tiles.forEach(o => {
+        const tw = (2 * Math.PI * radius * Math.cos(o.lat * Math.PI / 180)) / o.n * .9, th = rowArc * .88;
+        Object.assign(o.t.style, { width: `${tw}px`, height: `${th}px`, marginLeft: `${-tw / 2}px`, marginTop: `${-th / 2}px`,
+          transform: `rotateY(${o.lon}deg) rotateX(${-o.lat}deg) translateZ(${radius}px)` });
+      });
+      orbHost.style.setProperty('--r', `${radius}px`);
     };
-    addEventListener('resize', layout);
+    layout(); addEventListener('resize', layout);
 
-    let x = 0, visible = false, lastX = 0, facing = 1, walk = 0;
-    const paint = target => {
-      const v = target - x;
-      x = lerp(x, target, .085);
-      stage.style.transform = `translate3d(${-x}px,0,0)`;
-      const speed = Math.abs(v);
-      if (Math.abs(x - lastX) > .4) facing = x > lastX ? 1 : -1;
-      lastX = x;
-      walk += Math.min(speed, 40) * .02;
-      const moving = speed > 6;
-      visitor.classList.toggle('walking', moving);
-      visitor.style.setProperty('--step', moving ? Math.sin(walk) : 0);
-      visitor.style.setProperty('--face', facing);
-      // the picture she's standing at lights up
-      const at = clamp(Math.round(x / gap), 0, n - 1);
-      pieces.forEach((p, i) => p.classList.toggle('lit', i === at && !moving));
-    };
-    if (reduced) { new IntersectionObserver(([en]) => { if (en.isIntersecting && layout()) paint(0); }).observe(track); }
-    else {
-      new IntersectionObserver(([en]) => { visible = en.isIntersecting; if (visible) { layout(); requestAnimationFrame(tick); } }).observe(track);
-      function tick() {
-        if (!visible) return;
-        const r = track.getBoundingClientRect();
-        const p = clamp(-r.top / Math.max(1, r.height - innerHeight), 0, 1);
-        // she lingers at each picture, then walks on to the next
-        const raw = p * (n - 1), k = Math.floor(raw), f = raw - k;
-        const e = f < .35 ? 0 : f > .75 ? 1 : (u => u * u * (3 - 2 * u))((f - .35) / .4);
-        paint(Math.min(n - 1, k + e) * gap);
-        requestAnimationFrame(tick);
+    let rx = -12, ry = 0, vx = 0, vy = reduced ? 0 : .12, dragging = false, moved = 0, lx = 0, ly = 0, visible = false, front = null;
+    const scene = $('.orb-scene', orbHost);
+    scene.addEventListener('pointerdown', e => { dragging = true; moved = 0; lx = e.clientX; ly = e.clientY; vx = vy = 0; scene.setPointerCapture(e.pointerId); scene.classList.add('grabbing'); });
+    scene.addEventListener('pointermove', e => {
+      if (!dragging) return;
+      const dx = e.clientX - lx, dy = e.clientY - ly; lx = e.clientX; ly = e.clientY; moved += Math.abs(dx) + Math.abs(dy);
+      vy = dx * .3; vx = -dy * .3; ry += vy; rx = clamp(rx + vx, -32, 32); paint();
+    });
+    const up = e => {
+      // pointer capture sends the click to the globe, so find the tapped photo ourselves
+      if (dragging && moved < 8 && e.type === 'pointerup') {
+        const hit = document.elementsFromPoint(e.clientX, e.clientY).find(n => n.classList?.contains('orb-tile'));
+        const o = hit && tiles.find(x => x.t === hit); if (o) openZoom(o);
+      }
+      dragging = false; scene.classList.remove('grabbing'); if (!reduced && Math.abs(vy) < .12) vy = .12 * Math.sign(vy || 1); };
+    scene.addEventListener('pointerup', up); scene.addEventListener('pointercancel', up);
+    // vertical swipes on phones still scroll the page; horizontal ones spin the globe
+    scene.style.touchAction = 'pan-y';
+
+    function paint() {
+      ball.style.transform = `translateZ(${-radius}px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+      // which photo faces her most
+      let best = null, bestD = -2;
+      tiles.forEach(o => {
+        const a = (o.lon + ry) * Math.PI / 180, b = (-o.lat + rx) * Math.PI / 180;
+        const facing = Math.cos(a) * Math.cos(b);
+        o.t.style.opacity = (.35 + .65 * Math.max(0, facing)).toFixed(3);
+        if (facing > bestD) { bestD = facing; best = o; }
+      });
+      if (best !== front) {
+        front?.t.classList.remove('front'); front = best; best.t.classList.add('front');
+        capEl.classList.remove('on');
+        clearTimeout(paint.t); paint.t = setTimeout(() => { capEl.textContent = capOf[best.src] || ''; capEl.classList.add('on'); }, 160);
       }
     }
+    function spin() {
+      if (!visible) return;
+      if (!dragging) { ry += vy; rx = clamp(rx + vx, -32, 32); vx *= .92; if (Math.abs(vy) > .12) vy *= .95; }
+      paint(); requestAnimationFrame(spin);
+    }
+    new IntersectionObserver(([en]) => { visible = en.isIntersecting; if (visible) { layout(); requestAnimationFrame(spin); } }).observe(orbHost);
+    paint();
+
+    // tap a photo to see it closer
+    function openZoom(o) {
+      const img = $('img', zoom); img.src = o.src; img.alt = capOf[o.src] || '';
+      $('figcaption', zoom).textContent = capOf[o.src] || '';
+      zoom.hidden = false; requestAnimationFrame(() => zoom.classList.add('open')); $('.oz-close', zoom).focus({ preventScroll: true });
+    }
+    // keyboard: Enter/Space on a focused photo
+    tiles.forEach(o => o.t.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openZoom(o); } }));
+    const closeZoom = () => { zoom.classList.remove('open'); setTimeout(() => { zoom.hidden = true; }, 300); };
+    zoom.addEventListener('click', e => { if (e.target === zoom || e.target.closest('.oz-close')) closeZoom(); });
+    addEventListener('keydown', e => { if (e.key === 'Escape' && !zoom.hidden) closeZoom(); });
   }
 
   /* ---------------- page titles fold up letter by letter ---------------- */

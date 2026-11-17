@@ -205,3 +205,32 @@ html.has-depth { overflow-x: clip; }
 .film-band { background: #2A211D; }
 .music { background: rgba(255, 253, 248, .92); color: #6E5E54; border-color: rgba(70, 48, 30, .18); box-shadow: 0 6px 16px -8px rgba(70,48,30,.35); }
 .page-title .mark::after { opacity: .9; }
+
+/* =====================================================================
+   THE LITTLE WORLD — a globe of photos
+   ===================================================================== */
+.ring.page { overflow: hidden; }
+.orb-wrap { position: relative; margin: 1.5rem auto 0; max-width: none; height: min(78svh, 720px); display: grid; place-items: center; }
+.orb-scene { position: relative; width: 100%; height: 100%; perspective: 1400px; cursor: grab; user-select: none; -webkit-user-select: none; }
+.orb-scene.grabbing { cursor: grabbing; }
+.orb-scene::before { /* soft glow behind the globe */ content: ""; position: absolute; left: 50%; top: 50%; width: calc(var(--r, 260px) * 2.6); aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 50%;
+  background: radial-gradient(circle, rgba(212, 154, 154, .22), rgba(212, 154, 154, 0) 62%); pointer-events: none; }
+.orb { position: absolute; left: 50%; top: 50%; width: 0; height: 0; transform-style: preserve-3d; will-change: transform; }
+.orb-tile { position: absolute; left: 0; top: 0; padding: 0; border: 0; background: #FFF; cursor: pointer; backface-visibility: hidden; -webkit-backface-visibility: hidden;
+  box-shadow: 0 0 0 2px #FFF, 0 6px 14px -6px rgba(70, 48, 30, .4); border-radius: 3px; overflow: hidden; transition: box-shadow .3s; }
+.orb-tile img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; display: block; }
+.orb-tile.front { box-shadow: 0 0 0 2px #FFF, 0 0 0 4px rgba(154, 67, 82, .55), 0 10px 20px -8px rgba(70, 48, 30, .5); }
+.orb-tile:focus-visible { outline: 3px solid var(--marker, #9A4352); outline-offset: 2px; }
+.orb-cap { position: absolute; left: 0; right: 0; bottom: 2%; margin: 0; text-align: center; pointer-events: none; }
+.oc-text { display: inline-block; font: 500 clamp(1.3rem, 4.6vw, 1.8rem)/1.2 var(--hand); color: var(--ink, #3B2725); opacity: 0; transform: translateY(6px); transition: opacity .4s, transform .5s; }
+.oc-text.on { opacity: 1; transform: none; }
+.orb-hint { position: absolute; top: 0; left: 0; right: 0; margin: 0; text-align: center; font: 400 .64rem/1 var(--mono); letter-spacing: .28em; text-transform: uppercase; color: var(--on-night-soft, #8C7B70); }
+.orb-zoom { position: absolute; inset: 0; z-index: 5; display: grid; place-items: center; background: rgba(243, 238, 230, .82); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); opacity: 0; transition: opacity .3s; }
+.orb-zoom.open { opacity: 1; }
+.orb-zoom figure { margin: 0; max-width: min(86vw, 460px); background: #FFF; padding: 12px 12px 0; box-shadow: 0 30px 60px -24px rgba(70, 48, 30, .55); transform: scale(.92); transition: transform .35s cubic-bezier(.2,.8,.2,1); }
+.orb-zoom.open figure { transform: none; }
+.orb-zoom img { width: 100%; max-height: 60svh; object-fit: contain; display: block; }
+.orb-zoom figcaption { padding: .7rem .2rem .9rem; text-align: center; font: 500 1.3rem/1.2 var(--hand); color: var(--ink, #3B2725); }
+.oz-close { position: absolute; top: 4%; right: 4%; width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(70,48,30,.2); background: #FFF; font-size: 1.5rem; line-height: 1; cursor: pointer; color: var(--ink, #3B2725); }
+@media (prefers-reduced-motion: reduce) { .oc-text, .orb-zoom, .orb-zoom figure { transition: none; } }
+@media (max-width: 599px) { .orb-wrap { height: calc(var(--r, 170px) * 2 + 150px); } }

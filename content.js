@@ -143,11 +143,12 @@ window.SCRAPBOOK = {
   ],
 
   /* ----------------------------------------------------------------
-     THE GALLERY WALK — photos hung on a gallery wall; a girl walks past them as she scrolls
+     THE LITTLE WORLD — a globe made of photos that spins and can be dragged
+     (these photos come first; the rest of the archive's photos fill the globe)
      ---------------------------------------------------------------- */
   ring: {
-    title: "A little gallery of you",
-    lede: "Take a slow walk. Every picture has a little label.",
+    title: "Your little world",
+    lede: "Every memory, all in one place. Drag it to spin, tap a photo to see it closer.",
     core: ["22 years of you"],
     // notes for photos that aren't in the archive (the rest reuse their archive caption)
     notes: {
