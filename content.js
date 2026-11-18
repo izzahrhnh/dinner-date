@@ -43,7 +43,7 @@ window.SCRAPBOOK = {
     hero: "assets/photos/baby-nurin.jpg",
     age: "22",
     // little words around the poster (top-left, top-right, left, right)
-    tags: ["", "", "our chosen family", "through everything, together"],
+    tags: ["", "", "", "through everything, together"],
     line: "A little world, made just for you.",
     // the photos that lead the wall of prints behind the poster (the rest come from the archive)
     photos: [
