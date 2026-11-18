@@ -159,6 +159,9 @@ window.SCRAPBOOK = {
       { photo: "assets/photos/umbrella-night-sq.jpg", caption: "rainy night" },
       { photo: "assets/photos/singapore-gallery-sq.jpg", caption: "Singapore" },
     ],
+    // The Google Sheet web-app link that stores the notes, so they can be edited on the site.
+    // Leave "" to just show the messages below. (Nurin's read-only link: add ?for=nurin)
+    notesSheet: "",
     // ✏️ One short birthday message from each of you, in the same order as contributors above.
     messages: [
       "Happy birthday to my best friend, my roommate, my travel partner and my concert buddy! Thank you for always being there for me through all my ups and downs. Good luck with your future endeavors as a data analyst!! Go kill it, I know you can do it! Even if we're apart after graduation, please remember that I'm always just one call away. Again, I love you always and in all ways and thank you for staying 🤍",

@@ -720,3 +720,16 @@ body { background: var(--night); color: var(--on-night); }
 .extra-wish { max-width: 30rem; margin: 3.4rem auto 0; text-align: center; }
 .ew-text { margin: 0; font: italic 400 clamp(1.15rem, 3.6vw, 1.45rem)/1.5 var(--serif); color: #F3E7DC; }
 .ew-from { margin: .8rem 0 0; font: 500 1.15rem/1 var(--hand); color: #E8A2AE; }
+/* editable notes */
+.note-edit { position: absolute; top: .6rem; right: .8rem; min-height: 32px; padding: 0 .8rem; border: 1px solid rgba(154, 67, 82, .3); border-radius: 999px; background: rgba(255, 255, 255, .7); color: var(--wine); font: 500 .72rem/1 var(--sans); letter-spacing: .04em; cursor: pointer; }
+.note-edit:hover { background: var(--wine); color: #fff; }
+.note-edit:focus-visible, .note-bar button:focus-visible, .note-box:focus-visible { outline: 2px solid var(--wine); outline-offset: 2px; }
+.note-box { display: block; width: 100%; min-height: 8rem; margin: .4rem 0 0; padding: .7rem .8rem; border: 1px solid rgba(154, 67, 82, .35); border-radius: 4px; background: rgba(255, 255, 255, .85); font: 400 1.15rem/1.5 var(--serif); color: var(--ink); resize: vertical; }
+.note-bar { display: flex; align-items: center; gap: .5rem; margin-top: .7rem; }
+.note-status { flex: 1; font: 400 .8rem/1.3 var(--sans); color: var(--walnut); }
+.note-bar button { min-height: 40px; padding: 0 1.1rem; border-radius: 999px; font: 500 .85rem/1 var(--sans); cursor: pointer; }
+.note-cancel { border: 1px solid rgba(70, 48, 30, .25); background: transparent; color: var(--ink); }
+.note-save { border: 0; background: var(--wine); color: #fff; }
+.note-bar button:disabled { opacity: .5; cursor: default; }
+.note-paper.editing { transform: none; }
+.note-paper:has(> .note-edit) { padding-top: 3rem; }
